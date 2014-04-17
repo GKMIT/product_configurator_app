@@ -23,26 +23,37 @@ block page_content
                 .form-body
                   ul.nav.nav-pills.nav-justified.steps
                     li
-                      a.step(href='#')
+                      a.step(href='/users/rfq_general_data')
                         span.number(style='background: #35aa47; color: #fff;')
                           | 1
                         span.desc
                           i.fa.fa-check
                           | Regional & General Data
                     li
-                      a.step(href='#')
-                        span.number
-                          | 2
-                        span.desc
-                          i.fa.fa-check
-                          | General Product Data
+                      - if (flag_product)
+                          a.step(href='/users/rfq_product_data')
+                            span.number
+                              | 2
+                            span.desc
+                              i.fa.fa-check
+                              | General Product Data
+                        else
+                          a.step(href='javascript:;')
+                            span.number
+                              | 2
+                            span.desc
+                              i.fa.fa-check
+                              | General Product Data
                     li
-                      a.step.active(href='#')
-                        span.number
-                          | 3
-                        span.desc
-                          i.fa.fa-check
-                          | RFQ Line Items
+                      - if (flag_line)
+                          a.step(href='/users/rfq_line_items')
+                        else
+                          a.step(href='javascript:;')
+                            span.number
+                              | 3
+                            span.desc
+                              i.fa.fa-check
+                              | RFQ Line Items
                   #bar.progress.progress-striped(role='progressbar')
                     .progress-bar.progress-bar-success(style='width: 33%;')
                   .tab-content
@@ -157,7 +168,7 @@ block page_content
                         .col-md-4
                           select#probability.form-control(name='probability',onchange="validate_number('probability','Please select valid Probability')")
                             - each prob in probabilities
-                              option(value="#{prob}",selected=prob == selected_rfq[0].probability)= prob
+                              option(value="#{prob}",selected=prob == selected_rfq[0].probability)= prob+'%'
                           span.help-block
                 .form-actions.fluid
                   .row

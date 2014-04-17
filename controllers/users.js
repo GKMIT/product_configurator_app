@@ -3,22 +3,29 @@ exports.index = function(req, res){
    //console.log(moment("04/13/2014", "MM/DD/YYYY").format('YYYY-MM-DD hh:mm:ss'));
 };
 
-exports.newrfq = function(req, res){
-	var rfq_id = 0;
-	if(typeof req.session.rfq_id !== "undefined"){
-		rfq_id = req.session.rfq_id;
-	}
-	var probabilities = ["0","20","40","60","80"];
+exports.newrfq = function(req,res){
+	res.redirect("/users/rfq_general_data/0");
+}
+
+exports.rfq_general_data = function(req, res){
+
+	var flag_product = false;
+	var flag_line = false;
+
+	rfq_id = req.params.rfq_id;
+
+	var probabilities = ["Select Probability ","20","40","60","80"];
 	var options = {
 		host : config.host,
 		port : config.port,
 		path : '/rfq_general_data/'+req.session.member_id+'/'+rfq_id,
 		method : 'GET',
 		headers: {
-				'Content-Type':'application/json',
-	          'authentication_token': req.session.token
+			'Content-Type':'application/json',
+	        'authentication_token': req.session.token
 	    }
 	};
+
 	var reqGet = http.request(options, function(response) {
 		var data_final ="";
 		response.on('data', function(chunk) {
@@ -33,8 +40,12 @@ exports.newrfq = function(req, res){
 				} else {
 					data.selected_rfq[0].date_rfq_in = moment(data.selected_rfq[0].date_rfq_in.substring(0,10), "YYYY-MM-DD").format('MM/DD/YYYY');
 					data.selected_rfq[0].requested_quotation_date = moment(data.selected_rfq[0].requested_quotation_date.substring(0,10), "YYYY-MM-DD").format('MM/DD/YYYY');
+					if(data.selected_rfq[0].product_lines_id != 0){
+						flag_product = true; 
+						flag_line = true; 
+					} else { flag_product = true;}
 				}
-				res.render('users/newrfq', { username: req.session.member_username, title: 'New RFQ', rfq:'active',sub_sidebar1:'active', sales_hubs: data.sales_hubs, sales_persons:data.sales_persons, countries: data.countries, type_of_quote: data.type_of_quote, customers: data.customers, sales_segments: data.sales_segments, selected_rfq:data.selected_rfq, sales_agents:data.sales_agents, sales_persons:data.sales_persons, probabilities:probabilities });
+				res.render('users/newrfq', { username: req.session.member_username, title: 'New RFQ', rfq:'active',sub_sidebar1:'active', sales_hubs: data.sales_hubs, sales_persons:data.sales_persons, countries: data.countries, type_of_quote: data.type_of_quote, customers: data.customers, sales_segments: data.sales_segments, selected_rfq:data.selected_rfq, sales_agents:data.sales_agents, sales_persons:data.sales_persons, probabilities:probabilities, flag_product:flag_product, flag_line:flag_line });
 			} else {
 				res.send(data.success);
 			}
@@ -122,7 +133,6 @@ exports.save_rfq_general_data = function(req, res){
 		response.on('data', function(data) {
 			var data=JSON.parse(data);
 			console.log(data);
-			req.session.rfq_id = data.rfq_id;
 			if(response.statusCode == 200){
 				res.json(data);
 			} else {
@@ -140,7 +150,7 @@ exports.rfq_product_data = function(req, res){
 	var options = {
 		host : config.host,
 		port : config.port,
-		path : '/rfq_product_lines/'+req.session.member_id,
+		path : '/rfq_product_lines/'+req.session.member_id+'/'+req.params.rfq_id,
 		method : 'GET',
 		headers: {
 				'Content-Type':'application/json',

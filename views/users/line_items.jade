@@ -16,7 +16,6 @@ block hint
 block doc_ready
   script.
     jQuery(document).ready(function() {
-      alert("fhj");
     });
 
 block page_content
@@ -29,21 +28,21 @@ block page_content
                 .form-body
                   ul.nav.nav-pills.nav-justified.steps
                     li
-                      a.step(href='/rfq_general_data/ ')
+                      a.step(href='/users/rfq_general_data')
                         span.number
                           | 1
                         span.desc
                           i.fa.fa-check
                           | Regional & General Data
                     li
-                      a.step(href='#')
+                      a.step(href='/users/rfq_product_data')
                         span.number
                           | 2
                         span.desc
                           i.fa.fa-check
                           | General Product Data
                     li
-                      a.step.active(href='#')
+                      a.step.active(href='/users/rfq_line_items')
                         span.number(style='background: #35aa47; color: #fff;')
                           | 3
                         span.desc

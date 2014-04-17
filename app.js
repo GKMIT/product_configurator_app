@@ -14,7 +14,7 @@ module.exports = function () {
 	crypto = require('crypto');
 
 	// all environments
-	app.set('port', process.env.PORT || 3000);
+	app.set('port', process.env.PORT || config.port_app);
 	app.set('views', path.join(__dirname, 'views'));
 	app.set('view engine', 'jade');
 	app.use(express.json());

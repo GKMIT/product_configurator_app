@@ -70,8 +70,7 @@ var Login = function () {
 	                    email: true
 	                }
 	            },
-
-	            messages: {
+			   messages: {
 	                email: {
 	                    required: "Email is required."
 	                }

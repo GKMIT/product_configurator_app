@@ -120,7 +120,8 @@ function rfq_gen_save(type){
               $.post("/users/newrfq",val, function(data) {
                 if(data.success == "true"){
                     $("btn_save").html("Proceeding..");
-                    window.location.replace("/users/rfq_product_data");
+                    alert("/users/rfq_product_data/"+data.rfq_id);
+                    window.location.replace("/users/rfq_product_data/"+data.rfq_id);
                 } else {
 
                 }
