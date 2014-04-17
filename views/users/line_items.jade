@@ -1,0 +1,131 @@
+extends layout
+
+block title_top
+  | New RFQ
+
+block meta_tags
+  meta(content='', name='description')
+  meta(content='', name='author')
+
+block title
+  | Register new RFQ
+
+block hint
+  | 
+
+block doc_ready
+  script.
+    jQuery(document).ready(function() {
+      alert("fhj");
+    });
+
+block page_content
+  .row
+    .col-md-12
+        #form_wizard_1
+          .portlet-body.form
+            form#rfq_line_form.form-horizontal(action='#')
+              .form-wizard
+                .form-body
+                  ul.nav.nav-pills.nav-justified.steps
+                    li
+                      a.step(href='/rfq_general_data/ ')
+                        span.number
+                          | 1
+                        span.desc
+                          i.fa.fa-check
+                          | Regional & General Data
+                    li
+                      a.step(href='#')
+                        span.number
+                          | 2
+                        span.desc
+                          i.fa.fa-check
+                          | General Product Data
+                    li
+                      a.step.active(href='#')
+                        span.number(style='background: #35aa47; color: #fff;')
+                          | 3
+                        span.desc
+                          i.fa.fa-check
+                          | RFQ Line Items
+                  #bar.progress.progress-striped(role='progressbar')
+                    .progress-bar.progress-bar-success(style='width: 100%;')
+                  .tab-content
+                    .alert.alert-danger.display-none
+                      button.close(data-dismiss='alert')
+                      | You have some form errors. Please check below.
+                    .alert.alert-success.display-none
+                      button.close(data-dismiss='alert')
+                      | Your form validation is successful!
+                    #tab1.tab-pane.active
+                      .form-group
+                        label.control-label.col-md-3
+                          | Product Line
+                        .col-md-4
+                          select#product_lines_id.form-control(name='product_lines_id')
+                            option(value='0')
+                            option(value='1')
+                          span.help-block
+                      .form-group
+                        label.control-label.col-md-3
+                          | Production Plant
+                        .col-md-4
+                          select#plants_id.form-control(name='plants_id')
+                            option(value='0')
+                            option(value='1')
+                          span.help-block
+                      .form-group
+                        label.control-label.col-md-3
+                          | Number of Units
+                        .col-md-4
+                          input#number_of_units.form-control(name='number_of_units')
+                          span.help-blocks
+                      .form-group
+                        label.control-label.col-md-3
+                          | Requested delivery date
+                        .col-md-4
+                          input.form-control.form-control-inline.input-medium.date-picker(size='16', type='text', value='',name="delivery_date",id="delivery_date")")
+                          span.help-block
+                h3
+                  | RFQ Line Item Technical Specification
+                .row
+                  .col-md-12
+                    table.table.table-hover.table-striped.table-bordered
+                      thead
+                        tr
+                          th
+                            | Product Property
+                          th
+                            | Value
+                          th
+                            | Remark
+                      tbody#table_body
+                        tr
+                          td
+                            input#product_properties_id(name='product_properties_id[]')
+                          td
+                            input#value(name='value[]')
+                          td
+                            input#remark(name='remark[]')
+                         tr
+                          td
+                            input#product_properties_id(name='product_properties_id[]')
+                          td
+                            input#value(name='value[]')
+                          td
+                            input#remark(name='remark[]')
+                .row
+                  .com-md-12
+                    a.btn.blue(href="javascript:;",style="margin-left:15px;",onclick="add_more_line_items()")
+                      | Add More Properties
+                .form-actions.fluid
+                  .row
+                    .col-md-12
+                      .col-md-offset-3.col-md-9
+                        a#btn_save_line_data.btn.blue.button-next(href='javascript:;', onclick="rfq_line_save(1)")
+                          | Save for now
+                        &nbsp;&nbsp;&nbsp;
+                        a#btn_next_line_data.btn.green.button-submit(href='javascript:;', onclick="rfq_line_save(2)")
+                          | Save &amp; Next 
+                          i.m-icon-swapright.m-icon-white

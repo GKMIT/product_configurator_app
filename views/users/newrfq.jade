@@ -53,7 +53,6 @@ block page_content
                       button.close(data-dismiss='alert')
                       | Your form validation is successful!
                     #tab1.tab-pane.active
-                      h3.block Provide your account details
                       .form-group
                         label.control-label.col-md-3
                           | Sales Hub
@@ -62,109 +61,111 @@ block page_content
                             option(value='0')
                               | Select Sales Hub
                             - each hub in sales_hubs
-                              option(value="#{hub.id}")= hub.name
+                              option(value="#{hub.id}",selected=hub.id == selected_rfq[0].sales_hub_id)= hub.name
                           span.help-block
                       .form-group
                         label.control-label.col-md-3
                           | Sales Person
                         .col-md-4
-                          select#sales_person_id.form-control(name='sales_person_id')
+                          select#sales_person_id.form-control(name='sales_person_id',, onchange="validate_number('sales_person_id','Please select valid Customer')")
                             option(value='0')
+                              | Select Sales Person
+                            - each person in sales_persons
+                              option(value="#{person.id}",selected=person.id == selected_rfq[0].sales_person_id)= person.user_name
                           span.help-block
                       .form-group
                         label.control-label.col-md-3
                           | Customer Country
                         .col-md-4
-                          select#customer_country.form-control(name='customer_country')
+                          select#customer_country.form-control(name='customer_country', onchange='fetch_sales_agents()')
                             option(value='0')
                               | Select Customer Country
                             - each cust_cont in countries
-                              option(value="#{cust_cont.id}")= cust_cont.name
+                              option(value="#{cust_cont.id}",selected=cust_cont.id == selected_rfq[0].customer_country)= cust_cont.name
                           span.help-block
                       .form-group
                         label.control-label.col-md-3
                           | Installation Country
                         .col-md-4
-                          select#installation_country.form-control(name='installation_country', onchange='fetch_sales_agents()')
+                          select#installation_country.form-control(name='installation_country')
                             option(value='0')
                               | Select Installation Country
                             - each inst_cont in countries
-                              option(value="#{inst_cont.id}")= inst_cont.name
+                              option(value="#{inst_cont.id}",selected=inst_cont.id == selected_rfq[0].installation_country)= inst_cont.name
                           span.help-block
                       .form-group
                         label.control-label.col-md-3
                           | Customer
                         .col-md-4
-                          select#customer.form-control(name='customer')
+                          select#customers_id.form-control(name='customers_id', onchange="validate_number('customers_id','Please select valid Customer')")
                             option(value='0')
                               | Select Customer
                             - each customer in customers
-                              option(value="#{customer.id}")= customer.name
+                              option(value="#{customer.id}",selected=customer.id == selected_rfq[0].customers_id)= customer.name
                           span.help-block
                       .form-group
                         label.control-label.col-md-3
                           | Type of quote
                         .col-md-4
-                          select#quote_type.form-control(name='quote_type')
+                          select#type_of_quote_id.form-control(name='type_of_quote_id',onchange="validate_number('type_of_quote_id','Please select valid Quote')")
                            option(value='0')
                             | Select Quote
                            - each quote in type_of_quote
-                              option(value="#{quote.id}")= quote.description
+                              option(value="#{quote.id}",selected=quote.id == selected_rfq[0].type_of_quote_id)= quote.description
                           span.help-block
                       .form-group
                         label.control-label.col-md-3
                           | Project
                         .col-md-4
-                          input#project.form-control(type='text', placeholder='Project Name', name='project')
+                          input#project_name.form-control(type='text', placeholder='Project Name', name='project_name', value= selected_rfq[0].project_name)
                           span.help-block
                       .form-group
                         label.control-label.col-md-3
                           | Date RFQ
                         .col-md-4
-                          input.form-control.form-control-inline.input-medium.date-picker(size='16', type='text', value='',name="rfq_date",id:"rfq_date")
+                          input.form-control.form-control-inline.input-medium.date-picker(size='16', type='text', value='',name="date_rfq",id="date_rfq",onchange="validate_date('date_rfq','Please select valid Date')", value=selected_rfq[0].date_rfq_in)
                           span.help-block
                       .form-group
                         label.control-label.col-md-3
                           | Sales Segment
                         .col-md-4
-                          select#sales_segment.form-control(name='sales_segment')
+                          select#sales_segments_id.form-control(name='sales_segments_id',onchange="validate_number('sales_segments_id','Please select valid Sales Segment')")
                             option(value='0')
                               | Select Sales Segment
                             - each segment in sales_segments
-                              option(value="#{segment.id}")= segment.name
+                              option(value="#{segment.id}", selected=segment.id == selected_rfq[0].sales_segments_id)= segment.name
                           span.help-block
                       .form-group
                         label.control-label.col-md-3
                           | Sales Agent
                         .col-md-4
-                          select#sales_agent.form-control(name='sales_agent')
+                          select#sales_agent.form-control(name='sales_agents_id')
                             option(value='0')
+                              | Select Sales Agent
+                              - each agent in sales_agents
+                                option(value="#{agent.id}",selected=agent.id == selected_rfq[0].sales_agents_id)= agent.name
                           span.help-block
                       .form-group
                         label.control-label.col-md-3
                           | Requested Quotation Date
                         .col-md-4
-                          input.form-control.form-control-inline.input-medium.date-picker(size='16', type='text', value='', name="quotation_date",id:"quotation_date")
+                          input.form-control.form-control-inline.input-medium.date-picker(size='16', type='text', value='', name="requested_quotation",id="requested_quotation",onchange="validate_date('requested_quotation','Please select valid Date')",value=selected_rfq[0].requested_quotation_date)
                           span.help-block
                       .form-group
                         label.control-label.col-md-3
                           | Probability
                         .col-md-4
-                          select#probability.form-control(name='probability')
-                            option(value='0') Select Probability
-                            option(value='20') 20%
-                            option(value='40') 40%
-                            option(value='60') 60%
-                            option(value='80') 80%
-                            option(value='100') 100%
+                          select#probability.form-control(name='probability',onchange="validate_number('probability','Please select valid Probability')")
+                            - each prob in probabilities
+                              option(value="#{prob}",selected=prob == selected_rfq[0].probability)= prob
                           span.help-block
                 .form-actions.fluid
                   .row
                     .col-md-12
                       .col-md-offset-3.col-md-9
-                        a.btn.blue.button-next(href='javascript:;', onclick="rfq_gen_save()")
+                        a#btn_save.btn.blue.button-next(href='javascript:;', onclick="rfq_gen_save(1)")
                           | Save for now
                         &nbsp;&nbsp;&nbsp;
-                        a.btn.green.button-submit(href='javascript:;', onclick="rfq_gen_next()")
+                        a#btn_next.btn.green.button-submit(href='javascript:;', onclick="rfq_gen_save(2)")
                           | Save &amp; Next 
                           i.m-icon-swapright.m-icon-white
