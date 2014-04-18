@@ -39,6 +39,11 @@ block page_content
                     li
                       - if (flag_line)
                           a.step(href='/users/rfq_line_items')
+                            span.number
+                              | 3
+                            span.desc
+                              i.fa.fa-check
+                              | RFQ Line Items
                         else
                           a.step(href='javascript:;')
                             span.number
@@ -64,7 +69,7 @@ block page_content
                             option(value='0')
                               | Select Product Line
                             - each lines in product_lines
-                              option(value="#{lines.id}")= lines.name
+                              option(value="#{lines.id}",selected=lines.id==selected_rfq[0].product_lines_id)= lines.name
                           span.help-block
                       .form-group
                         label.control-label.col-md-3
@@ -72,23 +77,27 @@ block page_content
                         .col-md-4
                           select#tendering_teams_id.form-control(name='tendering_teams_id',onchange="fetch_tendering_teams_members()")
                             option(value='0')
-                            option(value='1')
+                              | Select Tendering Team
+                              - each team in tendering_teams
+                                option(value="#{team.id}",selected=team.id == selected_rfq[0].tendering_teams_id)= team.name
                           span.help-block
                       .form-group
                         label.control-label.col-md-3
-                          | Product Line
+                          | Tendering Team Member
                         .col-md-4
-                          select#tendering_teams_members_id.form-control(name='tendering_teams_members_id')
+                          select#tendering_teams_members_id.form-control(name='tendering_teams_members_id', onchange="validate_number('tendering_teams_members_id','Please select valid Tendering team member')")
                             option(value='0')
-                            option(value='1')
+                              | Select Member
+                              - each member in tendering_teams_members
+                                option(value="#{member.id}",selected=member.id == selected_rfq[0].tendering_teams_members_id)= member.user_name
                           span.help-blocks
                 .form-actions.fluid
                   .row
                     .col-md-12
                       .col-md-offset-3.col-md-9
-                        a#btn_save_pro_data.btn.blue.button-next(href='javascript:;', onclick="rfq_pro_save(1)")
+                        a#btn_save_pro_data.btn.blue.button-next(href='javascript:;', onclick="rfq_pro_save(1,#{selected_rfq[0].id})")
                           | Save for now
                         &nbsp;&nbsp;&nbsp;
-                        a#btn_next_pro_data.btn.green.button-submit(href='javascript:;', onclick="rfq_pro_save(2)")
+                        a#btn_next_pro_data.btn.green.button-submit(href='javascript:;', onclick="rfq_pro_save(2,#{selected_rfq[0].id})")
                           | Save &amp; Next 
                           i.m-icon-swapright.m-icon-white

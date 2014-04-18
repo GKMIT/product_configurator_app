@@ -69,7 +69,7 @@ function rfq_pro_save(type, rfq_id){
         $("#btn_next_pro_data").removeAttr("onclick");
         if(type == 1){
             $("#btn_save_pro_data").html("Saving.. Please Wait");
-            $.post("/users/save_rfq_product_data",val, function(data) {
+            $.post("/users/save_rfq_product_data/"+rfq_id,val, function(data) {
                 if(data == "true"){
                     $("btn_save_pro_data").html("Data Saved");
                     window.location.replace("/users/");
@@ -79,10 +79,10 @@ function rfq_pro_save(type, rfq_id){
             });
         } else {
              $("#btn_next_pro_data").html("Saving.. Please Wait");
-              $.post("/users/save_rfq_product_data",val, function(data) {
+              $.post("/users/save_rfq_product_data/"+rfq_id,val, function(data) {
                 if(data.success == "true"){
                     $("btn_save_pro_data").html("Proceeding..");
-                    window.location.replace("/users/rfq_line_items");
+                    window.location.replace("/users/rfq_line_items/"+rfq_id);
                 } else {
 
                 }
@@ -120,7 +120,7 @@ function rfq_gen_save(type){
               $.post("/users/newrfq",val, function(data) {
                 if(data.success == "true"){
                     $("btn_save").html("Proceeding..");
-                    alert("/users/rfq_product_data/"+data.rfq_id);
+                    // alert("/users/rfq_product_data/"+data.rfq_id);
                     window.location.replace("/users/rfq_product_data/"+data.rfq_id);
                 } else {
 

@@ -4,7 +4,7 @@ exports.index = function(req, res){
 };
 
 exports.newrfq = function(req,res){
-	res.redirect("/users/rfq_general_data/0");
+	res.redirect("/users/rfq_general_data/new");
 }
 
 exports.rfq_general_data = function(req, res){
@@ -12,7 +12,9 @@ exports.rfq_general_data = function(req, res){
 	var flag_product = false;
 	var flag_line = false;
 
-	rfq_id = req.params.rfq_id;
+	if(req.params.rfq_id == 'new'){
+		rfq_id = 0;
+	} else rfq_id = req.params.rfq_id;
 
 	var probabilities = ["Select Probability ","20","40","60","80"];
 	var options = {
@@ -55,6 +57,7 @@ exports.rfq_general_data = function(req, res){
 };
 
 exports.fetch_sales_persons = function(req, res){
+
 	var options = {
 		host : config.host,
 		port : config.port,
@@ -147,6 +150,7 @@ exports.save_rfq_general_data = function(req, res){
 };
 
 exports.rfq_product_data = function(req, res){
+	var flag_line = false;
 	var options = {
 		host : config.host,
 		port : config.port,
@@ -165,8 +169,9 @@ exports.rfq_product_data = function(req, res){
 		response.on('end',function (){
 			console.log(data_final);
 			var data = JSON.parse(data_final);
+			if(data.selected_rfq[0].product_lines_id != 0) flag_line = true;
 			if(response.statusCode == 200){
-				res.render('users/product_data', { username: req.session.member_username, title: 'RFQ Product Data', rfq:'active',sub_sidebar1:'active', product_lines:data.product_lines});
+				res.render('users/product_data', { username: req.session.member_username, title: 'RFQ Product Data', rfq:'active',sub_sidebar1:'active', product_lines:data.product_lines, selected_rfq:data.selected_rfq, tendering_teams:data.tendering_teams, tendering_teams_members: data.tendering_teams_members, flag_line:flag_line});
 			} else {
 				res.send(data.success);
 			}
@@ -234,7 +239,7 @@ exports.fetch_tendering_teams_members = function(req, res){
 
 exports.save_rfq_product_data = function(req, res){
 	console.log(req.body);
-	var dGet = querystring.stringify(req.body)+'&user_id='+req.session.member_id+'&rfq_id='+req.session.rfq_id;
+	var dGet = querystring.stringify(req.body)+'&user_id='+req.session.member_id+'&rfq_id='+req.params.rfq_id;
 	console.log(dGet);
 	var options = {
 			host : config.host,

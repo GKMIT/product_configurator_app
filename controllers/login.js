@@ -44,7 +44,6 @@ exports.loginverify = function(req, res){
 				} else {
 					res.send("Users");
 				}
-
 			} else {
 				res.send(data.success);
 			}
