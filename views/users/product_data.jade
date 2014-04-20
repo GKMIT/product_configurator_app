@@ -30,7 +30,7 @@ block page_content
                           i.fa.fa-check
                           | Regional & General Data
                     li
-                      a.step(href='/users/rfq_product_data')
+                      a.step(href='/users/rfq_product_data/'+selected_rfq[0].id)
                         span.number(style='background: #35aa47; color: #fff;')
                           | 2
                         span.desc
@@ -38,7 +38,7 @@ block page_content
                           | General Product Data
                     li
                       - if (flag_line)
-                          a.step(href='/users/rfq_line_items')
+                          a.step(href='/users/rfq_line_items/'+selected_rfq[0].id)
                             span.number
                               | 3
                             span.desc

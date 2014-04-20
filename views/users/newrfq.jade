@@ -26,14 +26,14 @@ block page_content
                       - if (selected_rfq[0].id)
                           a.step(href='/users/rfq_product_data/'+ selected_rfq[0].id)
                             span.number(style='background: #35aa47; color: #fff;')
-                              | 2
+                              | 1
                             span.desc
                               i.fa.fa-check
                               | General Product Data
                         else
                           a.step(href='javascript:;')
                             span.number
-                              | 2
+                              | 1
                             span.desc
                               i.fa.fa-check
                               | General Product Data
@@ -54,7 +54,7 @@ block page_content
                               | General Product Data
                     li
                       - if (flag_line)
-                          a.step(href='/users/rfq_line_items')
+                          a.step(href='/users/rfq_line_items/'+selected_rfq[0].id)
                             span.number
                                 | 3
                               span.desc
@@ -182,6 +182,12 @@ block page_content
                           select#probability.form-control(name='probability',onchange="validate_number('probability','Please select valid Probability')")
                             - each prob in probabilities
                               option(value="#{prob}",selected=prob == selected_rfq[0].probability)= prob+'%'
+                          span.help-block
+                      .form-group
+                        label.control-label.col-md-3
+                          | Must Win
+                        .col-md-4
+                          input(type='radio',value='0')
                           span.help-block
                 .form-actions.fluid
                   .row

@@ -289,7 +289,8 @@ exports.rfq_line_items = function(req, res){
 	// 		// console.log(data_final);
 	// 		var data = JSON.parse(data_final);
 	// 		if(response.statusCode == 200){
-				res.render('users/line_items', { username: req.session.member_username, title: 'RFQ Product Data', rfq:'active',sub_sidebar1:'active' });
+				var selected_rfq =  [{id:"1"}]; // to be commented
+				res.render('users/line_items', { username: req.session.member_username, title: 'RFQ Product Data', rfq:'active',sub_sidebar1:'active', selected_rfq:selected_rfq });
 	// 		} else {
 	// 			res.send(data.success);
 	// 		}
