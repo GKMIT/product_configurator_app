@@ -63,8 +63,10 @@ block page_content
                           | Product Line
                         .col-md-4
                           select#product_lines_id.form-control(name='product_lines_id')
-                            option(value='0')
-                            option(value='1')
+                            option
+                              | Select Product Line
+                            - each lines in product_lines
+                              option(value="#{lines.id}")= lines.name
                           span.help-block
                       .form-group
                         label.control-label.col-md-3

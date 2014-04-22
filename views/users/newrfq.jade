@@ -1,14 +1,14 @@
 extends layout
 
 block title_top
-  | New RFQ
+  | General Product Data
 
 block meta_tags
   meta(content='', name='description')
   meta(content='', name='author')
 
 block title
-  | Register new RFQ
+  | Register RFQ
 
 block hint
   | 
@@ -32,7 +32,7 @@ block page_content
                               | General Product Data
                         else
                           a.step(href='javascript:;')
-                            span.number
+                            span.number(style='background: #35aa47; color: #fff;')
                               | 1
                             span.desc
                               i.fa.fa-check
@@ -186,16 +186,20 @@ block page_content
                       .form-group
                         label.control-label.col-md-3
                           | Must Win
-                        .col-md-4
-                          input(type='radio',value='0')
+                        .col-md-4(style="margin-top:5px;")
+                          input(type='radio',value='1', checked, name='must_win')
+                          | &nbsp;Yes&nbsp;&nbsp;&nbsp;
+                          input(type='radio',value='0',name='must_win', checked=selected_rfq[0].must_win == 0)
+                          | &nbsp;No
+                          input(type='hidden', value='#{selected_rfq[0].rfq_status_id}',id='rfq_stat')
                           span.help-block
                 .form-actions.fluid
                   .row
                     .col-md-12
                       .col-md-offset-3.col-md-9
-                        a#btn_save.btn.blue.button-next(href='javascript:;', onclick="rfq_gen_save(1)")
+                        a#btn_save.btn.blue.button-next(href='javascript:;', onclick="rfq_gen_save(1,#{selected_rfq[0].id})")
                           | Save for now
                         &nbsp;&nbsp;&nbsp;
-                        a#btn_next.btn.green.button-submit(href='javascript:;', onclick="rfq_gen_save(2)")
+                        a#btn_next.btn.green.button-submit(href='javascript:;', onclick="rfq_gen_save(2,#{selected_rfq[0].id})")
                           | Save &amp; Next 
                           i.m-icon-swapright.m-icon-white

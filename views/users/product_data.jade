@@ -91,6 +91,7 @@ block page_content
                               - each member in tendering_teams_members
                                 option(value="#{member.id}",selected=member.id == selected_rfq[0].tendering_teams_members_id)= member.user_name
                           span.help-blocks
+                          input(type='hidden', value='#{selected_rfq[0].rfq_status_id}',id='rfq_stat')
                 .form-actions.fluid
                   .row
                     .col-md-12

@@ -14,6 +14,7 @@ exports.loginverify = function(req, res){
 	};
 	
 	var dGet = querystring.stringify(dataGet);
+	console.log(dGet);
 	var optionsPost = {
 			host : config.host,
 			port : config.port,
@@ -25,10 +26,15 @@ exports.loginverify = function(req, res){
 		};
 
 	var reqPost = http.request(optionsPost, function(response) {
-		response.on('data', function(data) {
-			//console.log(response.statusCode);
-			var data=JSON.parse(data);
-			if(response.statusCode == 200){
+		var data_final = '';
+		response.on('data', function(chunk) {
+			data_final = data_final+chunk;
+		});
+		response.on('end',function (){
+			console.log(data_final);
+			var data=JSON.parse(data_final);
+			console.log(data);
+			if(data.statusCode == 200){
 				req.session.member_id = data.data[0].id;
 				req.session.member_username = data.data[0].user_name;
 				req.session.member_email = data.data[0].email;

@@ -69,8 +69,9 @@ function rfq_pro_save(type, rfq_id){
         $("#btn_next_pro_data").removeAttr("onclick");
         if(type == 1){
             $("#btn_save_pro_data").html("Saving.. Please Wait");
+            val += '&rfq_status_id=1';
             $.post("/users/save_rfq_product_data/"+rfq_id,val, function(data) {
-                if(data == "true"){
+                if(data.success == "true"){
                     $("btn_save_pro_data").html("Data Saved");
                     window.location.replace("/users/");
                 } else {
@@ -79,6 +80,7 @@ function rfq_pro_save(type, rfq_id){
             });
         } else {
              $("#btn_next_pro_data").html("Saving.. Please Wait");
+             val += '&rfq_status_id='+ $("#rfq_stat").val();
               $.post("/users/save_rfq_product_data/"+rfq_id,val, function(data) {
                 if(data.success == "true"){
                     $("btn_save_pro_data").html("Proceeding..");
@@ -91,24 +93,26 @@ function rfq_pro_save(type, rfq_id){
     }
 }
 
-function rfq_gen_save(type){
+function rfq_gen_save(type, rfq_id){
+
     var val = $("#rfq_gen_form").serialize();
-    var flag1 = validate_number('sales_hub_id','Please select valid Sales Hub');
-    var flag2 = validate_number('customer_country','Please select valid Customer country');
-    var flag3 = validate_number('customers_id','Please select valid Customer');
-    var flag4 = validate_number('sales_person_id','Please select valid Sales Person');
-    var flag5 = validate_number('type_of_quote_id','Please select valid Quote');
-    var flag6 = validate_number('sales_segments_id','Please select valid Sales Segments');
-    var flag7 = validate_number('probability','Please select valid Probability');
-    var flag8 = validate_date('date_rfq','Please select valid Date');
-    var flag9 = validate_date('requested_quotation','Please select valid Date');
+
+    if(rfq_id !=0 && typeof rfq_id != "undefined"){
+        var file_name = '/users/update_rfq_general_data';
+        val += '&rfq_id='+rfq_id;
+    } else {
+        var file_name = '/users/newrfq';
+    }
+
+    var flag1 = validate_number('sales_hub_id','Please select valid Sales Hub');var flag2 = validate_number('customer_country','Please select valid Customer country');var flag3 = validate_number('customers_id','Please select valid Customer');var flag4 = validate_number('sales_person_id','Please select valid Sales Person');var flag5 = validate_number('type_of_quote_id','Please select valid Quote');var flag6 = validate_number('sales_segments_id','Please select valid Sales Segments');var flag7 = validate_number('probability','Please select valid Probability');var flag8 = validate_date('date_rfq','Please select valid Date');var flag9 = validate_date('requested_quotation','Please select valid Date');
     if( flag7 && flag6 && flag5 && flag4 && flag3 && flag2 && flag1 && flag9 && flag8  ){
         $("#btn_save").removeAttr("onclick");
         $("#btn_next").removeAttr("onclick");
         if(type == 1){
             $("#btn_save").html("Saving.. Please Wait");
-            $.post("/users/newrfq",val, function(data) {
-                if(data == "true"){
+            val += '&rfq_status_id=1';
+            $.post(file_name,val, function(data) {
+                if(data.success == "true"){
                     $("btn_save").html("Data Saved");
                     window.location.replace("/users/");
                 } else {
@@ -117,7 +121,8 @@ function rfq_gen_save(type){
             });
         } else {
              $("#btn_next").html("Saving.. Please Wait");
-              $.post("/users/newrfq",val, function(data) {
+                val += '&rfq_status_id='+$("#rfq_stat").val();
+              $.post(file_name,val, function(data) {
                 if(data.success == "true"){
                     $("btn_save").html("Proceeding..");
                     // alert("/users/rfq_product_data/"+data.rfq_id);

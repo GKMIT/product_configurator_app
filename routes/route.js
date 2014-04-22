@@ -15,6 +15,7 @@ module.exports = function () {
 	app.get('/users/rfq_general_data/:rfq_id', globalfunctions.checkUserAuth, users.rfq_general_data);
 
 	app.post('/users/newrfq', globalfunctions.checkUserAuth, users.save_rfq_general_data);
+	app.post('/users/update_rfq_general_data', globalfunctions.checkUserAuth, users.update_rfq_general_data);
 	
 	app.get('/users/rfq_product_data/:rfq_id',globalfunctions.checkUserAuth, users.rfq_product_data);
 	app.post('/users/save_rfq_product_data/:rfq_id',globalfunctions.checkUserAuth, users.save_rfq_product_data);
