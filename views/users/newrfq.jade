@@ -1,14 +1,14 @@
 extends layout
 
 block title_top
-  | General Product Data
+  | Regional &amp; General Data
 
 block meta_tags
   meta(content='', name='description')
   meta(content='', name='author')
 
 block title
-  | Register RFQ
+  | Regional &amp; General Data
 
 block hint
   | 
@@ -29,14 +29,14 @@ block page_content
                               | 1
                             span.desc
                               i.fa.fa-check
-                              | General Product Data
+                              | Regional &amp; General Data
                         else
                           a.step(href='javascript:;')
                             span.number(style='background: #35aa47; color: #fff;')
                               | 1
                             span.desc
                               i.fa.fa-check
-                              | General Product Data
+                              | Regional &amp; General Data
                     li
                       - if (flag_product)
                           a.step(href='/users/rfq_product_data/'+selected_rfq[0].id)
