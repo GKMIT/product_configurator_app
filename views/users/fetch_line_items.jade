@@ -3,9 +3,11 @@ form#rfq_line_edit_form.form-horizontal(action='#')
     label.control-label.col-md-3
       | Product Line
     .col-md-4
-      select#product_lines_id.form-control(name='product_lines_id', onchange='fetch_plants_properties()')
+      select#product_lines_id_pop.form-control(name='product_lines_id_pop', onchange='fetch_plants_properties_pop()')
         option
           | Select Product Line
+          - each line in product_lines
+            option(value="#{line.id}",selected=rfq_lines[0].product_lines_id == line.id)= line.name
       span.help-block
   .form-group
     label.control-label.col-md-3
@@ -21,7 +23,7 @@ form#rfq_line_edit_form.form-horizontal(action='#')
     label.control-label.col-md-3
       | Number of Units
     .col-md-4
-      input#number_of_units.form-control(name='number_of_units', onkeyup="validate_number('number_of_units','Please input number of units')",value='#{rfq_lines[0].number_of_units}')
+      input#number_of_units_pop.form-control(name='number_of_units_pop', onkeyup="validate_number('number_of_units_pop','Please input number of units')",value='#{rfq_lines[0].number_of_units}')
       span.help-blocks
   .form-group
     label.control-label.col-md-3
@@ -43,13 +45,18 @@ form#rfq_line_edit_form.form-horizontal(action='#')
             th
               | Remark
         tbody#table_body_pop
-          tr
-            td
-              select.props#product_properties_id.form-control(name='product_properties_id[]')
-            td
-              input#value.form-control(name='value[]')
-            td
-              input#remark.form-control(name='remark[]')
+          -each spec in technical_specifications
+            tr
+              td
+                select.props#product_properties_id.form-control(name='product_properties_id[]')
+                  option(value='0')
+                    | Select Property
+                  - each prop in product_properties
+                    option(value='#{prop.id}',selected=spec.product_properties_id == prop.id)= prop.property_name
+              td
+                input#value.form-control(name='value[]', value='#{spec.value}')
+              td
+                input#remark.form-control(name='remark[]', value='#{spec.remark}')
     .row
       .com-md-12
         a.btn.blue(href="javascript:;",style="margin-left:30px;",onclick="add_more_line_items()")

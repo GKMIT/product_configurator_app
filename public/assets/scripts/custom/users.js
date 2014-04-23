@@ -214,23 +214,24 @@ function rfq_line_save(type, rfq_id){
 
                 }
             });
-        } else {
-            $("#btn_complete").html("Saving.. Please Wait");
-                val += '&rfq_status_id='+$("#rfq_stat").val();
-              $.post(file_name,val, function(data) {
-                if(data.success == "true"){
-                    $("btn_save").html("Proceeding..");
-                    // alert("/users/rfq_product_data/"+data.rfq_id);
-                    window.location.replace("/users/"+ rfq_id);
-                } else {
-
-                }
-            });
         }
 
     }
 }
 
+function rfq_complete(rfq_id){
+
+    var file_name = '/users/rfq_complete/'+rfq_id;
+    $("#btn_complete").html("Processing..");
+    
+      $.post(file_name,{rfq_status_id:2}, function(data) {
+        if(data.success == "true"){
+            window.location.replace("/users/");
+        } else {
+
+        }
+    });
+}
 
 function validate_number(id_info, alttext){
     var value = $("#"+id_info).val();

@@ -69,8 +69,8 @@ block page_content
                           tbody
                             - each line_items in selected_rfq_lines_items
                               tr(id='row_line_item_' +line_items.id)
-                                td= line_items.product_lines_id
-                                td= line_items.plants_id
+                                td= line_items.product_lines_name
+                                td= line_items.plant_name
                                 td= line_items.number_of_units
                                 td= line_items.req_delivery_date
                                 td(id='line_item_' +line_items.id)
@@ -154,13 +154,16 @@ block page_content
                       .col-md-12
                         .col-md-offset-3.col-md-9
                           a#btn_save.btn.blue.button-save(href='javascript:;', onclick="rfq_line_save(1,#{selected_rfq[0].id})")
-                            | Save for now
+                            | Save For Now
                           &nbsp;&nbsp;&nbsp;
-                          a#btn_add_more.btn.green.button-add_more(href='javascript:;', onclick="rfq_line_save(2,#{selected_rfq[0].id})")
-                            | Add More
-                           &nbsp;&nbsp;&nbsp;
-                          a#btn_complete.btn.green.button-complete(href='javascript:;', onclick="rfq_line_save(3,#{selected_rfq[0].id})")
-                            | Complete
+                          a#btn_add_more.btn.blue.button-add_more(href='javascript:;', onclick="rfq_line_save(2,#{selected_rfq[0].id})")
+                            | Save &amp; Add More Line Items
+                          &nbsp;&nbsp;&nbsp;
+                          a.btn.dark.button-complete(href='/users/')
+                            | Fill Later
+                          &nbsp;&nbsp;&nbsp; 
+                          a#btn_complete.btn.green.button-complete(href='javascript:;', onclick="rfq_complete(#{selected_rfq[0].id})")
+                            | Complete RFQ
   #basic.modal.fade.bs-modal-lg.in(tabindex='-1', role='basic', aria-hidden='true', style='display: none;')
     .modal-dialog.modal-full
       .modal-content
@@ -171,5 +174,4 @@ block page_content
           | Loading...
         .modal-footer
           button.btn.default(type='button', data-dismiss='modal') Close
-          button.btn.blue(type='button') Save changes
 

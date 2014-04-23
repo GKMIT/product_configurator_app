@@ -99,6 +99,9 @@ block page_content
                         a#btn_save_pro_data.btn.blue.button-next(href='javascript:;', onclick="rfq_pro_save(1,#{selected_rfq[0].id})")
                           | Save for now
                         &nbsp;&nbsp;&nbsp;
+                        a.btn.dark.button-complete(href='/users/')
+                          | Fill Later
+                        &nbsp;&nbsp;&nbsp;
                         a#btn_next_pro_data.btn.green.button-submit(href='javascript:;', onclick="rfq_pro_save(2,#{selected_rfq[0].id})")
                           | Save &amp; Next 
                           i.m-icon-swapright.m-icon-white

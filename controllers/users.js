@@ -345,6 +345,38 @@ exports.update_rfq_general_data = function(req, res){
 	reqPost.end();
 };
 
+exports.rfq_complete = function(req, res){
+	console.log(req.body);
+
+	var dGet = querystring.stringify(req.body)+'&user_id='+req.session.member_id+'&rfq_id='+req.params.rfq_id;
+
+	var options = {
+			host : config.host,
+			port : config.port,
+			path : '/complete_rfq',
+			method : 'PUT',
+			headers: {
+		          'Content-Type': 'application/x-www-form-urlencoded',
+		          'authentication_token': req.session.token
+		    }
+		};
+
+	var reqPost = http.request(options, function(response) {
+		response.on('data', function(data) {
+			var data=JSON.parse(data);
+			console.log(data);
+			if(data.statusCode == 200){
+				res.json(data);
+			} else {
+				res.json(data);
+			}
+		});
+
+	});
+
+	reqPost.write(dGet);
+	reqPost.end();
+};
 exports.rfq_line_items = function(req, res){
 	var options = {
 		host : config.host,
@@ -405,7 +437,7 @@ exports.fetch_rfq_line_items = function(req, res){
 			if(data.statusCode == 200){
 				data.rfq_lines[0].req_delivery_date = moment(data.rfq_lines[0].req_delivery_date.substring(0,10), "YYYY-MM-DD").format('MM/DD/YYYY');
 
-				res.render('users/fetch_line_items', { rfq_lines:data.rfq_lines, production_plants:data.production_plants, product_properties:data.product_properties, technical_specifications:data.technical_specifications });
+				res.render('users/fetch_line_items', { rfq_lines:data.rfq_lines, production_plants:data.production_plants, product_properties:data.product_properties, technical_specifications:data.technical_specifications, product_lines:data.product_lines });
 			} else {
 				res.send(data.success);
 			}

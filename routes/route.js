@@ -25,6 +25,8 @@ module.exports = function () {
 	app.post('/users/save_line_item/:rfq_id',globalfunctions.checkUserAuth, users.save_line_item);
 	app.get('/users/rfq_line_items/:rfq_id',globalfunctions.checkUserAuth, users.rfq_line_items);
 
+	app.post('/users/rfq_complete/:rfq_id',globalfunctions.checkUserAuth, users.rfq_complete);
+
 	app.post('/users/delete_line_item',globalfunctions.checkUserAuth, users.delete_line_item);
 	app.get('/users/fetch_rfq_line_items/:rfq_id/:line_item',globalfunctions.checkUserAuth, users.fetch_rfq_line_items);
 	
