@@ -50,83 +50,126 @@ block page_content
                           | RFQ Line Items
                   #bar.progress.progress-striped(role='progressbar')
                     .progress-bar.progress-bar-success(style='width: 100%;')
-                  .tab-content
-                    .alert.alert-danger.display-none
-                      button.close(data-dismiss='alert')
-                      | You have some form errors. Please check below.
-                    .alert.alert-success.display-none
-                      button.close(data-dismiss='alert')
-                      | Your form validation is successful!
-                    #tab1.tab-pane.active
-                      .form-group
-                        label.control-label.col-md-3
-                          | Product Line
-                        .col-md-4
-                          select#product_lines_id.form-control(name='product_lines_id')
-                            option
-                              | Select Product Line
-                            - each lines in product_lines
-                              option(value="#{lines.id}")= lines.name
-                          span.help-block
-                      .form-group
-                        label.control-label.col-md-3
-                          | Production Plant
-                        .col-md-4
-                          select#plants_id.form-control(name='plants_id')
-                            option(value='0')
-                            option(value='1')
-                          span.help-block
-                      .form-group
-                        label.control-label.col-md-3
-                          | Number of Units
-                        .col-md-4
-                          input#number_of_units.form-control(name='number_of_units')
-                          span.help-blocks
-                      .form-group
-                        label.control-label.col-md-3
-                          | Requested delivery date
-                        .col-md-4
-                          input.form-control.form-control-inline.input-medium.date-picker(size='16', type='text', value='',name="delivery_date",id="delivery_date")")
-                          span.help-block
-                h3
-                  | RFQ Line Item Technical Specification
-                .row
-                  .col-md-12
-                    table.table.table-hover.table-striped.table-bordered
-                      thead
-                        tr
-                          th
-                            | Product Property
-                          th
-                            | Value
-                          th
-                            | Remark
-                      tbody#table_body
-                        tr
-                          td
-                            input#product_properties_id(name='product_properties_id[]')
-                          td
-                            input#value(name='value[]')
-                          td
-                            input#remark(name='remark[]')
-                         tr
-                          td
-                            input#product_properties_id(name='product_properties_id[]')
-                          td
-                            input#value(name='value[]')
-                          td
-                            input#remark(name='remark[]')
-                .row
-                  .com-md-12
-                    a.btn.blue(href="javascript:;",style="margin-left:15px;",onclick="add_more_line_items()")
-                      | Add More Properties
-                .form-actions.fluid
-                  .row
-                    .col-md-12
-                      .col-md-offset-3.col-md-9
-                        a#btn_save_line_data.btn.blue.button-next(href='javascript:;', onclick="rfq_line_save(1)")
-                          | Save for now
-                        &nbsp;&nbsp;&nbsp;
-                        a#btn_next_line_data.btn.green.button-submit(href='javascript:;', onclick="rfq_line_save(2)")
-                          | Save &amp; Next 
-                          i.m-icon-swapright.m-icon-white
+                  - if (selected_rfq_lines_items.length > 0)
+                    .row
+                      .col-md-12
+                        table.table.table-hover.table-striped.table-bordered
+                          thead
+                            tr
+                              th
+                                | Product Line
+                              th
+                                | Production Plant
+                              th
+                                | Number of Units
+                              th
+                                | Requested Delivery Date
+                              th
+                                | Action
+                          tbody
+                            - each line_items in selected_rfq_lines_items
+                              tr(id='row_line_item_' +line_items.id)
+                                td= line_items.product_lines_id
+                                td= line_items.plants_id
+                                td= line_items.number_of_units
+                                td= line_items.req_delivery_date
+                                td(id='line_item_' +line_items.id)
+                                  a.btn.blue(href="#basic",data-toggle="modal",onclick="edit_line_item(#{selected_rfq[0].id},#{line_items.id})")
+                                    | Edit
+                                  &nbsp;&nbsp;
+                                  a.btn.dark(href="javascript:;", onclick="delete_line_item(#{line_items.id})")
+                                    | Delete
+                  .portlet.box.grey
+                    .portlet-title
+                        .caption
+                          i.fa.fa-reorder
+                          | Add New Line Item
+                      .portlet-body
+                        .form-group
+                          label.control-label.col-md-3
+                            | Product Line
+                          .col-md-4
+                            select#product_lines_id.form-control(name='product_lines_id', onchange='fetch_plants_properties()')
+                              option
+                                | Select Product Line
+                              - each lines in product_lines
+                                option(value="#{lines.id}")= lines.name
+                            span.help-block
+                        .form-group
+                          label.control-label.col-md-3
+                            | Production Plant
+                          .col-md-4
+                            select#plants_id.form-control(name='plants_id',onchange="validate_number('plants_id','Please select valid Production plant')")
+                              option(value='0')
+                                | Select Production Plants
+                            span.help-block
+                        .form-group
+                          label.control-label.col-md-3
+                            | Number of Units
+                          .col-md-4
+                            input#number_of_units.form-control(name='number_of_units', onkeyup="validate_number('number_of_units','Please input number of units')")
+                            span.help-blocks
+                        .form-group
+                          label.control-label.col-md-3
+                            | Requested delivery date
+                          .col-md-4
+                            input.form-control.form-control-inline.input-medium.date-picker(size='16', type='text', value='',name="delivery_date",id="delivery_date", onchange="validate_date('delivery_date','Please select valid Date')")
+                            span.help-block
+                            input(type='hidden', value='#{selected_rfq[0].rfq_status_id}',id='rfq_stat')
+                            input(type='hidden', value='',id='props_def')
+                        h4
+                          | Technical Specifications
+                        .row
+                          .col-md-12
+                            table.table.table-hover.table-striped.table-bordered
+                              thead
+                                tr
+                                  th
+                                    | Product Property
+                                  th
+                                    | Value
+                                  th
+                                    | Remark
+                              tbody#table_body
+                                tr
+                                  td
+                                    select.props#product_properties_id.form-control(name='product_properties_id[]')
+                                  td
+                                    input#value.form-control(name='value[]')
+                                  td
+                                    input#remark.form-control(name='remark[]')
+                                 tr
+                                  td
+                                    select.props#product_properties_id.form-control(name='product_properties_id[]')
+                                  td
+                                    input#value.form-control(name='value[]')
+                                  td
+                                    input#remark.form-control(name='remark[]')
+                          .row
+                            .com-md-12
+                              a.btn.blue(href="javascript:;",style="margin-left:30px;",onclick="add_more_line_items()")
+                                | Add More Properties
+                  .form-actions.fluid
+                    .row
+                      .col-md-12
+                        .col-md-offset-3.col-md-9
+                          a#btn_save.btn.blue.button-save(href='javascript:;', onclick="rfq_line_save(1,#{selected_rfq[0].id})")
+                            | Save for now
+                          &nbsp;&nbsp;&nbsp;
+                          a#btn_add_more.btn.green.button-add_more(href='javascript:;', onclick="rfq_line_save(2,#{selected_rfq[0].id})")
+                            | Add More
+                           &nbsp;&nbsp;&nbsp;
+                          a#btn_complete.btn.green.button-complete(href='javascript:;', onclick="rfq_line_save(3,#{selected_rfq[0].id})")
+                            | Complete
+  #basic.modal.fade.bs-modal-lg.in(tabindex='-1', role='basic', aria-hidden='true', style='display: none;')
+    .modal-dialog.modal-full
+      .modal-content
+        .modal-header
+          button.close(type='button', data-dismiss='modal', aria-hidden='true')
+          h4.modal-title Edit Line Item
+        .modal-body(style="")
+          | Loading...
+        .modal-footer
+          button.btn.default(type='button', data-dismiss='modal') Close
+          button.btn.blue(type='button') Save changes
+

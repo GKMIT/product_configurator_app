@@ -134,36 +134,102 @@ function rfq_gen_save(type, rfq_id){
         }
     }
 }
+function fetch_plants_properties(){
+    var val = $("#product_lines_id").val();
 
-// function rfq_line_save(type){
-//     var val = $("#rfq_line_form").serialize();
-//     var flag1 = validate_number('sales_hub_id','Please select valid Sales Hub');
-//     var flag2 = validate_number('customer_country','Please select valid Customer country');
-//     var flag3 = validate_number('customers_id','Please select valid Customer');
-//     var flag4 = validate_number('sales_person_id','Please select valid Sales Person');
-//     var flag5 = validate_number('type_of_quote_id','Please select valid Quote');
-//     var flag6 = validate_number('sales_segments_id','Please select valid Sales Segments');
-//     var flag7 = validate_number('probability','Please select valid Probability');
-//     var flag8 = validate_date('date_rfq','Please select valid Date');
-//     var flag9 = validate_date('requested_quotation','Please select valid Date');
-//     if( flag7 && flag6 && flag5 && flag4 && flag3 && flag2 && flag1 && flag9 && flag8  ){
-//         $("#btn_save").removeAttr("onclick");
-//         $("#btn_next").removeAttr("onclick");
-//         if(type == 1){
-//             $("#btn_save").html("Saving.. Please Wait");
-//             $.post("/users/save_rfq_line_items",val, function(data) {
-//                 if(data.success== "true"){
-//                     $("btn_save").html("Data Saved");
-//                     window.location.replace("/users/");
-//                 } else {
+    $("#plants_id").html('<option>Fetching..</option>');
+    $.get("/users/fetch_plants_properties/"+val, function(data) {
+        var i;
+        var response = '<option value="0">Select Production Plant</option>';
+        for (i = 0; i < data.production_plants.length; ++i) {
+            obj = data.production_plants[i];
+            response += '<option value="'+obj.id+'">'+obj.name+'</option>';
+        }
+        $("#plants_id").html(response);
 
-//                 }
-//             });
-//         } else {
-             
-//         }
-//     }
-// }
+        response ='<option value="0">Select Property</option>';
+        for (i = 0; i < data.product_properties.length; ++i) {
+            obj = data.product_properties[i];
+            response += '<option value="'+obj.id+'">'+obj.property_name+'</option>';
+        }
+        $(".props").html(response);
+        $("#props_def").val(response);
+    });
+
+
+
+    validate_number('product_lines_id','Please select valid product line');
+}
+
+function delete_line_item(line_item){
+    $("#line_item_"+line_item+" .dark").html('Deleting');
+
+    $.post("/users/delete_line_item",{ rfq_lines_id: line_item}, function(data) {
+        if(data.statusCode == 200){
+            $("#row_line_item_"+line_item).hide("slow", function(){
+                $("#row_line_item_"+line_item).remove();
+            });
+        } else {
+            alert(data.success);
+        }
+    });
+}
+
+function edit_line_item(rfq_id,line_item){
+    $(".modal-body").html("Loading..");
+    $.get("/users/fetch_rfq_line_items/"+rfq_id+"/"+line_item, function(data) {
+         $(".modal-body").html(data);
+         initialize();
+    });
+}
+
+function rfq_line_save(type, rfq_id){
+    var val = $("#rfq_line_form").serialize();
+    var file_name = '/users/save_line_item/'+rfq_id;
+
+    var flag1 = validate_number('product_lines_id','Please select valid Product Line');
+    var flag2 = validate_number('plants_id','Please select valid Production plant');
+    var flag3 = validate_number('number_of_units','Please input number of units');
+    var flag4 = validate_date('delivery_date','Please select valid Date');
+    if( flag4 && flag3 && flag2 && flag1 ){
+        if(type == 1){
+            $("#btn_save").html("Saving.. Please Wait");
+            val += '&rfq_status_id=1';
+            $.post(file_name,val, function(data) {
+                if(data.success == "true"){
+                    $("btn_save").html("Data Saved");
+                    window.location.replace("/users/");
+                } else {
+
+                }
+            });
+        } else if(type == 2) {
+             $("#btn_add_more").html("Saving.. Please Wait");
+                val += '&rfq_status_id='+$("#rfq_stat").val();
+              $.post(file_name,val, function(data) {
+                if(data.success == "true"){
+                    $("btn_add").html("Proceeding..");
+                    window.location.replace("/users/rfq_line_items/"+ rfq_id);
+                } else {
+
+                }
+            });
+        } else {
+            $("#btn_complete").html("Saving.. Please Wait");
+                val += '&rfq_status_id='+$("#rfq_stat").val();
+              $.post(file_name,val, function(data) {
+                if(data.success == "true"){
+                    $("btn_save").html("Proceeding..");
+                    // alert("/users/rfq_product_data/"+data.rfq_id);
+                    window.location.replace("/users/"+ rfq_id);
+                } else {
+
+                }
+            });
+        }
+
+    }
+}
 
 
 function validate_number(id_info, alttext){
@@ -198,5 +264,5 @@ function validate_date(id_info, alttext){
 }
 
 function add_more_line_items(){
-    $("#table_body").append('<tr><td><input id="product_properties_id" name="product_properties_id[]"></td><td><input id="value" name="value[]"></td><td><input id="remark" name="remark[]"></td></tr>');
+    $("#table_body").append('<tr><td><select id="product_properties_id" name="product_properties_id[]" class="props form-control">'+ $("#props_def").val() +'</select></td><td><input id="value" name="value[]" class="form-control"></td><td><input id="remark" name="remark[]" class="form-control"></td></tr>');
 }

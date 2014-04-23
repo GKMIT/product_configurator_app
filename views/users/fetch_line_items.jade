@@ -1,0 +1,56 @@
+form#rfq_line_edit_form.form-horizontal(action='#')
+  .form-group
+    label.control-label.col-md-3
+      | Product Line
+    .col-md-4
+      select#product_lines_id.form-control(name='product_lines_id', onchange='fetch_plants_properties()')
+        option
+          | Select Product Line
+      span.help-block
+  .form-group
+    label.control-label.col-md-3
+      | Production Plant
+    .col-md-4
+      select#plants_id.form-control(name='plants_id',onchange="validate_number('plants_id','Please select valid Production plant')")
+        option(value='0')
+          | Select Production Plants
+          - each plant in production_plants
+            option(value="#{plant.id}",selected=rfq_lines[0].plants_id == plant.id)= plant.name
+      span.help-block
+  .form-group
+    label.control-label.col-md-3
+      | Number of Units
+    .col-md-4
+      input#number_of_units.form-control(name='number_of_units', onkeyup="validate_number('number_of_units','Please input number of units')",value='#{rfq_lines[0].number_of_units}')
+      span.help-blocks
+  .form-group
+    label.control-label.col-md-3
+      | Requested delivery date
+    .col-md-4
+      input.form-control.form-control-inline.input-medium.date-picker(size='16', type='text', value='',name="delivery_date",id="delivery_date", onchange="validate_date('delivery_date','Please select valid Date')",value='#{rfq_lines[0].req_delivery_date}')
+      span.help-block
+  h4
+    | Technical Specifications
+  .row
+    .col-md-12
+      table.table.table-hover.table-striped.table-bordered
+        thead
+          tr
+            th
+              | Product Property
+            th
+              | Value
+            th
+              | Remark
+        tbody#table_body_pop
+          tr
+            td
+              select.props#product_properties_id.form-control(name='product_properties_id[]')
+            td
+              input#value.form-control(name='value[]')
+            td
+              input#remark.form-control(name='remark[]')
+    .row
+      .com-md-12
+        a.btn.blue(href="javascript:;",style="margin-left:30px;",onclick="add_more_line_items()")
+          | Add More Properties

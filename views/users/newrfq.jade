@@ -187,9 +187,9 @@ block page_content
                         label.control-label.col-md-3
                           | Must Win
                         .col-md-4(style="margin-top:5px;")
-                          input(type='radio',value='1', checked, name='must_win')
+                          input(type='radio',value='1', checked, name='win')
                           | &nbsp;Yes&nbsp;&nbsp;&nbsp;
-                          input(type='radio',value='0',name='must_win', checked=selected_rfq[0].must_win == 0)
+                          input(type='radio',value='0',name='win', checked=selected_rfq[0].win == 0)
                           | &nbsp;No
                           input(type='hidden', value='#{selected_rfq[0].rfq_status_id}',id='rfq_stat')
                           span.help-block

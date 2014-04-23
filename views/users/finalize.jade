@@ -1,0 +1,49 @@
+extends layout
+
+block title_top
+  | Finalize RFQ
+
+block meta_tags
+  meta(content='', name='description')
+  meta(content='', name='author')
+
+block title
+  | Partial RFQs
+
+block hint
+  | 
+
+block doc_ready
+  script.
+    jQuery(document).ready(function() {
+    });
+
+block page_content
+  .row
+    .col-md-12
+      table.table.table-hover.table-striped.table-bordered
+        thead
+          tr
+            th
+              | Customer
+            th
+              | Customer Country
+            th
+              | Installation Country
+            th
+              | RFQ Date
+            th
+              | Sales Agent
+            th
+              | Action 
+        tbody
+          - each rfq in partial_rfq
+            tr
+              td= rfq.name
+              td= rfq.customer_country
+              td= rfq.installation_country
+              td= rfq.date_rfq_in
+              td= rfq.name
+              td
+                a.btn.green(href='/users/finalize/#{rfq.id}')
+                  | Finalize

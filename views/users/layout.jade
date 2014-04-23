@@ -123,7 +123,7 @@ html.no-js(lang='en')
                   a(href='/users/newrfq')
                     | New
                 li(class=sub_sidebar2)
-                  a(href='#')
+                  a(href='/users/finalize')
                     | Finalize
             li
               a(href='#')
@@ -238,9 +238,12 @@ html.no-js(lang='en')
     script.
       jQuery(document).ready(function() {
       // initiate layout and plugins
-      App.init();
-      ComponentsPickers.init();
+        App.init();
+        ComponentsPickers.init();
       });
+      function initialize(){
+        ComponentsPickers.init();
+      }
     //
        END JAVASCRIPTS 
   //
