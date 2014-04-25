@@ -225,6 +225,7 @@ html.no-js(lang='en')
     script(type='text/javascript', src='/assets/plugins/holder.js')
     script(type='text/javascript', src='/assets/scripts/custom/users.js')
     script(type='text/javascript', src='/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js')
+    script(type='text/javascript', src='/assets/scripts/custom/bootbox.min.js')
     //
        END PAGE LEVEL PLUGINS 
     //
@@ -239,11 +240,8 @@ html.no-js(lang='en')
       jQuery(document).ready(function() {
       // initiate layout and plugins
         App.init();
-        ComponentsPickers.init();
+        initialize();
       });
-      function initialize(){
-        ComponentsPickers.init();
-      }
     //
        END JAVASCRIPTS 
   //

@@ -64,6 +64,7 @@ block page_content
                       .form-group
                         label.control-label.col-md-3
                           | Product Line
+                          span.required *
                         .col-md-4
                           select#product_lines_id.form-control(name='product_lines_id', onchange="fetch_tendering_teams()")
                             option(value='0')
@@ -74,6 +75,7 @@ block page_content
                       .form-group
                         label.control-label.col-md-3
                           | Tendering Team
+                          span.required *
                         .col-md-4
                           select#tendering_teams_id.form-control(name='tendering_teams_id',onchange="fetch_tendering_teams_members()")
                             option(value='0')
@@ -84,6 +86,7 @@ block page_content
                       .form-group
                         label.control-label.col-md-3
                           | Tendering Team Member
+                          span.required *
                         .col-md-4
                           select#tendering_teams_members_id.form-control(name='tendering_teams_members_id', onchange="validate_number('tendering_teams_members_id','Please select valid Tendering team member')")
                             option(value='0')
@@ -98,10 +101,10 @@ block page_content
                       .col-md-offset-3.col-md-9
                         a#btn_save_pro_data.btn.blue.button-next(href='javascript:;', onclick="rfq_pro_save(1,#{selected_rfq[0].id})")
                           | Save for now
-                        &nbsp;&nbsp;&nbsp;
-                        a.btn.dark.button-complete(href='/users/')
-                          | Fill Later
-                        &nbsp;&nbsp;&nbsp;
+                        &nbsp;&nbsp;
                         a#btn_next_pro_data.btn.green.button-submit(href='javascript:;', onclick="rfq_pro_save(2,#{selected_rfq[0].id})")
                           | Save &amp; Next 
                           i.m-icon-swapright.m-icon-white
+                        &nbsp;&nbsp;
+                        a.btn.dark.button-complete(href='/users/')
+                          | Cancel

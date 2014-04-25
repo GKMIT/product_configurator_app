@@ -88,6 +88,7 @@ block page_content
                         .form-group
                           label.control-label.col-md-3
                             | Product Line
+                            span.required *
                           .col-md-4
                             select#product_lines_id.form-control(name='product_lines_id', onchange='fetch_plants_properties()')
                               option
@@ -98,6 +99,7 @@ block page_content
                         .form-group
                           label.control-label.col-md-3
                             | Production Plant
+                            span.required *
                           .col-md-4
                             select#plants_id.form-control(name='plants_id',onchange="validate_number('plants_id','Please select valid Production plant')")
                               option(value='0')
@@ -106,12 +108,14 @@ block page_content
                         .form-group
                           label.control-label.col-md-3
                             | Number of Units
+                            span.required *
                           .col-md-4
                             input#number_of_units.form-control(name='number_of_units', onkeyup="validate_number('number_of_units','Please input number of units')")
                             span.help-blocks
                         .form-group
                           label.control-label.col-md-3
                             | Requested delivery date
+                            span.required *
                           .col-md-4
                             input.form-control.form-control-inline.input-medium.date-picker(size='16', type='text', value='',name="delivery_date",id="delivery_date", onchange="validate_date('delivery_date','Please select valid Date')")
                             span.help-block
@@ -124,12 +128,14 @@ block page_content
                             table.table.table-hover.table-striped.table-bordered
                               thead
                                 tr
-                                  th
+                                  th(style="width:30%")
                                     | Product Property
-                                  th
+                                  th(style="")
                                     | Value
-                                  th
+                                  th(style="")
                                     | Remark
+                                  th
+                                    Action
                               tbody#table_body
                                 tr
                                   td
@@ -138,6 +144,9 @@ block page_content
                                     input#value.form-control(name='value[]')
                                   td
                                     input#remark.form-control(name='remark[]')
+                                  td
+                                    a.btn.dark.icn-only.remove_prop(href="javascript:;")
+                                      i.fa.fa-times
                                  tr
                                   td
                                     select.props#product_properties_id.form-control(name='product_properties_id[]')
@@ -145,9 +154,12 @@ block page_content
                                     input#value.form-control(name='value[]')
                                   td
                                     input#remark.form-control(name='remark[]')
+                                  td
+                                    a.btn.dark.icn-only.remove_prop(href="javascript:;")
+                                      i.fa.fa-times
                           .row
                             .com-md-12
-                              a.btn.blue(href="javascript:;",style="margin-left:30px;",onclick="add_more_line_items()")
+                              a.btn.blue(href="javascript:;",style="margin-left:30px;",onclick="add_more_line_items('table_body')")
                                 | Add More Properties
                   .form-actions.fluid
                     .row
@@ -160,7 +172,7 @@ block page_content
                             | Save &amp; Add More Line Items
                           &nbsp;&nbsp;&nbsp;
                           a.btn.dark.button-complete(href='/users/')
-                            | Fill Later
+                            | Cancel
                           &nbsp;&nbsp;&nbsp; 
                           a#btn_complete.btn.green.button-complete(href='javascript:;', onclick="rfq_complete(#{selected_rfq[0].id})")
                             | Complete RFQ

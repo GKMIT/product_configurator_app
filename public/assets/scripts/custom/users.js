@@ -43,7 +43,6 @@ function fetch_tendering_teams_members(){
     validate_number('tendering_teams_id','Please select valid tendering team');
 }
 
-
 function fetch_sales_agents(){
     var val = $("#customer_country").val();
     $("#sales_agent").html('<option>Fetching..</option>');
@@ -57,6 +56,30 @@ function fetch_sales_agents(){
         $("#sales_agent").html(response);
     });
     validate_number('customer_country','Please select valid Customer country');
+}
+
+function fetch_plants_properties(){
+    var val = $("#product_lines_id").val();
+
+    $("#plants_id").html('<option>Fetching..</option>');
+    $.get("/users/fetch_plants_properties/"+val, function(data) {
+        var i;
+        var response = '<option value="0">Select Production Plant</option>';
+        for (i = 0; i < data.production_plants.length; ++i) {
+            obj = data.production_plants[i];
+            response += '<option value="'+obj.id+'">'+obj.name+'</option>';
+        }
+        $("#plants_id").html(response);
+
+        response ='<option value="0">Select Property</option>';
+        for (i = 0; i < data.product_properties.length; ++i) {
+            obj = data.product_properties[i];
+            response += '<option value="'+obj.id+'">'+obj.property_name+'</option>';
+        }
+        $(".props").html(response);
+        $("#props_def").val(response);
+    });
+    validate_number('product_lines_id','Please select valid product line');
 }
 
 function rfq_pro_save(type, rfq_id){
@@ -133,32 +156,6 @@ function rfq_gen_save(type, rfq_id){
             });
         }
     }
-}
-function fetch_plants_properties(){
-    var val = $("#product_lines_id").val();
-
-    $("#plants_id").html('<option>Fetching..</option>');
-    $.get("/users/fetch_plants_properties/"+val, function(data) {
-        var i;
-        var response = '<option value="0">Select Production Plant</option>';
-        for (i = 0; i < data.production_plants.length; ++i) {
-            obj = data.production_plants[i];
-            response += '<option value="'+obj.id+'">'+obj.name+'</option>';
-        }
-        $("#plants_id").html(response);
-
-        response ='<option value="0">Select Property</option>';
-        for (i = 0; i < data.product_properties.length; ++i) {
-            obj = data.product_properties[i];
-            response += '<option value="'+obj.id+'">'+obj.property_name+'</option>';
-        }
-        $(".props").html(response);
-        $("#props_def").val(response);
-    });
-
-
-
-    validate_number('product_lines_id','Please select valid product line');
 }
 
 function delete_line_item(line_item){
@@ -248,6 +245,7 @@ function validate_number(id_info, alttext){
         return true;
     }
 }
+
 function validate_date(id_info, alttext){
     var value = $("#"+id_info).val();
     var errorspan = $("#"+id_info).parent().find('span');
@@ -264,6 +262,22 @@ function validate_date(id_info, alttext){
     }
 }
 
-function add_more_line_items(){
-    $("#table_body").append('<tr><td><select id="product_properties_id" name="product_properties_id[]" class="props form-control">'+ $("#props_def").val() +'</select></td><td><input id="value" name="value[]" class="form-control"></td><td><input id="remark" name="remark[]" class="form-control"></td></tr>');
+function add_more_line_items(id_info){
+    $("#"+id_info).append('<tr><td><select id="product_properties_id" name="product_properties_id[]" class="props form-control">'+ $("#props_def").val() +'</select></td><td><input id="value" name="value[]" class="form-control"></td><td><input id="remark" name="remark[]" class="form-control"></td><td><a href="javascript:;" class="btn dark icn-only remove_prop"><i class="fa fa-times"></i></a></td></tr>');
+    initialize();   
+}
+
+$(document).on('click','.remove_prop', function() {
+    var prop_line = $(this).parent().parent();
+        bootbox.confirm("Are you sure to delete property?", function(result) {
+          if(result){
+            prop_line.hide("slow", function(){
+                prop_line.remove();
+            });
+          }
+        });
+});
+
+function initialize(){
+    ComponentsPickers.init();
 }

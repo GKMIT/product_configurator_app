@@ -377,6 +377,7 @@ exports.rfq_complete = function(req, res){
 	reqPost.write(dGet);
 	reqPost.end();
 };
+
 exports.rfq_line_items = function(req, res){
 	var options = {
 		host : config.host,
@@ -435,9 +436,33 @@ exports.fetch_rfq_line_items = function(req, res){
 			console.log(data_final);
 			var data = JSON.parse(data_final);
 			if(data.statusCode == 200){
-				data.rfq_lines[0].req_delivery_date = moment(data.rfq_lines[0].req_delivery_date.substring(0,10), "YYYY-MM-DD").format('MM/DD/YYYY');
+				var options2 = {
+					host : config.host,
+					port : config.port,
+					path : '/fetch_product_plants_properties/'+req.session.member_id+'/'+data.rfq_lines[0].product_lines_id,
+					method : 'GET',
+					headers: {
+						'Content-Type':'application/json',
+				        'authentication_token': req.session.token
+			   		}
+				};
+				var reqGet2 = http.request(options2, function(response) {
+					var data_final2 ="";
+					response.on('data', function(chunk) {
+						data_final2 = data_final2+chunk;
+					});
+					response.on('end',function (){
+						var data2 = JSON.parse(data_final2);
+						if(data2.statusCode == 200){
+							data.rfq_lines[0].req_delivery_date = moment(data.rfq_lines[0].req_delivery_date.substring(0,10), "YYYY-MM-DD").format('MM/DD/YYYY');
 
-				res.render('users/fetch_line_items', { rfq_lines:data.rfq_lines, production_plants:data.production_plants, product_properties:data.product_properties, technical_specifications:data.technical_specifications, product_lines:data.product_lines });
+							res.render('users/fetch_line_items', { rfq_lines:data.rfq_lines, production_plants:data2.production_plants, product_properties:data2.product_properties, technical_specifications:data.technical_specifications, product_lines:data.product_lines });
+						} else {
+							res.send(data2.success);
+						}
+					});
+				});
+				reqGet2.end();
 			} else {
 				res.send(data.success);
 			}

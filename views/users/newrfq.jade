@@ -70,16 +70,12 @@ block page_content
                   #bar.progress.progress-striped(role='progressbar')
                     .progress-bar.progress-bar-success(style='width: 33%;')
                   .tab-content
-                    .alert.alert-danger.display-none
-                      button.close(data-dismiss='alert')
-                      | You have some form errors. Please check below.
-                    .alert.alert-success.display-none
-                      button.close(data-dismiss='alert')
-                      | Your form validation is successful!
                     #tab1.tab-pane.active
                       .form-group
                         label.control-label.col-md-3
                           | Sales Hub
+                          span.required *
+                          </span>
                         .col-md-4
                           select#sales_hub_id.form-control(name='sales_hub_id', onchange='fetch_sales_persons()')
                             option(value='0')
@@ -90,6 +86,7 @@ block page_content
                       .form-group
                         label.control-label.col-md-3
                           | Sales Person
+                          span.required *
                         .col-md-4
                           select#sales_person_id.form-control(name='sales_person_id',, onchange="validate_number('sales_person_id','Please select valid Customer')")
                             option(value='0')
@@ -100,6 +97,7 @@ block page_content
                       .form-group
                         label.control-label.col-md-3
                           | Customer Country
+                          span.required *
                         .col-md-4
                           select#customer_country.form-control(name='customer_country', onchange='fetch_sales_agents()')
                             option(value='0')
@@ -120,6 +118,7 @@ block page_content
                       .form-group
                         label.control-label.col-md-3
                           | Customer
+                          span.required *
                         .col-md-4
                           select#customers_id.form-control(name='customers_id', onchange="validate_number('customers_id','Please select valid Customer')")
                             option(value='0')
@@ -130,6 +129,7 @@ block page_content
                       .form-group
                         label.control-label.col-md-3
                           | Type of quote
+                          span.required *
                         .col-md-4
                           select#type_of_quote_id.form-control(name='type_of_quote_id',onchange="validate_number('type_of_quote_id','Please select valid Quote')")
                            option(value='0')
@@ -146,12 +146,14 @@ block page_content
                       .form-group
                         label.control-label.col-md-3
                           | Date RFQ
+                          span.required *
                         .col-md-4
                           input.form-control.form-control-inline.input-medium.date-picker(size='16', type='text', value='',name="date_rfq",id="date_rfq",onchange="validate_date('date_rfq','Please select valid Date')", value=selected_rfq[0].date_rfq_in)
                           span.help-block
                       .form-group
                         label.control-label.col-md-3
                           | Sales Segment
+                          span.required *
                         .col-md-4
                           select#sales_segments_id.form-control(name='sales_segments_id',onchange="validate_number('sales_segments_id','Please select valid Sales Segment')")
                             option(value='0')
@@ -172,12 +174,14 @@ block page_content
                       .form-group
                         label.control-label.col-md-3
                           | Requested Quotation Date
+                          span.required *
                         .col-md-4
                           input.form-control.form-control-inline.input-medium.date-picker(size='16', type='text', value='', name="requested_quotation",id="requested_quotation",onchange="validate_date('requested_quotation','Please select valid Date')",value=selected_rfq[0].requested_quotation_date)
                           span.help-block
                       .form-group
                         label.control-label.col-md-3
                           | Probability
+                          span.required *
                         .col-md-4
                           select#probability.form-control(name='probability',onchange="validate_number('probability','Please select valid Probability')")
                             - each prob in probabilities
@@ -186,6 +190,7 @@ block page_content
                       .form-group
                         label.control-label.col-md-3
                           | Must Win
+                          span.required *
                         .col-md-4(style="margin-top:5px;")
                           input(type='radio',value='1', checked, name='win')
                           | &nbsp;Yes&nbsp;&nbsp;&nbsp;
@@ -199,7 +204,10 @@ block page_content
                       .col-md-offset-3.col-md-9
                         a#btn_save.btn.blue.button-next(href='javascript:;', onclick="rfq_gen_save(1,#{selected_rfq[0].id})")
                           | Save for now
-                        &nbsp;&nbsp;&nbsp;
+                        &nbsp;&nbsp;
                         a#btn_next.btn.green.button-submit(href='javascript:;', onclick="rfq_gen_save(2,#{selected_rfq[0].id})")
                           | Save &amp; Next 
                           i.m-icon-swapright.m-icon-white
+                         &nbsp;&nbsp;
+                        a.btn.dark.button-submit(href="/users/")
+                          | Cancel
