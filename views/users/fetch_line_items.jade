@@ -3,7 +3,7 @@ form#rfq_line_edit_form.form-horizontal(action='#')
     label.control-label.col-md-3
       | Product Line
     .col-md-4
-      select#product_lines_id_pop.form-control(name='product_lines_id_pop', onchange='fetch_plants_properties_pop()')
+      select#product_lines_id_pop.form-control(name='product_lines_id', onchange='fetch_plants_properties_pop()')
         option
           | Select Product Line
           - each line in product_lines
@@ -13,7 +13,7 @@ form#rfq_line_edit_form.form-horizontal(action='#')
     label.control-label.col-md-3
       | Production Plant
     .col-md-4
-      select#plants_id.form-control(name='plants_id',onchange="validate_number('plants_id','Please select valid Production plant')")
+      select#plants_id_pop.form-control(name='plants_id',onchange="validate_number('plants_id_pop','Please select valid Production plant')")
         option(value='0')
           | Select Production Plants
           - each plant in production_plants
@@ -23,13 +23,16 @@ form#rfq_line_edit_form.form-horizontal(action='#')
     label.control-label.col-md-3
       | Number of Units
     .col-md-4
-      input#number_of_units_pop.form-control(name='number_of_units_pop', onkeyup="validate_number('number_of_units_pop','Please input number of units')",value='#{rfq_lines[0].number_of_units}')
+      input#number_of_units_pop.form-control(name='number_of_units', onkeyup="validate_number('number_of_units_pop','Please input number of units')",value='#{rfq_lines[0].number_of_units}')
       span.help-blocks
   .form-group
     label.control-label.col-md-3
       | Requested delivery date
     .col-md-4
-      input.form-control.form-control-inline.input-medium.date-picker(size='16', type='text', value='',name="delivery_date",id="delivery_date", onchange="validate_date('delivery_date','Please select valid Date')",value='#{rfq_lines[0].req_delivery_date}')
+      input.form-control.form-control-inline.input-medium.date-picker(size='16', type='text', value='',name="delivery_date",id="delivery_date_pop", onchange="validate_date('delivery_date_pop','Please select valid Date')",value='#{rfq_lines[0].req_delivery_date}')
+      input(type='hidden', value='#{option_string}',id='props_def_pop')
+      input(type='hidden', value='#{rfq_lines[0].id}',name='rfq_lines_id')
+      input(type='hidden', value='#{rfq_lines[0].rfq_id}',name='rfq_id')
       span.help-block
   h4
     | Technical Specifications
@@ -41,9 +44,13 @@ form#rfq_line_edit_form.form-horizontal(action='#')
             th
               | Product Property
             th
+              | Unit
+            th
               | Value
             th
               | Remark
+            th 
+              | Action
         tbody#table_body_pop
           -each spec in technical_specifications
             tr
@@ -53,11 +60,17 @@ form#rfq_line_edit_form.form-horizontal(action='#')
                     | Select Property
                   - each prop in product_properties
                     option(value='#{prop.id}',selected=spec.product_properties_id == prop.id)= prop.property_name
+              td= spec.unit_of_measurement
               td
                 input#value.form-control(name='value[]', value='#{spec.value}')
               td
                 input#remark.form-control(name='remark[]', value='#{spec.remark}')
+              td
+                a.btn.dark.icn-only.remove_prop(href="javascript:;")
+                  i.fa.fa-times
     .row
       .com-md-12
-        a.btn.blue(href="javascript:;",style="margin-left:30px;",onclick="add_more_line_items()")
+        a.btn.blue(href="javascript:;",style="margin-left:30px;",onclick="add_more_line_items('table_body_pop')")
           | Add More Properties
+        a.btn.green.pull-right#btn-update(href="javascript:;",style="margin-right:30px;",onclick="update_line_items(#{rfq_lines[0].id})")
+          | Save Changes

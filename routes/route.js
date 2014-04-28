@@ -12,6 +12,9 @@ module.exports = function () {
 	//User Pages
 	app.get('/users/', globalfunctions.checkUserAuth, users.index);
 	app.get('/users/newrfq', globalfunctions.checkUserAuth, users.newrfq);
+	app.get('/users/bids', globalfunctions.checkUserAuth, users.get_bids);
+	app.get('/users/bid/:rfq_id', globalfunctions.checkUserAuth, users.get_rfq_bid);
+
 	app.get('/users/finalize', globalfunctions.checkUserAuth, users.finalize);
 	app.get('/users/finalize/:rfq_id', globalfunctions.checkUserAuth, users.finalize_rfq);
 
@@ -22,8 +25,13 @@ module.exports = function () {
 	
 	app.get('/users/rfq_product_data/:rfq_id',globalfunctions.checkUserAuth, users.rfq_product_data);
 	app.post('/users/save_rfq_product_data/:rfq_id',globalfunctions.checkUserAuth, users.save_rfq_product_data);
+
 	app.post('/users/save_line_item/:rfq_id',globalfunctions.checkUserAuth, users.save_line_item);
+	app.post('/users/update_line_item/:line_item_id',globalfunctions.checkUserAuth, users.update_line_item);
+
 	app.get('/users/rfq_line_items/:rfq_id',globalfunctions.checkUserAuth, users.rfq_line_items);
+
+	app.get('/users/fetch_unit/:prop_id',globalfunctions.checkUserAuth, users.fetch_unit);
 
 	app.post('/users/rfq_complete/:rfq_id',globalfunctions.checkUserAuth, users.rfq_complete);
 

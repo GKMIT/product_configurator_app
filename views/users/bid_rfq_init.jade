@@ -1,0 +1,59 @@
+extends layout
+
+block title_top
+  | Bid / No Bid
+
+block meta_tags
+  meta(content='', name='description')
+  meta(content='', name='author')
+
+block title
+  | RFQ Bid
+
+block hint
+  | 
+
+block doc_ready
+  script.
+    jQuery(document).ready(function() {
+    });
+
+block page_content
+  .row
+    .col-md-12
+      table.table.table-hover.table-striped.table-bordered
+        thead
+          tr
+            th
+              | Document Number
+            th
+              | Version Number
+            th
+              | Requested Quatation Date
+        tbody
+            tr
+              td= rfq[0].document_no
+              td= rfq[0].version_no
+              td= rfq[0].requested_quotation_date
+  .portlet.box.green
+    .portlet-title
+        .caption
+          i.fa.fa-reorder
+          | RFQ Questions
+        .tools
+          a.collapse(href='javascript:;')
+    .portlet-body.form
+      form.form-horizontal(action='#')
+        .form-body
+          - each ques in rfq_questions
+            .form-group
+              label.col-md-6.control-label= ques.question+'?'
+              .col-md-6(style='margin-top:5px;')
+                input(type='radio', name="ques_#{ques.id}" value='1', checked='true')
+                | &nbsp;Yes&nbsp;&nbsp;&nbsp;
+                input(type='radio', name="ques_#{ques.id}" value='0')
+                | &nbsp;No
+        .form-actions.fluid
+          .col-md-offset-3.col-md-9
+            button.btn.blue(type='submit') Submit
+            button.btn.default(type='button') Cancel

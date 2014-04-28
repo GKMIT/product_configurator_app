@@ -130,6 +130,8 @@ block page_content
                                 tr
                                   th(style="width:30%")
                                     | Product Property
+                                  th
+                                    | Unit
                                   th(style="")
                                     | Value
                                   th(style="")
@@ -141,6 +143,7 @@ block page_content
                                   td
                                     select.props#product_properties_id.form-control(name='product_properties_id[]')
                                   td
+                                  td
                                     input#value.form-control(name='value[]')
                                   td
                                     input#remark.form-control(name='remark[]')
@@ -150,6 +153,7 @@ block page_content
                                  tr
                                   td
                                     select.props#product_properties_id.form-control(name='product_properties_id[]')
+                                  td
                                   td
                                     input#value.form-control(name='value[]')
                                   td
@@ -169,7 +173,7 @@ block page_content
                             | Save For Now
                           &nbsp;&nbsp;&nbsp;
                           a#btn_add_more.btn.blue.button-add_more(href='javascript:;', onclick="rfq_line_save(2,#{selected_rfq[0].id})")
-                            | Save &amp; Add More Line Items
+                            | Add More
                           &nbsp;&nbsp;&nbsp;
                           a.btn.dark.button-complete(href='/users/')
                             | Cancel
@@ -185,5 +189,5 @@ block page_content
         .modal-body(style="")
           | Loading...
         .modal-footer
-          button.btn.default(type='button', data-dismiss='modal') Close
+          button.btn.default#close_btn(type='button', data-dismiss='modal') Close
 

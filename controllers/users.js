@@ -61,6 +61,76 @@ exports.rfq_general_data = function(req, res){
 	reqGet.end();
 };
 
+exports.get_bids = function(req, res){
+
+	var options = {
+		host : config.host,
+		port : config.port,
+		path : '/ready_rfq_bid/'+req.session.member_id,
+		method : 'GET',
+		headers: {
+			'Content-Type':'application/json',
+	        'authentication_token': req.session.token
+	    }
+	};
+
+	var reqGet = http.request(options, function(response) {
+		var data_final ="";
+		response.on('data', function(chunk) {
+			data_final = data_final+chunk;
+		});
+		response.on('end',function (){
+			console.log(data_final);
+			var data = JSON.parse(data_final);
+			if(data.statusCode == 200){
+				var i;
+				for(i=0; i< data.rfq.length; ++i){
+					data.rfq[i].date_rfq_in = moment(data.rfq[i].date_rfq_in.substring(0,10), "YYYY-MM-DD").format('MM/DD/YYYY');
+				}
+				res.render('users/bids', {username: req.session.member_username, bid:'active', rfqs: data.rfq });
+			} else {
+				res.send(data.success);
+			}
+		});
+	});
+	reqGet.end();
+};
+
+exports.get_rfq_bid = function(req, res){
+
+	var options = {
+		host : config.host,
+		port : config.port,
+		path : '/ready_rfq_bid_detail/'+req.session.member_id+'/'+req.params.rfq_id,
+		method : 'GET',
+		headers: {
+			'Content-Type':'application/json',
+	        'authentication_token': req.session.token
+	    }
+	};
+
+	var reqGet = http.request(options, function(response) {
+		var data_final ="";
+		response.on('data', function(chunk) {
+			data_final = data_final+chunk;
+		});
+		response.on('end',function (){
+			console.log(data_final);
+			var data = JSON.parse(data_final);
+			if(data.statusCode == 200){
+				var i;
+				for(i=0; i< data.rfq.length; ++i){
+					data.rfq[i].requested_quotation_date = moment(data.rfq[i].requested_quotation_date.substring(0,10), "YYYY-MM-DD").format('MM/DD/YYYY');
+				}
+				res.render('users/bid_rfq_init', {username: req.session.member_username, bid:'active', rfq: data.rfq, rfq_questions : data.rfq_questions });
+			} else {
+				res.send(data.success);
+			}
+		});
+	});
+	reqGet.end();
+};
+
 exports.fetch_sales_persons = function(req, res){
 
 	var options = {
@@ -455,8 +525,13 @@ exports.fetch_rfq_line_items = function(req, res){
 						var data2 = JSON.parse(data_final2);
 						if(data2.statusCode == 200){
 							data.rfq_lines[0].req_delivery_date = moment(data.rfq_lines[0].req_delivery_date.substring(0,10), "YYYY-MM-DD").format('MM/DD/YYYY');
+							var option_string = '<option value="0">Select Property</option>';
+							var i;
+							for (i = 0; i < data2.product_properties.length; ++i) {
+								option_string += '<option value="'+ data2.product_properties[i].id+'">'+ data2.product_properties[i].property_name+'</option>';
+							};
 
-							res.render('users/fetch_line_items', { rfq_lines:data.rfq_lines, production_plants:data2.production_plants, product_properties:data2.product_properties, technical_specifications:data.technical_specifications, product_lines:data.product_lines });
+							res.render('users/fetch_line_items', { rfq_lines:data.rfq_lines, production_plants:data2.production_plants, product_properties:data2.product_properties, technical_specifications:data.technical_specifications, product_lines:data.product_lines, option_string:option_string });
 						} else {
 							res.send(data2.success);
 						}
@@ -473,18 +548,23 @@ exports.fetch_rfq_line_items = function(req, res){
 
 exports.save_line_item = function(req, res){
 	console.log(req.body);
+
 	var props = req.body.product_properties_id;
 	var values = req.body.value;
 	var remarks = req.body.remark;
 
 	var i;
 	req.body.technical_specifications = [];
- 	for (i = 0; i < props.length; ++i) {
- 		var obj = { 'product_properties_id':props[i], 'value':values[i], 'remark':remarks[i]};
-        if(props[i] != 0){
-        	req.body.technical_specifications[i] = obj;
-        }
-    }
+
+	if(typeof props !== 'undefined'){
+		for (i = 0; i < props.length; ++i) {
+	 		var obj = { 'product_properties_id':props[i], 'value':values[i], 'remark':remarks[i]};
+	        if(props[i] != 0){
+	        	req.body.technical_specifications[i] = obj;
+	        }
+	    }
+	}
+ 	
     console.log(req.body);
 
 	var req_delivery_date = moment(req.body.delivery_date, "MM/DD/YYYY").format('YYYY-MM-DD hh:mm:ss');
@@ -526,6 +606,65 @@ exports.save_line_item = function(req, res){
 	reqPost.write(dGet);
 	reqPost.end();
 };
+
+exports.update_line_item = function(req, res){
+	console.log(req.body);
+	var props = req.body.product_properties_id;
+	var values = req.body.value;
+	var remarks = req.body.remark;
+
+	var i;
+	req.body.technical_specifications = [];
+
+	if(typeof props !== 'undefined'){
+	 	for (i = 0; i < props.length; ++i) {
+	 		var obj = { 'product_properties_id':props[i], 'value':values[i], 'remark':remarks[i]};
+	        if(props[i] != 0){
+	        	req.body.technical_specifications[i] = obj;
+	        }
+	    }
+	}
+    console.log(req.body);
+
+	var req_delivery_date = moment(req.body.delivery_date, "MM/DD/YYYY").format('YYYY-MM-DD hh:mm:ss');
+	req.body.user_id = req.session.member_id;
+	req.body.req_delivery_date = req_delivery_date;
+	
+	delete req.body.product_properties_id;
+	delete req.body.value;
+	delete req.body.remark;
+
+	var dGet = JSON.stringify(req.body);
+
+	console.log(req.body);
+	var options = {
+			host : config.host,
+			port : config.port,
+			path : '/update_line_item',
+			method : 'PUT',
+			headers: {
+		          'Content-Type': 'application/json',
+		          'authentication_token': req.session.token
+		    }
+		};
+
+	var reqPost = http.request(options, function(response) {
+		response.on('data', function(data) {
+			var data=JSON.parse(data);
+			console.log(data);
+			if(data.statusCode == 200){
+				res.json(data);
+			} else {
+				res.json(data);
+			}
+		});
+
+	});
+
+	reqPost.write(dGet);
+	reqPost.end();
+};
+
 
 exports.delete_line_item = function(req, res){
 	
@@ -624,4 +763,35 @@ exports.finalize_rfq = function(req, res){
 	});
 	reqPost.write(dGet);
 	reqPost.end();
+};
+
+exports.fetch_unit = function(req, res){
+
+		var options = {
+		host : config.host,
+		port : config.port,
+		path : '/fetch_property_detail/'+req.session.member_id+'/'+req.params.prop_id,
+		method : 'GET',
+		headers: {
+			'Content-Type':'application/json',
+	        'authentication_token': req.session.token
+	    }
+	};
+
+	var reqGet = http.request(options, function(response) {
+		var data_final ="";
+		response.on('data', function(chunk) {
+			data_final = data_final+chunk;
+		});
+		response.on('end',function (){
+			console.log(data_final);
+			var data = JSON.parse(data_final);
+			if(data.success == 'true'){
+				res.send(data);
+			} else {
+				res.send(data.success);
+			}
+		});
+	});
+	reqGet.end();
 };

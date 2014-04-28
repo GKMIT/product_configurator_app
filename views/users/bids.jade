@@ -1,0 +1,46 @@
+extends layout
+
+block title_top
+  | Bid / No Bid
+
+block meta_tags
+  meta(content='', name='description')
+  meta(content='', name='author')
+
+block title
+  | RFQ Bid
+
+block hint
+  | 
+
+block doc_ready
+  script.
+    jQuery(document).ready(function() {
+    });
+
+block page_content
+  .row
+    .col-md-12
+      table.table.table-hover.table-striped.table-bordered
+        thead
+          tr
+            th
+              | Document Number
+            th
+              | Version Number
+            th
+              | RFQ Date
+            th
+              | Sales Agent
+            th
+              | Action 
+        tbody
+          - each rfq in rfqs
+            tr
+              td= rfq.document_no
+              td= rfq.version_no
+              td= rfq.date_rfq_in
+              td= rfq.name
+              td
+                a.btn.green(href='/users/bid/#{rfq.id}')
+                  | Proceed
