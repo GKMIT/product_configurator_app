@@ -43,7 +43,7 @@ block page_content
         .tools
           a.collapse(href='javascript:;')
     .portlet-body.form
-      form.form-horizontal(action='#')
+      form#rfq_questions.form-horizontal(action='#')
         .form-body
           - each ques in rfq_questions
             .form-group
@@ -55,5 +55,5 @@ block page_content
                 | &nbsp;No
         .form-actions.fluid
           .col-md-offset-3.col-md-9
-            button.btn.blue(type='submit') Submit
-            button.btn.default(type='button') Cancel
+            button#save_ques.btn.blue(type='button', onclick="save_questions(#{rfq[0].id})") Submit
+            a.btn.default(type='button', href="/users/") Cancel

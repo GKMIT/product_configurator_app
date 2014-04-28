@@ -349,3 +349,16 @@ $(document).on('change','.props', function() {
 function initialize(){
     ComponentsPickers.init();
 }
+
+function save_questions(rfq_id){
+    var val = $("#rfq_questions").serialize();
+    $("#save_ques").removeAttr("onclick");
+    $("#save_ques").html("Saving.. Please Wait");
+    $.post("/users/save_questions/"+rfq_id,val, function(data) {
+        if(data.success == "true"){
+            $("save_ques").html("Data Saved");
+        } else {
+            bootbox.alert(data.message);
+        }
+    });
+}

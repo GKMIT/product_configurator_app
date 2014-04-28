@@ -14,6 +14,7 @@ module.exports = function () {
 	app.get('/users/newrfq', globalfunctions.checkUserAuth, users.newrfq);
 	app.get('/users/bids', globalfunctions.checkUserAuth, users.get_bids);
 	app.get('/users/bid/:rfq_id', globalfunctions.checkUserAuth, users.get_rfq_bid);
+	app.post('/users/save_questions/:rfq_id', globalfunctions.checkUserAuth, users.save_questions);
 
 	app.get('/users/finalize', globalfunctions.checkUserAuth, users.finalize);
 	app.get('/users/finalize/:rfq_id', globalfunctions.checkUserAuth, users.finalize_rfq);

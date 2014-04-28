@@ -795,3 +795,62 @@ exports.fetch_unit = function(req, res){
 	});
 	reqGet.end();
 };
+
+exports.save_questions = function(req, res){
+	console.log(req.body);
+
+	var i;
+	
+	var prop = Object.keys(req.body);
+	req.body.questions = [];
+	if(typeof prop !== 'undefined'){
+		for (i = 0; i < prop.length; ++i) {
+			var ques = prop[i];
+			var resp = ques.split("_");
+
+	 		var obj = { 'question_id':resp[1], 'value':req.body[ques]};
+	        	req.body.questions[i] = obj;
+	    }
+	}
+ 	
+    console.log(req.body);
+
+	// var req_delivery_date = moment(req.body.delivery_date, "MM/DD/YYYY").format('YYYY-MM-DD hh:mm:ss');
+	// req.body.user_id = req.session.member_id;
+	// req.body.req_delivery_date = req_delivery_date;
+	// req.body.rfq_id = req.params.rfq_id;
+	
+
+	// delete req.body.product_properties_id;
+	// delete req.body.value;
+	// delete req.body.remark;
+	// var dGet = JSON.stringify(req.body);
+
+	// console.log(req.body);
+	// var options = {
+	// 		host : config.host,
+	// 		port : config.port,
+	// 		path : '/save_line_item',
+	// 		method : 'POST',
+	// 		headers: {
+	// 	          'Content-Type': 'application/json',
+	// 	          'authentication_token': req.session.token
+	// 	    }
+	// 	};
+
+	// var reqPost = http.request(options, function(response) {
+	// 	response.on('data', function(data) {
+	// 		var data=JSON.parse(data);
+	// 		console.log(data);
+	// 		if(data.statusCode == 200){
+	// 			res.json(data);
+	// 		} else {
+	// 			res.json(data);
+	// 		}
+	// 	});
+
+	// });
+
+	// reqPost.write(dGet);
+	// reqPost.end();
+};
