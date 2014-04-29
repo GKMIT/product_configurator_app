@@ -350,13 +350,23 @@ function initialize(){
     ComponentsPickers.init();
 }
 
-function save_questions(rfq_id){
+function save_questions(rfq_id,type){
     var val = $("#rfq_questions").serialize();
-    $("#save_ques").removeAttr("onclick");
-    $("#save_ques").html("Saving.. Please Wait");
+    $("#save_bid").removeAttr("onclick");
+    $("#save_nobid").removeAttr("onclick");
+    if(type == 1){
+        $("#save_bid").html("Saving.. Please Wait");
+    } else {
+        $("#save_nobid").html("Saving.. Please Wait");
+    }
+    
     $.post("/users/save_questions/"+rfq_id,val, function(data) {
         if(data.success == "true"){
-            $("save_ques").html("Data Saved");
+            if(type == 1){
+                window.location.replace("/users/bid_rfq/"+rfq_id);
+            } else{
+                window.location.replace("/users/no_bid_rfq/"+rfq_id);
+            }
         } else {
             bootbox.alert(data.message);
         }

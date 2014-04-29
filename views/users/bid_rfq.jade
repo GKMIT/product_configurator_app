@@ -1,0 +1,114 @@
+extends layout
+
+block title_top
+  | Bid / No Bid
+
+block meta_tags
+  meta(content='', name='description')
+  meta(content='', name='author')
+
+block title
+  | RFQ Bid
+
+block hint
+  | 
+
+block doc_ready
+  script.
+    jQuery(document).ready(function() {
+    });
+
+block page_content
+  .row
+    .col-md-6
+      table.table.table-hover.table-striped.table-bordered
+        tbody
+            tr
+              td
+                | Document Number
+              td= rfq[0].document_no
+            tr
+              td
+                | Version Number
+              td= rfq[0].version_no
+            tr
+              td
+                | Project Name
+              td= rfq[0].project_name
+            tr
+              td
+                | Sales Hub
+              td= rfq[0].sales_hub_id
+            tr
+              td
+                | Sales Person
+              td= rfq[0].sales_person_id
+            tr
+              td
+                | Sales Segment
+              td= rfq[0].sales_segments_id
+            tr
+              td
+                | Sales Agent
+              td= rfq[0].sales_agents_id
+            tr
+              td
+                | Tendering Team
+              td= rfq[0].tendering_team_id
+            tr
+              td
+                | Tendering Team Member
+              td= rfq[0].tendering_teams_members_id
+            tr
+              td
+                | Type of Quote
+              td= rfq[0].type_of_quote_id
+            tr
+              td
+                | Customer Country
+              td= rfq[0].customer_country
+            tr
+              td
+                | Installation Country 
+              td= rfq[0].installation_country
+            tr
+              td
+                | Date RFQ
+              td= rfq[0].date_rfq_in
+            tr
+              td
+                | Requested Quotation Date
+              td= rfq[0].requested_quotation_date
+            tr
+              td
+                | Probability
+              td= rfq[0].probability
+            tr
+              td
+                | Must Win
+              td= rfq[0].win
+            tr
+  - if (rfq_lines.length > 0)
+    .row
+      .col-md-12
+        table.table.table-hover.table-striped.table-bordered
+          thead
+            tr
+              th
+                | Product Line
+              th
+                | Production Plant
+              th
+                | Number of Units
+              th
+                | Requested Delivery Date
+              th
+                | Action
+          tbody
+            - each line_items in rfq_lines
+              tr(id='row_line_item_' +line_items.id)
+                td= line_items.product_lines_id
+                td= line_items.plants_id
+                td= line_items.number_of_units
+                td= line_items.req_delivery_date
+                td(id='line_item_' +line_items.id)

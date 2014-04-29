@@ -44,6 +44,7 @@ module.exports = function () {
 	app.get('/users/fetch_tendering_teams/:product_line_id', globalfunctions.checkUserAuth, users.fetch_tendering_teams);
 	app.get('/users/fetch_plants_properties/:product_line_id', globalfunctions.checkUserAuth, users.fetch_plants_properties);
 
-
+	app.get('/users/bid_rfq/:rfq_id', globalfunctions.checkUserAuth, users.bid_rfq);
+	
 	app.get('/users/fetch_tendering_teams_members/:tendering_teams_id', globalfunctions.checkUserAuth, users.fetch_tendering_teams_members);
 };

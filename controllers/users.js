@@ -815,42 +815,71 @@ exports.save_questions = function(req, res){
  	
     console.log(req.body);
 
-	// var req_delivery_date = moment(req.body.delivery_date, "MM/DD/YYYY").format('YYYY-MM-DD hh:mm:ss');
-	// req.body.user_id = req.session.member_id;
-	// req.body.req_delivery_date = req_delivery_date;
-	// req.body.rfq_id = req.params.rfq_id;
+	req.body.user_id = req.session.member_id;
+	req.body.rfq_id = req.params.rfq_id;
 	
+	var dGet = JSON.stringify(req.body);
 
-	// delete req.body.product_properties_id;
-	// delete req.body.value;
-	// delete req.body.remark;
-	// var dGet = JSON.stringify(req.body);
+	console.log(req.body);
+	var options = {
+			host : config.host,
+			port : config.port,
+			path : '/save_rfq_questions',
+			method : 'POST',
+			headers: {
+		          'Content-Type': 'application/json',
+		          'authentication_token': req.session.token
+		    }
+		};
 
-	// console.log(req.body);
-	// var options = {
-	// 		host : config.host,
-	// 		port : config.port,
-	// 		path : '/save_line_item',
-	// 		method : 'POST',
-	// 		headers: {
-	// 	          'Content-Type': 'application/json',
-	// 	          'authentication_token': req.session.token
-	// 	    }
-	// 	};
+	var reqPost = http.request(options, function(response) {
+		response.on('data', function(data) {
+			var data=JSON.parse(data);
+			console.log(data);
+			if(data.statusCode == 200){
+				res.json(data);
+			} else {
+				res.json(data);
+			}
+		});
 
-	// var reqPost = http.request(options, function(response) {
-	// 	response.on('data', function(data) {
-	// 		var data=JSON.parse(data);
-	// 		console.log(data);
-	// 		if(data.statusCode == 200){
-	// 			res.json(data);
-	// 		} else {
-	// 			res.json(data);
-	// 		}
-	// 	});
+	});
 
-	// });
+	reqPost.write(dGet);
+	reqPost.end();
+};
 
-	// reqPost.write(dGet);
-	// reqPost.end();
+exports.bid_rfq = function(req, res){
+
+	var options = {
+		host : config.host,
+		port : config.port,
+		path : '/full_rfq_detail/'+req.session.member_id+'/'+req.params.rfq_id,
+		method : 'GET',
+		headers: {
+			'Content-Type':'application/json',
+	        'authentication_token': req.session.token
+	    }
+	};
+
+	var reqGet = http.request(options, function(response) {
+		var data_final ="";
+		response.on('data', function(chunk) {
+			data_final = data_final+chunk;
+		});
+		response.on('end',function (){
+			console.log(data_final);
+			var data = JSON.parse(data_final);
+			if(data.statusCode == 200){
+				var i;
+				for(i=0; i< data.rfq.length; ++i){
+					data.rfq[i].date_rfq_in = moment(data.rfq[i].date_rfq_in.substring(0,10), "YYYY-MM-DD").format('MM/DD/YYYY');
+				}
+				res.render('users/bid_rfq', {username: req.session.member_username, bid:'active', rfq: data.rfq, rfq_lines: data.rfq_lines });
+			} else {
+				res.send(data.success);
+			}
+		});
+	});
+	reqGet.end();
 };

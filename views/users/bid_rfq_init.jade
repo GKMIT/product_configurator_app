@@ -55,5 +55,8 @@ block page_content
                 | &nbsp;No
         .form-actions.fluid
           .col-md-offset-3.col-md-9
-            button#save_ques.btn.blue(type='button', onclick="save_questions(#{rfq[0].id})") Submit
+            button#save_bid.btn.blue(type='button', onclick="save_questions(#{rfq[0].id},1)") Bid
+            | &nbsp;&nbsp;
+            button#save_nobid.btn.blue(type='button', onclick="save_questions(#{rfq[0].id},2)") No Bid
+            | &nbsp;&nbsp;
             a.btn.default(type='button', href="/users/") Cancel
