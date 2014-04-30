@@ -3,6 +3,12 @@ exports.index = function(req, res){
    //console.log(moment("04/13/2014", "MM/DD/YYYY").format('YYYY-MM-DD hh:mm:ss'));
 };
 
+exports.logout = function(req, res){
+   req.session.destroy();
+   res.redirect('/');
+   //console.log(moment("04/13/2014", "MM/DD/YYYY").format('YYYY-MM-DD hh:mm:ss'));
+};
+
 exports.loginverify = function(req, res){
 
 	var name = req.body.name;
