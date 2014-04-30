@@ -1,6 +1,6 @@
 exports.index = function(req, res){
    res.render('users/index', { username: req.session.member_username, title: 'CG Dashboard', dashboard:'active' });
-   //console.log(moment("04/13/2014", "MM/DD/YYYY").format('YYYY-MM-DD hh:mm:ss'));
+   //console.log(moment("04/13/2014", "DD-MM-YYYY").format('YYYY-MM-DD hh:mm:ss'));
 };
 
 exports.newrfq = function(req,res){
@@ -40,8 +40,8 @@ exports.rfq_general_data = function(req, res){
 				if(data.selected_rfq == ''){
 					data.selected_rfq=[{id:0,rfq_status_id:0}];
 				} else {
-					data.selected_rfq[0].date_rfq_in = moment(data.selected_rfq[0].date_rfq_in.substring(0,10), "YYYY-MM-DD").format('MM/DD/YYYY');
-					data.selected_rfq[0].requested_quotation_date = moment(data.selected_rfq[0].requested_quotation_date.substring(0,10), "YYYY-MM-DD").format('MM/DD/YYYY');
+					data.selected_rfq[0].date_rfq_in = moment(data.selected_rfq[0].date_rfq_in.substring(0,10), "YYYY-MM-DD").format('DD-MM-YYYY');
+					data.selected_rfq[0].requested_quotation_date = moment(data.selected_rfq[0].requested_quotation_date.substring(0,10), "YYYY-MM-DD").format('DD-MM-YYYY');
 					if(data.selected_rfq[0].product_lines_id != 0){
 						flag_product = true; 
 						flag_line = true; 
@@ -85,7 +85,7 @@ exports.get_bids = function(req, res){
 			if(data.statusCode == 200){
 				var i;
 				for(i=0; i< data.rfq.length; ++i){
-					data.rfq[i].date_rfq_in = moment(data.rfq[i].date_rfq_in.substring(0,10), "YYYY-MM-DD").format('MM/DD/YYYY');
+					data.rfq[i].date_rfq_in = moment(data.rfq[i].date_rfq_in.substring(0,10), "YYYY-MM-DD").format('DD-MM-YYYY');
 				}
 				res.render('users/bids', {username: req.session.member_username, bid:'active', rfqs: data.rfq });
 			} else {
@@ -120,7 +120,7 @@ exports.get_rfq_bid = function(req, res){
 			if(data.statusCode == 200){
 				var i;
 				for(i=0; i< data.rfq.length; ++i){
-					data.rfq[i].requested_quotation_date = moment(data.rfq[i].requested_quotation_date.substring(0,10), "YYYY-MM-DD").format('MM/DD/YYYY');
+					data.rfq[i].requested_quotation_date = moment(data.rfq[i].requested_quotation_date.substring(0,10), "YYYY-MM-DD").format('DD-MM-YYYY');
 				}
 				res.render('users/bid_rfq_init', {username: req.session.member_username, bid:'active', rfq: data.rfq, rfq_questions : data.rfq_questions });
 			} else {
@@ -222,8 +222,8 @@ exports.fetch_sales_agents = function(req, res){
 exports.save_rfq_general_data = function(req, res){
 	console.log(req.body);
 
-	var requested_quotation_date = moment(req.body.requested_quotation, "MM/DD/YYYY").format('YYYY-MM-DD hh:mm:ss');
-	var date_rfq_in = moment(req.body.date_rfq, "MM/DD/YYYY").format('YYYY-MM-DD hh:mm:ss');
+	var requested_quotation_date = moment(req.body.requested_quotation, "DD-MM-YYYY").format('YYYY-MM-DD hh:mm:ss');
+	var date_rfq_in = moment(req.body.date_rfq, "DD-MM-YYYY").format('YYYY-MM-DD hh:mm:ss');
 	var dGet = querystring.stringify(req.body)+'&user_id='+req.session.member_id+'&requested_quotation_date='+requested_quotation_date+'&date_rfq_in='+date_rfq_in;
 	console.log(dGet);
 	var options = {
@@ -382,8 +382,8 @@ exports.save_rfq_product_data = function(req, res){
 
 exports.update_rfq_general_data = function(req, res){
 	console.log(req.body);
-	var requested_quotation_date = moment(req.body.requested_quotation, "MM/DD/YYYY").format('YYYY-MM-DD hh:mm:ss');
-	var date_rfq_in = moment(req.body.date_rfq, "MM/DD/YYYY").format('YYYY-MM-DD hh:mm:ss');
+	var requested_quotation_date = moment(req.body.requested_quotation, "DD-MM-YYYY").format('YYYY-MM-DD hh:mm:ss');
+	var date_rfq_in = moment(req.body.date_rfq, "DD-MM-YYYY").format('YYYY-MM-DD hh:mm:ss');
 	var dGet = querystring.stringify(req.body)+'&user_id='+req.session.member_id+'&requested_quotation_date='+requested_quotation_date+'&date_rfq_in='+date_rfq_in;
 
 	console.log(dGet);
@@ -470,7 +470,7 @@ exports.rfq_line_items = function(req, res){
 			if(data.statusCode == 200){
 				var i;
 				for(i=0; i < data.selected_rfq_lines_items.length; ++i){
-					data.selected_rfq_lines_items[i].req_delivery_date = moment(data.selected_rfq_lines_items[i].req_delivery_date.substring(0,10), "YYYY-MM-DD").format('MM/DD/YYYY');
+					data.selected_rfq_lines_items[i].req_delivery_date = moment(data.selected_rfq_lines_items[i].req_delivery_date.substring(0,10), "YYYY-MM-DD").format('DD-MM-YYYY');
 				}
 				if(data.selected_rfq[0].rfq_status_id == 1){
 					var flag_1 = ''; var flag_2 = 'active'; 
@@ -524,7 +524,7 @@ exports.fetch_rfq_line_items = function(req, res){
 					response.on('end',function (){
 						var data2 = JSON.parse(data_final2);
 						if(data2.statusCode == 200){
-							data.rfq_lines[0].req_delivery_date = moment(data.rfq_lines[0].req_delivery_date.substring(0,10), "YYYY-MM-DD").format('MM/DD/YYYY');
+							data.rfq_lines[0].req_delivery_date = moment(data.rfq_lines[0].req_delivery_date.substring(0,10), "YYYY-MM-DD").format('DD-MM-YYYY');
 							var option_string = '<option value="0">Select Property</option>';
 							var i;
 							for (i = 0; i < data2.product_properties.length; ++i) {
@@ -567,7 +567,7 @@ exports.save_line_item = function(req, res){
  	
     console.log(req.body);
 
-	var req_delivery_date = moment(req.body.delivery_date, "MM/DD/YYYY").format('YYYY-MM-DD hh:mm:ss');
+	var req_delivery_date = moment(req.body.delivery_date, "DD-MM-YYYY").format('YYYY-MM-DD hh:mm:ss');
 	req.body.user_id = req.session.member_id;
 	req.body.req_delivery_date = req_delivery_date;
 	req.body.rfq_id = req.params.rfq_id;
@@ -626,7 +626,7 @@ exports.update_line_item = function(req, res){
 	}
     console.log(req.body);
 
-	var req_delivery_date = moment(req.body.delivery_date, "MM/DD/YYYY").format('YYYY-MM-DD hh:mm:ss');
+	var req_delivery_date = moment(req.body.delivery_date, "DD-MM-YYYY").format('YYYY-MM-DD hh:mm:ss');
 	req.body.user_id = req.session.member_id;
 	req.body.req_delivery_date = req_delivery_date;
 	
@@ -720,7 +720,7 @@ exports.finalize = function(req, res){
 			if(data.success == 'true'){
 				var i;
 				for(i=0; i< data.partial_rfq.length; ++i){
-					data.partial_rfq[i].date_rfq_in = moment(data.partial_rfq[i].date_rfq_in.substring(0,10), "YYYY-MM-DD").format('MM/DD/YYYY');
+					data.partial_rfq[i].date_rfq_in = moment(data.partial_rfq[i].date_rfq_in.substring(0,10), "YYYY-MM-DD").format('DD-MM-YYYY');
 				}
 				res.render('users/finalize', { username: req.session.member_username, title: 'Finalize', rfq:'active',sub_sidebar2:'active', partial_rfq:data.partial_rfq });
 			} else {
@@ -873,7 +873,7 @@ exports.bid_rfq = function(req, res){
 			if(data.statusCode == 200){
 				var i;
 				for(i=0; i< data.rfq.length; ++i){
-					data.rfq[i].date_rfq_in = moment(data.rfq[i].date_rfq_in.substring(0,10), "YYYY-MM-DD").format('MM/DD/YYYY');
+					data.rfq[i].date_rfq_in = moment(data.rfq[i].date_rfq_in.substring(0,10), "YYYY-MM-DD").format('DD-MM-YYYY');
 				}
 				res.render('users/bid_rfq', {username: req.session.member_username, bid:'active', rfq: data.rfq, rfq_lines: data.rfq_lines });
 			} else {

@@ -4,6 +4,7 @@ var ComponentsPickers = function () {
 
         if (jQuery().datepicker) {
             $('.date-picker').datepicker({
+                format: 'dd-mm-yyyy',
                 rtl: App.isRTL(),
                 autoclose: true
             });
