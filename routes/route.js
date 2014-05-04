@@ -2,6 +2,7 @@
 var admin = require('../controllers/admin');
 var users = require('../controllers/users');
 var login = require('../controllers/login');
+var tendering = require('../controllers/tendering');
 var globalfunctions = require('../controllers/global');
 
 module.exports = function () {
@@ -19,9 +20,11 @@ module.exports = function () {
 	app.get('/users/bid/:rfq_id', globalfunctions.checkUserAuth, users.get_rfq_bid);
 	app.post('/users/save_questions/:rfq_id', globalfunctions.checkUserAuth, users.save_questions);
 	app.post('/users/rfq_submit_bid/:rfq_id', globalfunctions.checkUserAuth, users.rfq_submit_bid);
+	app.post('/users/rfq_submit_no_bid/:rfq_id', globalfunctions.checkUserAuth, users.rfq_submit_no_bid);
 
 	app.get('/users/finalize', globalfunctions.checkUserAuth, users.finalize);
 	app.get('/users/finalize/:rfq_id', globalfunctions.checkUserAuth, users.finalize_rfq);
+
 
 	app.get('/users/rfq_general_data/:rfq_id', globalfunctions.checkUserAuth, users.rfq_general_data);
 
@@ -52,4 +55,8 @@ module.exports = function () {
 	app.get('/users/no_bid_rfq/:rfq_id', globalfunctions.checkUserAuth, users.no_bid_rfq);
 
 	app.get('/users/fetch_tendering_teams_members/:tendering_teams_id', globalfunctions.checkUserAuth, users.fetch_tendering_teams_members);
+
+	// Tendering Team
+	app.get('/users/tendering_quote', globalfunctions.checkUserAuth, tendering.tendering_quote);
+
 };

@@ -989,3 +989,40 @@ exports.no_bid_rfq = function(req, res){
 	});
 	reqGet.end();
 };
+
+exports.rfq_submit_no_bid = function(req, res){
+
+	req.body.user_id = req.session.member_id;
+	req.body.rfq_id = req.params.rfq_id;
+	req.body.rfq_status_id = 3;
+	
+	var dGet = JSON.stringify(req.body);
+
+	console.log(req.body);
+	var options = {
+			host : config.host,
+			port : config.port,
+			path : '/rfq_bid_submit',
+			method : 'PUT',
+			headers: {
+		          'Content-Type': 'application/json',
+		          'authentication_token': req.session.token
+		    }
+		};
+
+	var reqPost = http.request(options, function(response) {
+		response.on('data', function(data) {
+			var data=JSON.parse(data);
+			console.log(data);
+			if(data.statusCode == 200){
+				res.json(data);
+			} else {
+				res.json(data);
+			}
+		});
+
+	});
+
+	reqPost.write(dGet);
+	reqPost.end();
+};

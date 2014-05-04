@@ -464,3 +464,24 @@ function rfq_submit_tender(rfq_id){
         }
     });
 }
+
+function close_document(rfq_id){
+    var val = $("#no_bid_form").serialize();
+    var file_name = "/users/rfq_submit_no_bid/"+rfq_id;
+
+    var flag1 = validate_number('rejection_remarks_id','Please select valid Remark');
+    var flag2 = validate_number('estimated_sales_price','Please input a valid number');
+    if( flag2 && flag1 ){
+
+        $("#btn_close").removeAttr("onclick");
+        $("#btn_close").html("Saving.. Please Wait");
+
+        $.post(file_name,val, function(data) {
+            if(data.success == "true"){
+                window.location.replace("/users/");
+            } else {
+                bootbox.alert(data.message);
+            }
+        });
+    }
+}

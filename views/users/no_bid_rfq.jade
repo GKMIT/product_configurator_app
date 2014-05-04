@@ -1,14 +1,14 @@
 extends layout
 
 block title_top
-  | Bid / No Bid
+  | RFQ - No Bid
 
 block meta_tags
   meta(content='', name='description')
   meta(content='', name='author')
 
 block title
-  | RFQ Bid
+  | RFQ No Bid
 
 block hint
   | 
@@ -109,3 +109,33 @@ block page_content
                 td= line_items.plants_id
                 td= line_items.number_of_units
                 td= line_items.req_delivery_date
+  .portlet.box.green
+    .portlet-title
+      .caption
+        i.fa.fa-reorder
+        | Form Actions On Bottom
+      .tools
+        a.collapse(href='javascript:;')
+    .portlet-body.form
+      form#no_bid_form.form-horizontal(action='#')
+        .form-body
+          .form-group
+            label.col-md-3.control-label Remarks
+            .col-md-4
+              select#rejection_remarks_id.form-control(name='rejection_remarks_id', onchange="validate_number('rejection_remarks_id','Please select valid Remark')")
+                option(value='0')
+                  | Select Remark
+                - each remark in rejection_remarks
+                  option(value="#{remark.id}")= remark.description
+              span.help-block
+          .form-group
+            label.col-md-3.control-label Estimated Cost
+            .col-md-4
+              .input-group
+                input#estimated_sales_price.form-control(type='Text', placeholder='Estimated Cost', name='estimated_sales_price', onkeyup="validate_number('estimated_sales_price','Please input a valid number')")
+                span.help-block
+        .form-actions.fluid
+          .col-md-offset-3.col-md-9
+            button#btn_close.btn.blue(type='button', onclick="close_document(#{rfq[0].id})") Close Document
+            &nbsp;&nbsp;&nbsp;
+            a.btn.default(href='/users/') Cancel
