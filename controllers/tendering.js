@@ -25,7 +25,7 @@ exports.tendering_quote = function(req, res){
 					data.rfq[i].requested_quotation_date = moment(data.rfq[i].requested_quotation_date.substring(0,10), "YYYY-MM-DD").format('DD-MM-YYYY');
 					data.rfq[i].date_rfq_in = moment(data.rfq[i].date_rfq_in.substring(0,10), "YYYY-MM-DD").format('DD-MM-YYYY');
 				}
-				res.render('users/tendering_quote_init', {username: req.session.member_username, bid:'active', rfq: data.rfq });
+				res.render('users/tendering_quote_init', {username: req.session.member_username, tender_quote:'active', rfq: data.rfq });
 			} else {
 				res.send(data.success);
 			}
