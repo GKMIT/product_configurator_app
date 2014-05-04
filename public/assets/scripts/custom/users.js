@@ -213,7 +213,7 @@ function rfq_line_save(type, rfq_id){
     var flag3 = validate_number('number_of_units','Please input number of units');
     var flag4 = validate_date('delivery_date','Please select valid Date');
     var flag5 = validate_tech('props');
-    if( flag4 && flag3 && flag2 && flag1 ){
+    if( flag4 && flag3 && flag2 && flag1 && flag5 ){
         if(type == 1){
             $("#btn_save").html("Saving.. Please Wait");
             val += '&rfq_status_id=1';
@@ -242,9 +242,35 @@ function rfq_line_save(type, rfq_id){
 }
 
 function validate_tech(class_name){
+    var i =0;
+    var value;
     $( "."+class_name ).each(function() {
-      alert( $( this ).val() );
+      if($(this).val() != null && $(this).val() != 0 ){
+        i++;
+      }
     });
+
+    if(i < 4){
+        bootbox.alert("Please fill atleast 4 technical specifications. ");
+        return false;
+    }
+    var flag = true;
+    $( "."+class_name ).each(function() {
+      if($(this).val() != null && $(this).val() != 0 ){
+        var input_box = $(this).parent().parent().find('td').eq(2).find('input');
+        value = input_box.val();
+        if(value == ''){
+            flag = false;
+            bootbox.alert("Please input value for each product property", function(){
+                input_box.focus();
+            });
+
+            return false;
+        }
+      }
+    });
+    if(flag == true) return true;
+
 }
 
 function update_line_items(line_item_id){
