@@ -109,13 +109,3 @@ block page_content
                 td= line_items.plants_id
                 td= line_items.number_of_units
                 td= line_items.req_delivery_date
-  .form-actions.fluid
-    .row
-      .col-md-12
-        .col-md-offset-3.col-md-9
-          a#btn_save.btn.yellow.button-save(href='javascript:;', onclick="#")
-            | Back
-          &nbsp;&nbsp;&nbsp;
-          a#btn_submit.btn.blue.button-add_more(href='javascript:;', onclick="rfq_submit_tender(#{rfq[0].id})")
-            | Submit to Tendering Team
-          &nbsp;&nbsp;&nbsp;

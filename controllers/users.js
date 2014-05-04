@@ -874,8 +874,114 @@ exports.bid_rfq = function(req, res){
 				var i;
 				for(i=0; i< data.rfq.length; ++i){
 					data.rfq[i].date_rfq_in = moment(data.rfq[i].date_rfq_in.substring(0,10), "YYYY-MM-DD").format('DD-MM-YYYY');
+					data.rfq[i].requested_quotation_date = moment(data.rfq[i].requested_quotation_date.substring(0,10), "YYYY-MM-DD").format('DD-MM-YYYY');
+				}
+				for(i=0; i< data.rfq_lines.length; ++i){
+					data.rfq_lines[i].req_delivery_date = moment(data.rfq_lines[i].req_delivery_date.substring(0,10), "YYYY-MM-DD").format('DD-MM-YYYY');
 				}
 				res.render('users/bid_rfq', {username: req.session.member_username, bid:'active', rfq: data.rfq, rfq_lines: data.rfq_lines });
+			} else {
+				res.send(data.success);
+			}
+		});
+	});
+	reqGet.end();
+};
+
+exports.rfq_submit_bid = function(req, res){
+
+	req.body.user_id = req.session.member_id;
+	req.body.rfq_id = req.params.rfq_id;
+	req.body.rfq_status_id = 4;
+	
+	var dGet = JSON.stringify(req.body);
+
+	console.log(req.body);
+	var options = {
+			host : config.host,
+			port : config.port,
+			path : '/rfq_bid_submit',
+			method : 'PUT',
+			headers: {
+		          'Content-Type': 'application/json',
+		          'authentication_token': req.session.token
+		    }
+		};
+
+	var reqPost = http.request(options, function(response) {
+		response.on('data', function(data) {
+			var data=JSON.parse(data);
+			console.log(data);
+			if(data.statusCode == 200){
+				res.json(data);
+			} else {
+				res.json(data);
+			}
+		});
+
+	});
+
+	reqPost.write(dGet);
+	reqPost.end();
+};
+
+exports.no_bid_rfq = function(req, res){
+
+	var options = {
+		host : config.host,
+		port : config.port,
+		path : '/full_rfq_detail/'+req.session.member_id+'/'+req.params.rfq_id,
+		method : 'GET',
+		headers: {
+			'Content-Type':'application/json',
+	        'authentication_token': req.session.token
+	    }
+	};
+
+	var reqGet = http.request(options, function(response) {
+		var data_final ="";
+		response.on('data', function(chunk) {
+			data_final = data_final+chunk;
+		});
+		response.on('end',function (){
+			console.log(data_final);
+			var data = JSON.parse(data_final);
+			if(data.statusCode == 200){
+				var i;
+				for(i=0; i< data.rfq.length; ++i){
+					data.rfq[i].date_rfq_in = moment(data.rfq[i].date_rfq_in.substring(0,10), "YYYY-MM-DD").format('DD-MM-YYYY');
+					data.rfq[i].requested_quotation_date = moment(data.rfq[i].requested_quotation_date.substring(0,10), "YYYY-MM-DD").format('DD-MM-YYYY');
+				}
+				for(i=0; i< data.rfq_lines.length; ++i){
+					data.rfq_lines[i].req_delivery_date = moment(data.rfq_lines[i].req_delivery_date.substring(0,10), "YYYY-MM-DD").format('DD-MM-YYYY');
+				}
+
+				var options_next = {
+					host : config.host,
+					port : config.port,
+					path : '/get_rejection_remarks/'+req.session.member_id,
+					method : 'GET',
+					headers: {
+					'Content-Type':'application/json',
+					'authentication_token': req.session.token
+					}
+				};
+				var reqGet_next = http.request(options_next, function(response_next) {
+					var data_final_next ="";
+					response_next.on('data', function(chunk) {
+						data_final_next = data_final_next+chunk;
+					});
+					response_next.on('end',function (){
+						var data_next = JSON.parse(data_final_next);
+						if(data_next.statusCode == 200){
+							res.render('users/no_bid_rfq', {username: req.session.member_username, bid:'active', rfq: data.rfq, rfq_lines: data.rfq_lines, rejection_remarks:data_next.rejection_remarks });
+						} else {
+							res.send(data_next.success);
+						}
+					});
+				});
+				reqGet_next.end();
+
 			} else {
 				res.send(data.success);
 			}

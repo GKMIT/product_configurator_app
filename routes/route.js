@@ -14,9 +14,11 @@ module.exports = function () {
 	//User Pages
 	app.get('/users/', globalfunctions.checkUserAuth, users.index);
 	app.get('/users/newrfq', globalfunctions.checkUserAuth, users.newrfq);
+
 	app.get('/users/bids', globalfunctions.checkUserAuth, users.get_bids);
 	app.get('/users/bid/:rfq_id', globalfunctions.checkUserAuth, users.get_rfq_bid);
 	app.post('/users/save_questions/:rfq_id', globalfunctions.checkUserAuth, users.save_questions);
+	app.post('/users/rfq_submit_bid/:rfq_id', globalfunctions.checkUserAuth, users.rfq_submit_bid);
 
 	app.get('/users/finalize', globalfunctions.checkUserAuth, users.finalize);
 	app.get('/users/finalize/:rfq_id', globalfunctions.checkUserAuth, users.finalize_rfq);
@@ -47,6 +49,7 @@ module.exports = function () {
 	app.get('/users/fetch_plants_properties/:product_line_id', globalfunctions.checkUserAuth, users.fetch_plants_properties);
 
 	app.get('/users/bid_rfq/:rfq_id', globalfunctions.checkUserAuth, users.bid_rfq);
+	app.get('/users/no_bid_rfq/:rfq_id', globalfunctions.checkUserAuth, users.no_bid_rfq);
 
 	app.get('/users/fetch_tendering_teams_members/:tendering_teams_id', globalfunctions.checkUserAuth, users.fetch_tendering_teams_members);
 };

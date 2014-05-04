@@ -212,6 +212,7 @@ function rfq_line_save(type, rfq_id){
     var flag2 = validate_number('plants_id','Please select valid Production plant');
     var flag3 = validate_number('number_of_units','Please input number of units');
     var flag4 = validate_date('delivery_date','Please select valid Date');
+    var flag5 = validate_tech('props');
     if( flag4 && flag3 && flag2 && flag1 ){
         if(type == 1){
             $("#btn_save").html("Saving.. Please Wait");
@@ -238,6 +239,12 @@ function rfq_line_save(type, rfq_id){
         }
 
     }
+}
+
+function validate_tech(class_name){
+    $( "."+class_name ).each(function() {
+      alert( $( this ).val() );
+    });
 }
 
 function update_line_items(line_item_id){
@@ -438,6 +445,20 @@ function save_questions(rfq_id,type){
             } else{
                 window.location.replace("/users/no_bid_rfq/"+rfq_id);
             }
+        } else {
+            bootbox.alert(data.message);
+        }
+    });
+}
+
+function rfq_submit_tender(rfq_id){
+
+    $("#btn_submit").removeAttr("onclick");
+    $("#btn_submit").html("Saving.. Please Wait");
+    
+    $.post("/users/rfq_submit_bid/"+rfq_id,{}, function(data) {
+        if(data.success == "true"){
+            window.location.replace("/users/");
         } else {
             bootbox.alert(data.message);
         }
