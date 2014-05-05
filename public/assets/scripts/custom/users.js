@@ -212,7 +212,7 @@ function rfq_line_save(type, rfq_id){
     var flag2 = validate_number('plants_id','Please select valid Production plant');
     var flag3 = validate_number('number_of_units','Please input number of units');
     var flag4 = validate_date('delivery_date','Please select valid Date');
-    var flag5 = validate_tech('props');
+    var flag5 = validate_tech('table_body');
     if( flag4 && flag3 && flag2 && flag1 && flag5 ){
         if(type == 1){
             $("#btn_save").html("Saving.. Please Wait");
@@ -241,10 +241,10 @@ function rfq_line_save(type, rfq_id){
     }
 }
 
-function validate_tech(class_name){
+function validate_tech(table_name){
     var i =0;
     var value;
-    $( "."+class_name ).each(function() {
+    $( "#"+table_name+' .props').each(function() {
       if($(this).val() != null && $(this).val() != 0 ){
         i++;
       }
@@ -255,21 +255,21 @@ function validate_tech(class_name){
         return false;
     }
     var flag = true;
-    $( "."+class_name ).each(function() {
+    $( "#"+table_name+' .props').each(function() {
       if($(this).val() != null && $(this).val() != 0 ){
         var input_box = $(this).parent().parent().find('td').eq(2).find('input');
         value = input_box.val();
         if(value == ''){
             flag = false;
-            bootbox.alert("Please input value for each product property", function(){
-                input_box.focus();
-            });
-
-            return false;
+            input_box.parent().addClass('has-error');
         }
       }
     });
     if(flag == true) return true;
+    else {
+        bootbox.alert("Please input value for each product property");
+        return false;
+    }
 
 }
 
@@ -281,7 +281,8 @@ function update_line_items(line_item_id){
     var flag2 = validate_number('plants_id_pop','Please select valid Production plant');
     var flag3 = validate_number('number_of_units_pop','Please input number of units');
     var flag4 = validate_date('delivery_date_pop','Please select valid Date');
-    if( flag4 && flag3 && flag2 && flag1 ){
+    var flag5 = validate_tech('table_body_pop');
+    if( flag4 && flag3 && flag2 && flag1 && flag5 ){
         $("#btn_update").html("Updating.. Please Wait");
         $.post(file_name,val, function(data) {
             if(data.success == "true"){
@@ -351,7 +352,7 @@ function add_more_line_items(id_info){
         var val = $("#props_def_pop").val();
     }
 
-    $("#"+id_info).append('<tr><td><select id="product_properties_id" name="product_properties_id[]" class="props form-control">'+ val +'</select></td><td></td><td><input id="value" name="value[]" class="form-control"></td><td><input id="remark" name="remark[]" class="form-control"></td><td><a href="javascript:;" class="btn dark icn-only remove_prop"><i class="fa fa-times"></i></a></td></tr>');
+    $("#"+id_info).append('<tr><td><select id="product_properties_id" name="product_properties_id[]" class="props form-control">'+ val +'</select></td><td></td><td><input id="value" name="value[]" class="form-control value_in "></td><td><input id="remark" name="remark[]" class="form-control"></td><td><a href="javascript:;" class="btn dark icn-only remove_prop"><i class="fa fa-times"></i></a></td></tr>');
     initialize();   
 }
 
@@ -364,6 +365,10 @@ $(document).on('click','.remove_prop', function() {
             });
           }
         });
+});
+
+$(document).on('keyup','.value_in', function() {
+    $(this).parent().removeClass('has-error');
 });
 
 $(document).on('change','.props', function() {

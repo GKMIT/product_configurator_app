@@ -62,7 +62,7 @@ form#rfq_line_edit_form.form-horizontal(action='#')
                     option(value='#{prop.id}',selected=spec.product_properties_id == prop.id)= prop.property_name
               td= spec.unit_of_measurement
               td
-                input#value.form-control(name='value[]', value='#{spec.value}')
+                input#value.form-control.value_in(name='value[]', value='#{spec.value}')
               td
                 input#remark.form-control(name='remark[]', value='#{spec.remark}')
               td
