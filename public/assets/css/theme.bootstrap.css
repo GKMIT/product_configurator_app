@@ -127,14 +127,24 @@ caption {
 
 /* pager plugin */
 .tablesorter-bootstrap .tablesorter-pager select {
-  padding: 4px 6px;
+  padding: 6px 6px;
+  margin-left: 8px;
+  border: 1px solid #CCC;
 }
 .tablesorter-bootstrap .tablesorter-pager .pagedisplay {
 	border: 0;
+	padding: 10px;
+
 }
 
 /* ajax error row */
 .tablesorter .tablesorter-errorRow td {
 	cursor: pointer;
 	background-color: #e6bf99;
+}
+
+.tablesorter-pager button {
+	margin: 0 5px;
+  border: 1px solid #CCC;
+	
 }
