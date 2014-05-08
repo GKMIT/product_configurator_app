@@ -206,6 +206,7 @@ function edit_line_item(rfq_id,line_item){
 
 function rfq_line_save(type, rfq_id){
     var val = $("#rfq_line_form").serialize();
+    val = val.replace(/&remark%5B%5D=&/g, '&remark%5B%5d= &');
     var file_name = '/users/save_line_item/'+rfq_id;
 
     var flag1 = validate_number('product_lines_id','Please select valid Product Line');
@@ -275,6 +276,7 @@ function validate_tech(table_name){
 
 function update_line_items(line_item_id){
     var val = $("#rfq_line_edit_form").serialize();
+    val = val.replace(/&remark%5B%5D=&/g, '&remark%5B%5d= &');
     var file_name = '/users/update_line_item/'+line_item_id;
 
     var flag1 = validate_number('product_lines_id_pop','Please select valid Product Line');

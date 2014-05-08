@@ -558,6 +558,7 @@ exports.save_line_item = function(req, res){
 
 	if(typeof props !== 'undefined'){
 		for (i = 0; i < props.length; ++i) {
+			if(remarks[i] == ' ') remarks[i] = '';
 	 		var obj = { 'product_properties_id':props[i], 'value':values[i], 'remark':remarks[i]};
 	        if(props[i] != 0){
 	        	req.body.technical_specifications[i] = obj;
@@ -618,6 +619,7 @@ exports.update_line_item = function(req, res){
 
 	if(typeof props !== 'undefined'){
 	 	for (i = 0; i < props.length; ++i) {
+			if(remarks[i] == ' ') remarks[i] = '';
 	 		var obj = { 'product_properties_id':props[i], 'value':values[i], 'remark':remarks[i]};
 	        if(props[i] != 0){
 	        	req.body.technical_specifications[i] = obj;
