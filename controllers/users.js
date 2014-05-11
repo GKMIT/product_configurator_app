@@ -411,7 +411,7 @@ exports.save_rfq_product_data = function(req, res){
 exports.update_rfq_general_data = function(req, res){
 	console.log(req.body);
 	if(req.body.is_bid == 1) req.body.sales_rejection_remarks_id = 0;
-	
+
 	var requested_quotation_date = moment(req.body.requested_quotation, "DD-MM-YYYY").format('YYYY-MM-DD hh:mm:ss');
 	var date_rfq_in = moment(req.body.date_rfq, "DD-MM-YYYY").format('YYYY-MM-DD hh:mm:ss');
 	var dGet = querystring.stringify(req.body)+'&user_id='+req.session.member_id+'&requested_quotation_date='+requested_quotation_date+'&date_rfq_in='+date_rfq_in;
@@ -553,6 +553,7 @@ exports.fetch_rfq_line_items = function(req, res){
 					});
 					response.on('end',function (){
 						var data2 = JSON.parse(data_final2);
+						console.log(data2);
 						if(data2.statusCode == 200){
 							data.rfq_lines[0].req_delivery_date = moment(data.rfq_lines[0].req_delivery_date.substring(0,10), "YYYY-MM-DD").format('DD-MM-YYYY');
 							var option_string = '<option value="0">Select Property</option>';
@@ -561,7 +562,7 @@ exports.fetch_rfq_line_items = function(req, res){
 								option_string += '<option value="'+ data2.product_properties[i].id+'">'+ data2.product_properties[i].property_name+'</option>';
 							};
 
-							res.render('users/fetch_line_items', { rfq_lines:data.rfq_lines, production_plants:data2.production_plants, product_properties:data2.product_properties, technical_specifications:data.technical_specifications, product_lines:data.product_lines, option_string:option_string });
+							res.render('users/fetch_line_items', { rfq_lines:data.rfq_lines, production_plants:data2.production_plants, product_properties:data2.product_properties, technical_specifications:data.technical_specifications, product_lines:data.product_lines, option_string:option_string, mandatory_properties:data2.mandatory_properties[0].mandatory_properties });
 						} else {
 							res.send(data2.success);
 						}

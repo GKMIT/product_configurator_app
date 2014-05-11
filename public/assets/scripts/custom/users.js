@@ -64,22 +64,42 @@ function fetch_plants_properties(){
     $("#plants_id").html('<option>Fetching..</option>');
     $.get("/users/fetch_plants_properties/"+val, function(data) {
         var i;
+        var mans = data.mandatory_properties[0].mandatory_properties.split(",");
         var response = '<option value="0">Select Production Plant</option>';
         for (i = 0; i < data.production_plants.length; ++i) {
             obj = data.production_plants[i];
-            response += '<option value="'+obj.id+'">'+obj.name+'</option>';
+            response += '<option value="'+obj.id+'" >'+obj.name+'</option>';
         }
         $("#plants_id").html(response);
 
         response ='<option value="0">Select Property</option>';
         for (i = 0; i < data.product_properties.length; ++i) {
             obj = data.product_properties[i];
-            response += '<option value="'+obj.id+'">'+obj.property_name+'</option>';
+            response += '<option value="'+obj.id+'" ';
+            response += '>'+obj.property_name+'</option>';
         }
         $("#table_body .props").html(response);
+
+        for (i = 0; i < mans.length; ++i) {
+           $("#table_body .props").eq(i).find("option[value="+mans[i]+"]").attr('selected', 'selected');
+           put_property_value(i);
+        }
+
         $("#props_def").val(response);
+        $("#man_table_body").val(data.mandatory_properties[0].mandatory_properties);
     });
     validate_number('product_lines_id','Please select valid product line');
+}
+
+function put_property_value(i){
+     var prop_line = $("#table_body .props").eq(i).parent().parent();
+    var val = $("#table_body .props").eq(i).val();
+    var file_name = ''
+     $.get('/users/fetch_unit/'+val, function(data) {
+        if(data.success == "true"){
+            prop_line.find('td').eq(1).html(data.properties[0].unit_of_measurement);
+        }
+    });
 }
 
 function fetch_plants_properties_pop(){
@@ -88,6 +108,8 @@ function fetch_plants_properties_pop(){
     $("#plants_id_pop").html('<option>Fetching..</option>');
     $.get("/users/fetch_plants_properties/"+val, function(data) {
         var i;
+        var mans = data.mandatory_properties[0].mandatory_properties.split(",");
+
         var response = '<option value="0">Select Production Plant</option>';
         for (i = 0; i < data.production_plants.length; ++i) {
             obj = data.production_plants[i];
@@ -101,7 +123,15 @@ function fetch_plants_properties_pop(){
             response += '<option value="'+obj.id+'">'+obj.property_name+'</option>';
         }
         $("#table_body_pop .props").html(response);
+
+        for (i = 0; i < mans.length; ++i) {
+           $("#table_body_pop .props").eq(i).find("option[value="+mans[i]+"]").attr('selected', 'selected');
+           put_property_value(i);
+        }
+
         $("#props_def_pop").val(response);
+        $("#man_table_body_pop").val(data.mandatory_properties[0].mandatory_properties);
+
     });
     validate_number('product_lines_id_pop','Please select valid product line');
 }
@@ -245,14 +275,16 @@ function rfq_line_save(type, rfq_id){
 function validate_tech(table_name){
     var i =0;
     var value;
+    var mans = $("#man_"+table_name).val().split(',');
+
     $( "#"+table_name+' .props').each(function() {
-      if($(this).val() != null && $(this).val() != 0 ){
-        i++;
+      if(mans.indexOf($(this).val()) != -1) {
+        i++; 
       }
     });
 
-    if(i < 4){
-        bootbox.alert("Please fill atleast 4 technical specifications. ");
+    if(i < mans.length){
+        bootbox.alert("Please fill mandatory technical properties ");
         return false;
     }
     var flag = true;

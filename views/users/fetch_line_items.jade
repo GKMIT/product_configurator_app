@@ -33,6 +33,8 @@ form#rfq_line_edit_form.form-horizontal(action='#')
       input(type='hidden', value='#{option_string}',id='props_def_pop')
       input(type='hidden', value='#{rfq_lines[0].id}',name='rfq_lines_id')
       input(type='hidden', value='#{rfq_lines[0].rfq_id}',name='rfq_id')
+      input(type='hidden', value='#{mandatory_properties}',id='man_table_body_pop')
+
       span.help-block
   h4
     | Technical Specifications
