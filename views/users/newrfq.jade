@@ -189,14 +189,45 @@ block page_content
                           span.help-block
                       .form-group
                         label.control-label.col-md-3
-                          | Must Win
+                          | Channel to Market
+                          span.required
+                        .col-md-4
+                          select#channel_to_market_id.form-control(name='channel_to_market_id')
+                            option(value='0') Select Channel
+                            - each channel in channel_to_market
+                              option(value="#{channel.id}",selected=channel.id == selected_rfq[0].channel_to_market_id)= channel.name
+                          span.help-block
+                      .form-group
+                        label.control-label.col-md-3
+                          | Strategic Quote
                           span.required *
                         .col-md-4(style="margin-top:5px;")
-                          input(type='radio',value='1', checked, name='win')
+                          input(type='radio',value='1', checked, name='strategic_quote')
                           | &nbsp;Yes&nbsp;&nbsp;&nbsp;
-                          input(type='radio',value='0',name='win', checked=selected_rfq[0].win == 0)
+                          input(type='radio',value='0',name='strategic_quote', checked=selected_rfq[0].strategic_quote == 0)
                           | &nbsp;No
                           input(type='hidden', value='#{selected_rfq[0].rfq_status_id}',id='rfq_stat')
+                          span.help-block
+                      .form-group
+                        label.control-label.col-md-3
+                          | Bid / No Bid
+                          span.required
+                        .col-md-4(style="margin-top:5px;")
+                          input(type='radio',value='1', checked, name='is_bid')
+                          | &nbsp;Bid&nbsp;&nbsp;&nbsp;
+                          input(type='radio',value='0',name='is_bid', checked=selected_rfq[0].is_bid == 0)
+                          | &nbsp;No Bid
+                          input(type='hidden', value='#{selected_rfq[0].rfq_status_id}',id='rfq_stat')
+                          span.help-block
+                      .form-group#remark(style=(selected_rfq[0].is_bid == 0)?'':'display:none')
+                        label.control-label.col-md-3
+                          | Rejection Remark
+                          span.required
+                        .col-md-4
+                          select#sales_rejection_remarks_id.form-control(name='sales_rejection_remarks_id')
+                            option(value='0') Select Remark
+                            - each remark in rejection_remarks
+                              option(value="#{remark.id}",selected=remark.id == selected_rfq[0].sales_rejection_remarks_id)= remark.description
                           span.help-block
                 .form-actions.fluid
                   .row

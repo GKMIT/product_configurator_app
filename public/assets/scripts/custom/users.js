@@ -373,6 +373,15 @@ $(document).on('keyup','.value_in', function() {
     $(this).parent().removeClass('has-error');
 });
 
+$(document).on('change','input[name=is_bid]', function() {
+    if($(this).val() == 0){
+        $("#remark").slideDown("slow");
+    } else {
+        $("#remark").slideUp("slow");
+    }
+});
+
+
 $(document).on('change','.props', function() {
     var prop_line = $(this).parent().parent();
     var val = $(this).val();

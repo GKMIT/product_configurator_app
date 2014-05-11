@@ -52,7 +52,32 @@ exports.rfq_general_data = function(req, res){
 				} else {
 					var flag_1 = 'active'; var flag_2 = ''; 
 				}
-				res.render('users/newrfq', { username: req.session.member_username, title: 'New RFQ', rfq:'active',sub_sidebar1:flag_1, sub_sidebar2:flag_2, sales_hubs: data.sales_hubs, sales_persons:data.sales_persons, countries: data.countries, type_of_quote: data.type_of_quote, customers: data.customers, sales_segments: data.sales_segments, selected_rfq:data.selected_rfq, sales_agents:data.sales_agents, sales_persons:data.sales_persons, probabilities:probabilities, flag_product:flag_product, flag_line:flag_line });
+
+				var options_next = {
+					host : config.host,
+					port : config.port,
+					path : '/get_rejection_remarks/'+req.session.member_id,
+					method : 'GET',
+					headers: {
+					'Content-Type':'application/json',
+					'authentication_token': req.session.token
+					}
+				};
+				var reqGet_next = http.request(options_next, function(response_next) {
+					var data_final_next ="";
+					response_next.on('data', function(chunk) {
+						data_final_next = data_final_next+chunk;
+					});
+					response_next.on('end',function (){
+						var data_next = JSON.parse(data_final_next);
+						if(data_next.statusCode == 200){
+							res.render('users/newrfq', { username: req.session.member_username, title: 'New RFQ', rfq:'active',sub_sidebar1:flag_1, sub_sidebar2:flag_2, sales_hubs: data.sales_hubs, sales_persons:data.sales_persons, countries: data.countries, type_of_quote: data.type_of_quote, customers: data.customers, sales_segments: data.sales_segments, selected_rfq:data.selected_rfq, sales_agents:data.sales_agents, sales_persons:data.sales_persons, probabilities:probabilities, flag_product:flag_product, flag_line:flag_line, channel_to_market : data.channel_to_market, rejection_remarks:data_next.rejection_remarks});
+						} else {
+							res.send(data_next.success);
+						}
+					});
+				});
+				reqGet_next.end();
 			} else {
 				res.send(data.success);
 			}
@@ -179,7 +204,9 @@ exports.fetch_plants_properties = function(req, res){
 			data_final = data_final+chunk;
 		});
 		response.on('end',function (){
+
 			var data = JSON.parse(data_final);
+			console.log(data);
 			if(data.statusCode == 200){
 				res.json(data);
 			} else {
@@ -222,6 +249,7 @@ exports.fetch_sales_agents = function(req, res){
 exports.save_rfq_general_data = function(req, res){
 	console.log(req.body);
 
+	if(req.body.is_bid == 1) req.body.sales_rejection_remarks_id = 0;
 	var requested_quotation_date = moment(req.body.requested_quotation, "DD-MM-YYYY").format('YYYY-MM-DD hh:mm:ss');
 	var date_rfq_in = moment(req.body.date_rfq, "DD-MM-YYYY").format('YYYY-MM-DD hh:mm:ss');
 	var dGet = querystring.stringify(req.body)+'&user_id='+req.session.member_id+'&requested_quotation_date='+requested_quotation_date+'&date_rfq_in='+date_rfq_in;
@@ -382,6 +410,8 @@ exports.save_rfq_product_data = function(req, res){
 
 exports.update_rfq_general_data = function(req, res){
 	console.log(req.body);
+	if(req.body.is_bid == 1) req.body.sales_rejection_remarks_id = 0;
+	
 	var requested_quotation_date = moment(req.body.requested_quotation, "DD-MM-YYYY").format('YYYY-MM-DD hh:mm:ss');
 	var date_rfq_in = moment(req.body.date_rfq, "DD-MM-YYYY").format('YYYY-MM-DD hh:mm:ss');
 	var dGet = querystring.stringify(req.body)+'&user_id='+req.session.member_id+'&requested_quotation_date='+requested_quotation_date+'&date_rfq_in='+date_rfq_in;
