@@ -57,6 +57,8 @@ module.exports = function () {
 	app.get('/users/fetch_tendering_teams_members/:tendering_teams_id', globalfunctions.checkUserAuth, users.fetch_tendering_teams_members);
 
 	// Tendering Team
-	app.get('/users/tendering_quote', globalfunctions.checkUserAuth, tendering.tendering_quote);
+	app.get('/users/tendering_quote', globalfunctions.checkUserAuth, tendering.tendering_quote_init);
+	app.get('/users/tendering_quote/:rfq_id', globalfunctions.checkUserAuth, tendering.tendering_rfq_quote);
+	app.get('/users/product_designs/:rfq_id/:rfq_lines_id', globalfunctions.checkUserAuth, tendering.product_designs);
 
 };

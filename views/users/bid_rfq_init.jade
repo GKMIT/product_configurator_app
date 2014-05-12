@@ -30,11 +30,14 @@ block page_content
               | Version Number
             th
               | Requested Quatation Date
+            th
+              | Sales Bid/No Bid Details
         tbody
             tr
               td= rfq[0].document_no
               td= rfq[0].version_no
               td= rfq[0].requested_quotation_date
+              td= (rfq[0].is_bid == 1)?'Bid':'No Bid : '+ rfq[0].rejection_remarks_name
   .portlet.box.green
     .portlet-title
         .caption

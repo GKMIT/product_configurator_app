@@ -1,0 +1,87 @@
+extends layout
+
+block title_top
+  | Quote - Tendering
+
+block meta_tags
+  meta(content='', name='description')
+  meta(content='', name='author')
+
+block title
+  | Quote - Tendering
+
+block hint
+  | 
+
+block doc_ready
+  script.
+    jQuery(document).ready(function() {
+    });
+
+block page_content
+  .row
+    .col-md-6
+      table.table.table-bordered
+        thead
+          tr
+            th
+              | Document Number
+            th
+              | Version Number
+        tbody
+            tr
+              td= rfq[0].document_no
+              td= rfq[0].version_no
+  - each rfq_line in rfq_lines
+    .portlet.red.box
+      .portlet-title
+        .caption
+          .span3(style='float:left; margin-right:10px; padding-right:10px; border-right:1px solid #FFF')
+            h6(style='margin:0; color:#EEE')
+              | Product Line
+            h5(style='margin:0')= rfq_line.product_lines_name
+          .span3(style='float:left; margin-right:10px; padding-right:10px; border-right:1px solid #FFF')
+            h6(style='margin:0; color:#EEE')
+              | Production Plant
+            h5(style='margin:0')= rfq_line.plants_name
+          .span3(style='float:left; margin-right:10px; padding-right:10px; border-right:1px solid #FFF')
+            h6(style='margin:0; color:#EEE')
+              | Number of Units
+            h5(style='margin:0')= rfq_line.number_of_units
+          .span3(style='float:left; margin-right:10px; padding-right:10px;')
+            h6(style='margin:0; color:#EEE')
+              | Requested Delivery Date
+            h5(style='margin:0')= rfq_line.req_delivery_date
+        .tools
+          a.collapse
+      .portlet-body
+        table.table.table-bordered
+          thead
+            tr
+              th SN
+              th Property
+              th Unit of Measurement
+              th Value
+              th Remark
+          tbody
+            -var i = 1
+            -each spec in rfq_line.rfq_lines_technical_specs
+              tr
+              td= i
+              td= spec.property_name
+              td= spec.unit_of_measurement
+              td= spec.value
+              td= spec.remark
+              - i = i+1
+        a.btn.blue(href="#basic",data-toggle="modal",onclick="product_designs(#{rfq[0].id},#{rfq_line.id})")
+          | Select Product Design
+  #basic.modal.fade.bs-modal-lg.in(tabindex='-1', role='basic', aria-hidden='true', style='display: none;')
+    .modal-dialog.modal-full
+      .modal-content
+        .modal-header
+          button.close(type='button', data-dismiss='modal', aria-hidden='true')
+          h4.modal-title Select Product Design
+        .modal-body(style="")
+          | Loading...
+        .modal-footer
+          button.btn.default#close_btn(type='button', data-dismiss='modal') Close
