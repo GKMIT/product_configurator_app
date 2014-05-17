@@ -69,41 +69,41 @@ exports.tendering_rfq_quote = function(req, res){
 	reqGet.end();
 };
 
+// exports.product_designs = function(req, res){
+
+// 	var options = {
+// 		host : config.host,
+// 		port : config.port,
+// 		path : '/tendering_fetch_product_design_detail/'+req.session.member_id+'/'+req.params.rfq_id+'/'+req.params.rfq_lines_id,
+// 		method : 'GET',
+// 		headers: {
+// 			'Content-Type':'application/json',
+// 	        'authentication_token': req.session.token
+// 	    }
+// 	};
+
+// 	var reqGet = http.request(options, function(response) {
+// 		var data_final ="";
+// 		response.on('data', function(chunk) {
+// 			data_final = data_final+chunk;
+// 		});
+// 		response.on('end',function (){
+// 			console.log(data_final);
+// 			var data = JSON.parse(data_final);
+// 			if(data.statusCode == 200){
+// 				var i;
+// 				res.render('users/product_designs', {username: req.session.member_username, rfq: data.rfq, rfq_lines: data.rfq_lines });
+// 			} else {
+// 				res.send(data.success);
+// 			}
+// 		});
+// 	});
+// 	reqGet.end();
+// };
+
 exports.product_designs = function(req, res){
-
-	var options = {
-		host : config.host,
-		port : config.port,
-		path : '/tendering_fetch_product_design_detail/'+req.session.member_id+'/'+req.params.rfq_id+'/'+req.params.rfq_lines_id,
-		method : 'GET',
-		headers: {
-			'Content-Type':'application/json',
-	        'authentication_token': req.session.token
-	    }
-	};
-
-	var reqGet = http.request(options, function(response) {
-		var data_final ="";
-		response.on('data', function(chunk) {
-			data_final = data_final+chunk;
-		});
-		response.on('end',function (){
-			console.log(data_final);
-			var data = JSON.parse(data_final);
-			if(data.statusCode == 200){
-				var i;
-				res.render('users/product_designs', {username: req.session.member_username, rfq: data.rfq, rfq_lines: data.rfq_lines });
-			} else {
-				res.send(data.success);
-			}
-		});
-	});
-	reqGet.end();
-};
-
-exports.product_designs = function(req, res){
- 
-    req.body.properties = [];
+ 	
+ 	req.body.properties = [];
  
     var props = req.body.property;
     var values = req.body.value;
@@ -111,35 +111,36 @@ exports.product_designs = function(req, res){
     if(typeof props !== 'undefined'){
         for (i = 0; i < props.length; ++i) {
             if(values[i] == ' ') values[i] = '';
-            var obj = { 'properties_id':props[i], 'value':values[i]};
+            var obj = { 'id':props[i], 'value':values[i]};
             if(props[i] != 0 && values[i] != '' ){
                 req.body.properties[i] = obj;
             }
         }
     }
- 
-    req.body.user_id = req.session.member_id;
+  	req.body.user_id = req.session.member_id;
     req.body.rfq_id = req.params.rfq_id;
     req.body.rfq_lines_id = req.params.rfq_lines_id;
- 
+    
     delete req.body.property;
     delete req.body.value;
     delete req.body.no_use;
  
     console.log(req.body);
     
+	var dGet = JSON.stringify(req.body);
+
     var options = {
         host : config.host,
         port : config.port,
         path : '/tendering_fetch_product_design_detail',
         method : 'POST',
         headers: {
-            'Content-Type':'application/json',
-            'authentication_token': req.session.token
+            'Content-Type': 'application/x-www-form-urlencoded',
+		    'authentication_token': req.session.token
         }
     };
  
-    var reqGet = http.request(options, function(response) {
+    var reqPost = http.request(options, function(response) {
         var data_final ="";
         response.on('data', function(chunk) {
             data_final = data_final+chunk;
@@ -155,7 +156,9 @@ exports.product_designs = function(req, res){
             }
         });
     });
-    reqGet.end(); 
+    
+    reqPost.write(dGet);
+	reqPost.end();
 };
  
 exports.product_designs_details = function(req, res){

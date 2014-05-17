@@ -87,9 +87,9 @@ block page_content
                 td= spec.unit_of_measurement
                 td
                  - if(man_array.indexOf(spec.product_properties_id.toString()) !== -1)
-                    input.form-control(type='text',name='value',value='#{spec.product_properties_id}',readonly)
+                    input.form-control(type='text',name='value',value='#{spec.value}',readonly)
                  - else
-                    input.form-control(type='text',name='value',value='#{spec.product_properties_id}')
+                    input.form-control(type='text',name='value',value='#{spec.value}')
                 td= spec.remark
                 - i = i+1
           input(type='hidden',name='no_use',value='null')
