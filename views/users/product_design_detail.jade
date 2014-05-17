@@ -1,0 +1,41 @@
+form.form-horizontal(action='#')
+  .row
+    .col-md-12
+      table.table.table-hover.table-striped.table-bordered
+          tr
+            th
+              | Product Design Id
+            th
+              | Design Number
+            th
+              | Design Variant
+            th
+              | Labor Cost
+            th 
+              | Labor Hours
+            th
+              | Material Cost
+            th
+              | Currency
+          -each design in product_designs
+            tr
+              td= design.id
+                input(name='design_id_sel', value='#{design.id}',type='hidden')
+              td= design.design_number
+              td= design.design_variant
+              td= design.labor_cost
+              td= design.labor_hours
+              td= design.material_cost
+              td= design.currency
+            tr
+              th
+                | Minimum Price
+              th
+                | Confirm Delivery (in weeks)
+            tr
+              td
+                input#sales_price.form-control(value='#{design.minimum_price}',name="sales_price", onkeyup="validate_number('sales_price','Please select valid Sales Price',1)")
+                span.help-blocks
+              td
+                input#weeks_sel.form-control(value='',name="weeks_sel", onkeyup="validate_number('weeks_sel','Please select valid no of weeks',1)")
+                span.help-blocks

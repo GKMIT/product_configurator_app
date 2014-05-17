@@ -1,0 +1,35 @@
+form#rfq_line_edit_form.form-horizontal(action='#')
+  .row
+    .col-md-12
+      table.table.table-hover.table-striped.table-bordered
+        thead
+          tr
+            th
+              | #
+            th
+              | Product Design Id
+            th
+              | Design Number
+            th
+              | Design Variant
+            th
+              | Labor Cost
+            th 
+              | Labor Hours
+            th
+              | Material Cost
+            th
+              | Currency
+        tbody
+          -each design in product_designs
+            tr
+              td
+                input(type='radio', name="product_design", value="#{design.id}")
+                input(type='radio', name="product_cost", value="#{design.product_designs_sales_prices_id}",style="display:none")
+              td= design.id
+              td= design.design_number
+              td= design.design_variant
+              td= design.labor_cost
+              td= design.labor_hours
+              td= design.material_cost
+              td= design.currency
