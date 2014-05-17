@@ -347,10 +347,13 @@ function rfq_complete(rfq_id){
     });
 }
 
-function validate_number(id_info, alttext){
+function validate_number(id_info, alttext, parent_up){
     var value = $("#"+id_info).val();
     var errorspan = $("#"+id_info).parent().find('span');
-    var parent = $("#"+id_info).parent().parent();
+    
+    if(parent_up == 1) var parent = $("#"+id_info).parent();
+    else var parent = $("#"+id_info).parent().parent();
+
     if (value.match(/^[0-9]+$/) == null || value == 0){
         errorspan.text(alttext);
         parent.addClass("has-error");
@@ -558,4 +561,104 @@ function close_document(rfq_id){
             }
         });
     }
+}
+
+function product_designs(rfq_id,rfq_lines_id){
+    $(".modal-title").html('Select Product Design <a class="btn blue" onclick="select_design('+rfq_id+','+rfq_lines_id+')">Select</a>');
+    var val = $("#property_table_"+rfq_lines_id).serialize();
+    val = val.replace(/&value%5B%5D=&/g, '&value%5B%5d= &');
+    $.post("/users/product_designs/"+rfq_id+"/"+rfq_lines_id,val, function(data) {
+        $(".modal-body").html(data);
+    });
+}
+ 
+function select_design(rfq_id, rfq_lines_id){
+    var design_id = $("input[name='product_design']").val();
+    var cost_id = $("input[name='product_cost']").val();
+    alert(design_id + ' / ' + cost_id);
+    $("#close_btn").trigger('click');
+    $("#product_design_details_"+rfq_lines_id).html('Loading..');
+    $.get("/users/product_designs_details/"+design_id+"/"+cost_id, function(data) {
+        $("#product_design_details_"+rfq_lines_id).html(data);
+        $("#product_design_details_"+rfq_lines_id).append('<a href="javascript:;" class="btn blue submit_sales" onclick="submit_sales('+rfq_id+','+rfq_lines_id+')">Submit</a>');
+    });
+}
+ 
+$(document).on('click','input[name="product_design"]', function() {
+    $(this).parent().find('input[name="product_cost"]').attr('checked', 'checked');
+});
+ 
+$(document).on('click','.choose_btn', function() {
+    var portlet = $(this).parent().parent().find('.portlet-body');
+ 
+    if(portlet.hasClass('portlet-open')){
+        portlet.slideUp('slow');
+        portlet.removeClass('portlet-open');
+    } else {
+        portlet.slideDown("slow");
+        portlet.addClass('portlet-open');
+    }
+});
+ 
+ 
+// $(document).on('click','.submit_sales', function() {
+//     var form_element = $(this).parent();
+//     var val = form_element.serialize();
+//     alert(val);
+// });
+ 
+function submit_sales(rfq_id, rfq_lines_id){
+    var design_id = $("#product_design_details_"+rfq_lines_id).find('input[name="design_id_sel"]').val();
+    var sales_price = $("#product_design_details_"+rfq_lines_id).find('input[name="sales_price"]').val();
+    var no_weeks = $("#product_design_details_"+rfq_lines_id).find('input[name="weeks_sel"]').val();
+    var flag1 = validate_number('sales_price','Please select valid Sales price',1);
+    var flag2 = validate_number('weeks_sel','Please select valid no of weeks',1);
+ 
+    if(flag1 && flag2){
+        $("#product_design_details_"+rfq_lines_id).find('.submit_sales').html('Processing..');
+        $.post("/users/submit_to_sales", {rfq_id:rfq_id, rfq_lines_id:rfq_lines_id, product_designs_id:design_id, sales_price:sales_price, confirmed_delivery_date:no_weeks}, function(data) {
+            if(data.success == 'true'){
+                
+                var portlet_design = $("#product_design_details_"+rfq_lines_id).parent().parent();
+                portlet_design.removeClass('red').addClass('green');
+                portlet_design.find('.portlet-body').slideUp('slow');
+                portlet_design.find('.portlet-body').removeClass('portlet-open');
+                portlet_design.find('.portlet-title .choose_btn').html(data.product_designs[0].design_number);
+ 
+                $("#product_design_details_"+rfq_lines_id).find('input[name="sales_price"]').parent().html(sales_price);
+                $("#product_design_details_"+rfq_lines_id).find('input[name="weeks_sel"]').parent().html(no_weeks);
+                $("#product_design_details_"+rfq_lines_id).find('.submit_sales').remove();
+                $("#product_design_details_"+rfq_lines_id).append('<a href="javascript:;" onclick="product_designs_reset('+rfq_id+','+rfq_lines_id+')" class="btn yellow reset">Reset</a>');
+ 
+            } else{
+                bootbox.alert(data.message);
+            }
+        });
+    }
+}
+ 
+function product_designs_reset(rfq_id, rfq_lines_id){
+    $("#product_design_details_"+rfq_lines_id).parent().parent().removeClass('green').addClass('red');
+    $("#product_design_details_"+rfq_lines_id).find('.reset').html('Processing..');
+ 
+    $.post("/users/submit_to_sales", {rfq_id:rfq_id, rfq_lines_id:rfq_lines_id, product_designs_id:0, sales_price:0, confirmed_delivery_date:0}, function(data) {
+        if(data.success == 'true'){
+             $("#product_design_details_"+rfq_lines_id).html('<a href="#basic" data-toggle="modal" onclick="product_designs('+rfq_id+','+rfq_lines_id+')" class="btn blue">Apply Filters</a>');
+          
+        } else{
+            bootbox.alert(data.message);
+        }
+    });
+}
+ 
+function submit_to_sales_final(rfq_id){
+ 
+    $("#submit_to_sales_final").html('Processing..');
+    $.post("/users/submit_to_sales_final", {rfq_id:rfq_id}, function(data) {
+        if(data.success == 'true'){
+            window.location.replace("/users/tendering_quote");
+        } else{
+            bootbox.alert(data.message);
+        }
+    });
 }

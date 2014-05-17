@@ -32,8 +32,12 @@ block page_content
             tr
               td= rfq[0].document_no
               td= rfq[0].version_no
+    .col-md-6
+      a#submit_to_sales_final.btn.green.pull-right(href="javascript:;",onclick="submit_to_sales_final(#{rfq[0].id})")
+        | Submit to Sales&nbsp;
+        i.fa.fa-angle-double-right
   - each rfq_line in rfq_lines
-    .portlet.red.box
+    .portlet(class=(rfq_line.product_design_detail.length != 0)?'green box':'red box')
       .portlet-title
         .caption
           .span3(style='float:left; margin-right:10px; padding-right:10px; border-right:1px solid #FFF')
@@ -52,29 +56,85 @@ block page_content
             h6(style='margin:0; color:#EEE')
               | Requested Delivery Date
             h5(style='margin:0')= rfq_line.req_delivery_date
-        .tools
-          a.collapse
-      .portlet-body
-        table.table.table-bordered
-          thead
-            tr
-              th SN
-              th Property
-              th Unit of Measurement
-              th Value
-              th Remark
-          tbody
-            -var i = 1
-            -each spec in rfq_line.rfq_lines_technical_specs
+        .tools.pull-right
+          a.expand(style='display:none')
+        a.btn.pull-right.choose_btn(style="border:1px solid #ccc; margin-top:-3px; margin-right:0px;color:#fff")
+          - var design = (rfq_line.product_design_detail.length == 0)?'Choose':rfq_line.product_design_detail[0].design_number;
+          | #{design}
+      .portlet-body(style='display:none')
+        form(id='property_table_#{rfq_line.id}')
+          table.table.table-bordered
+            thead
               tr
-              td= i
-              td= spec.property_name
-              td= spec.unit_of_measurement
-              td= spec.value
-              td= spec.remark
-              - i = i+1
-        a.btn.blue(href="#basic",data-toggle="modal",onclick="product_designs(#{rfq[0].id},#{rfq_line.id})")
-          | Select Product Design
+                th SN
+                th Select
+                th Property
+                th Unit of Measurement
+                th Value
+                th Remark
+            tbody
+              -var i = 1
+              -var man_array = rfq_line.mandatory_properties.split(',')
+              -each spec in rfq_line.rfq_lines_technical_specs
+                tr
+                td= i
+                td
+                 - if(man_array.indexOf(spec.product_properties_id.toString()) !== -1)
+                    input(type='checkbox',name='property[]',value='#{spec.product_properties_id}',style='display:none',checked)
+                 - else
+                    input(type='checkbox',name='property[]',value='#{spec.product_properties_id}',checked)
+                td= spec.property_name
+                td= spec.unit_of_measurement
+                td
+                 - if(man_array.indexOf(spec.product_properties_id.toString()) !== -1)
+                    input.form-control(type='text',name='value',value='#{spec.product_properties_id}',readonly)
+                 - else
+                    input.form-control(type='text',name='value',value='#{spec.product_properties_id}')
+                td= spec.remark
+                - i = i+1
+          input(type='hidden',name='no_use',value='null')
+        div(id='product_design_details_#{rfq_line.id}')
+          - if(rfq_line.product_design_detail.length != 0)
+            .row
+              .col-md-12
+                table.table.table-hover.table-striped.table-bordered
+                    tr
+                      th
+                        | Product Design Id
+                      th
+                        | Design Number
+                      th
+                        | Design Variant
+                      th
+                        | Labor Cost
+                      th 
+                        | Labor Hours
+                      th
+                        | Material Cost
+                      th
+                        | Currency
+                      tr
+                        td= rfq_line.product_design_detail[0].id
+                        td= rfq_line.product_design_detail[0].design_number
+                        td= rfq_line.product_design_detail[0].design_variant
+                        td= rfq_line.product_design_detail[0].labor_cost
+                        td= rfq_line.product_design_detail[0].labor_hours
+                        td= rfq_line.product_design_detail[0].material_cost
+                        td= rfq_line.product_design_detail[0].currency
+                      tr
+                        th
+                          | Sales Price
+                        th
+                          | Confirm Delivery (in weeks)
+                      tr
+                        td= rfq_lines[0].sales_price
+                        td= rfq_lines[0].confirmed_delivery_date
+          - if(rfq_line.product_design_detail.length == 0)
+            a.btn.blue(href="#basic",data-toggle="modal",onclick="product_designs(#{rfq[0].id},#{rfq_line.id})")
+              | Apply Filters
+          - else
+            a.btn.yellow.reset(href="javascript:;",onclick="product_designs_reset(#{rfq[0].id},#{rfq_line.id})")
+              | Reset
   #basic.modal.fade.bs-modal-lg.in(tabindex='-1', role='basic', aria-hidden='true', style='display: none;')
     .modal-dialog.modal-full
       .modal-content
