@@ -103,8 +103,12 @@ exports.tendering_rfq_quote = function(req, res){
 
 exports.product_designs = function(req, res){
  	
+ 	req.body.user_id = req.session.member_id;
+    req.body.rfq_id = req.params.rfq_id;
+    req.body.rfq_lines_id = req.params.rfq_lines_id;
+
  	req.body.properties = [];
- 
+ 	
     var props = req.body.property;
     var values = req.body.value;
  
@@ -117,10 +121,7 @@ exports.product_designs = function(req, res){
             }
         }
     }
-  	req.body.user_id = req.session.member_id;
-    req.body.rfq_id = req.params.rfq_id;
-    req.body.rfq_lines_id = req.params.rfq_lines_id;
-    
+
     delete req.body.property;
     delete req.body.value;
     delete req.body.no_use;
@@ -128,14 +129,14 @@ exports.product_designs = function(req, res){
     console.log(req.body);
     
 	var dGet = JSON.stringify(req.body);
-
+	console.log(dGet);
     var options = {
         host : config.host,
         port : config.port,
         path : '/tendering_fetch_product_design_detail',
         method : 'POST',
         headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
+            'Content-Type': 'application/json',
 		    'authentication_token': req.session.token
         }
     };
