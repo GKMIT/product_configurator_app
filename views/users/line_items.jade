@@ -173,7 +173,18 @@ block page_content
                                   td
                                     a.btn.dark.icn-only.remove_prop(href="javascript:;")
                                       i.fa.fa-times
-                                 tr
+                                tr
+                                  td
+                                    select.props#product_properties_id.form-control(name='product_properties_id[]')
+                                  td
+                                  td
+                                    input#value.form-control.value_in(name='value[]')
+                                  td
+                                    input#remark.form-control(name='remark[]')
+                                  td
+                                    a.btn.dark.icn-only.remove_prop(href="javascript:;")
+                                      i.fa.fa-times
+                                tr
                                   td
                                     select.props#product_properties_id.form-control(name='product_properties_id[]')
                                   td
