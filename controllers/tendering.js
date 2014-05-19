@@ -167,7 +167,7 @@ exports.product_designs_details = function(req, res){
     var options = {
         host : config.host,
         port : config.port,
-        path : '/tendering_fetch_particular_design/'+req.session.member_id+'/'+req.params.design_id+'/'+req.params.cost_id,
+        path : '/tendering_fetch_particular_design/'+req.session.member_id+'/'+req.params.design_id+'/'+req.params.rfq_lines_id,
         method : 'GET',
         headers: {
             'Content-Type':'application/json',

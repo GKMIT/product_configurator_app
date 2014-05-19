@@ -573,20 +573,18 @@ function product_designs(rfq_id,rfq_lines_id){
 }
  
 function select_design(rfq_id, rfq_lines_id){
-    var design_id = $("input[name='product_design']").val();
-    var cost_id = $("input[name='product_cost']").val();
-    alert(design_id + ' / ' + cost_id);
+    var design_id = $("input[name='product_design']:checked").val();
     $("#close_btn").trigger('click');
     $("#product_design_details_"+rfq_lines_id).html('Loading..');
-    $.get("/users/product_designs_details/"+design_id+"/"+cost_id, function(data) {
+    $.get("/users/product_designs_details/"+design_id+"/"+rfq_lines_id, function(data) {
         $("#product_design_details_"+rfq_lines_id).html(data);
         $("#product_design_details_"+rfq_lines_id).append('<a href="javascript:;" class="btn blue submit_sales" onclick="submit_sales('+rfq_id+','+rfq_lines_id+')">Submit</a>');
     });
 }
  
-$(document).on('click','input[name="product_design"]', function() {
-    $(this).parent().find('input[name="product_cost"]').attr('checked', 'checked');
-});
+// $(document).on('click','input[name="product_design"]', function() {
+//     $(this).parent().find('input[name="product_cost"]').attr('checked', 'checked');
+// });
  
 $(document).on('click','.choose_btn', function() {
     var portlet = $(this).parent().parent().find('.portlet-body');
