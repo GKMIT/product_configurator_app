@@ -622,7 +622,7 @@ function submit_sales(rfq_id, rfq_lines_id){
                 portlet_design.find('.portlet-body').slideUp('slow');
                 portlet_design.find('.portlet-body').removeClass('portlet-open');
                 portlet_design.find('.portlet-title .choose_btn').html(data.product_designs[0].design_number);
- 
+                
                 $("#product_design_details_"+rfq_lines_id).find('input[name="sales_price"]').parent().html(sales_price);
                 $("#product_design_details_"+rfq_lines_id).find('input[name="weeks_sel"]').parent().html(no_weeks);
                 $("#product_design_details_"+rfq_lines_id).find('.submit_sales').remove();

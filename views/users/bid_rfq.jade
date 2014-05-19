@@ -85,8 +85,8 @@ block page_content
               td= rfq[0].probability + ' %'
             tr
               td
-                | Must Win
-              td= rfq[0].win
+                | Strategic Quote
+              td= (rfq[0].strategic_quote == 1)?'Yes':'No'
             tr
   - if (rfq_lines.length > 0)
     .row
