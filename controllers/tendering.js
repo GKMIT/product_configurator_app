@@ -151,7 +151,7 @@ exports.product_designs = function(req, res){
             var data = JSON.parse(data_final);
             if(data.statusCode == 200){
                 var i;
-                res.render('users/product_design_data', {rfq_lines: data.rfq_lines, product_designs: data.product_designs });
+                res.render('users/product_design_data', {rfq_lines: data.rfq_lines, product_designs: data.product_designs, props:data.filter_properties });
             } else {
                 res.send(data.success);
             }

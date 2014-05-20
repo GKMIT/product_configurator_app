@@ -197,24 +197,24 @@ block page_content
                                       i.fa.fa-times
                           .row
                             .com-md-12
-                              a.btn.blue(href="javascript:;",style="margin-left:30px;",onclick="add_more_line_items('table_body')")
+                              a.btn.purple(href="javascript:;",style="margin-left:30px;",onclick="add_more_line_items('table_body')")
                                 | Add More Properties
                           input(name='dummy',type='hidden',value='0')
                   .form-actions.fluid
                     .row
-                      .col-md-12
+                      .col-md-2
+                        a#btn_add_more.btn.purple.button-add_more(href='javascript:;', onclick="rfq_line_save(2,#{selected_rfq[0].id})", style="margin-left:10px;")
+                            | Add More
+                      .col-md-10
                         .col-md-offset-3.col-md-9
                           a#btn_save.btn.blue.button-save(href='javascript:;', onclick="rfq_line_save(1,#{selected_rfq[0].id})")
                             | Save For Now
-                          &nbsp;&nbsp;&nbsp;
-                          a#btn_add_more.btn.blue.button-add_more(href='javascript:;', onclick="rfq_line_save(2,#{selected_rfq[0].id})")
-                            | Add More
-                          &nbsp;&nbsp;&nbsp;
-                          a.btn.dark.button-complete(href='/users/')
-                            | Cancel
                           &nbsp;&nbsp;&nbsp; 
                           a#btn_complete.btn.green.button-complete(href='javascript:;', onclick="rfq_complete(#{selected_rfq[0].id})")
                             | Complete RFQ
+                          &nbsp;&nbsp;&nbsp;
+                          a.btn.dark.button-complete(href='/users/')
+                            | Cancel
   #basic.modal.fade.bs-modal-lg.in(tabindex='-1', role='basic', aria-hidden='true', style='display: none;')
     .modal-dialog.modal-full
       .modal-content

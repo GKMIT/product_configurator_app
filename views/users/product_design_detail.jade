@@ -29,9 +29,9 @@ form.form-horizontal(action='#')
               td= design.currency
             tr
               th
-                | Minimum Price
+                | Minimum Price*
               th
-                | Confirm Delivery (in weeks)
+                | Confirm Delivery* (in weeks)
             tr
               td
                 input#sales_price.form-control(value='#{design.minimum_price}',name="sales_price", onkeyup="validate_number('sales_price','Please select valid Sales Price',1)")

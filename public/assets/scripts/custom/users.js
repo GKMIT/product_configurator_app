@@ -410,9 +410,9 @@ $(document).on('keyup','.value_in', function() {
 
 $(document).on('change','input[name=is_bid]', function() {
     if($(this).val() == 0){
-        $("#remark").slideDown("slow");
+        $("#remark").slideDown();
     } else {
-        $("#remark").slideUp("slow");
+        $("#remark").slideUp();
     }
 });
 
@@ -566,6 +566,8 @@ function close_document(rfq_id){
 function product_designs(rfq_id,rfq_lines_id){
     $(".modal-title").html('Select Product Design');
     $("#select_btn").removeAttr('onclick');
+    $(".modal-body").html('Loading..');
+
     $("#select_btn").attr('onclick','select_design('+rfq_id+','+rfq_lines_id+')');
     var val = $("#property_table_"+rfq_lines_id).serialize();
     val = val.replace(/&value%5B%5D=&/g, '&value%5B%5d= &');
@@ -580,7 +582,7 @@ function select_design(rfq_id, rfq_lines_id){
     $("#product_design_details_"+rfq_lines_id).html('Loading..');
     $.get("/users/product_designs_details/"+design_id+"/"+rfq_lines_id, function(data) {
         $("#product_design_details_"+rfq_lines_id).html(data);
-        $("#product_design_details_"+rfq_lines_id).append('<a href="javascript:;" class="btn blue submit_sales" onclick="submit_sales('+rfq_id+','+rfq_lines_id+')">Submit</a>&nbsp;&nbsp;<a href="javascript:;" class="btn dark reset_initial" onclick="reset_initial('+rfq_id+','+rfq_lines_id+')">Reset</a>');
+        $("#product_design_details_"+rfq_lines_id).append('<a href="javascript:;" class="btn green submit_sales" onclick="submit_sales('+rfq_id+','+rfq_lines_id+')">Submit</a>&nbsp;&nbsp;<a href="javascript:;" class="btn dark reset_initial" onclick="reset_initial('+rfq_id+','+rfq_lines_id+')">Reset</a>');
     });
 }
  
@@ -592,10 +594,10 @@ $(document).on('click','.choose_btn', function() {
     var portlet = $(this).parent().parent().find('.portlet-body');
  
     if(portlet.hasClass('portlet-open')){
-        portlet.slideUp('slow');
+        portlet.slideUp();
         portlet.removeClass('portlet-open');
     } else {
-        portlet.slideDown("slow");
+        portlet.slideDown();
         portlet.addClass('portlet-open');
     }
 });
@@ -621,7 +623,7 @@ function submit_sales(rfq_id, rfq_lines_id){
                 
                 var portlet_design = $("#product_design_details_"+rfq_lines_id).parent().parent();
                 portlet_design.removeClass('red').addClass('green');
-                portlet_design.find('.portlet-body').slideUp('slow');
+                portlet_design.find('.portlet-body').slideUp();
                 portlet_design.find('.portlet-body').removeClass('portlet-open');
                 portlet_design.find('.portlet-title .choose_btn').html(data.product_designs[0].design_number);
                 

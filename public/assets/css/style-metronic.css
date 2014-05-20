@@ -170,7 +170,7 @@ Buttons & Dropdown Buttons
 .btn.purple {
   color: white; 
   text-shadow: none;	
-  background-color: #852b99;
+  background-color: rgb(27, 188, 155);
 }
 .btn.purple:hover, 
 .btn.purple:focus, 
@@ -178,13 +178,13 @@ Buttons & Dropdown Buttons
 .btn.purple.active, 
 .btn.purple.disabled,
 .btn.purple[disabled] { 
-  background-color: #6d1b81 !important;
+  background-color: rgb(23, 161, 133) !important;
   color: #fff !important;
   outline: none !important;
 }
 
 .btn-group .btn.purple.dropdown-toggle {
-  background-color: #852b99 !important;
+  background-color: rgb(27, 188, 155) !important;
 }
 .btn-group .btn.purple:hover, 
 .btn-group .btn.purple:focus, 

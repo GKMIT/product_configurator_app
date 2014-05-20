@@ -33,7 +33,7 @@ block page_content
               td= rfq[0].document_no
               td= rfq[0].version_no
     .col-md-6
-      a#submit_to_sales_final.btn.blue.pull-right(href="javascript:;",onclick="submit_to_sales_final(#{rfq[0].id})")
+      a#submit_to_sales_final.btn.green.pull-right(href="javascript:;",onclick="submit_to_sales_final(#{rfq[0].id})")
         | Submit to Sales
   - each rfq_line in rfq_lines
     .portlet(class=(rfq_line.product_design_detail.length != 0)?'green box':'red box')
@@ -143,5 +143,5 @@ block page_content
         .modal-body(style="")
           | Loading...
         .modal-footer
-          button.btn.blue#select_btn(type='button') Select
-          button.btn.default#close_btn(type='button', data-dismiss='modal') Close
+          button.btn.green#select_btn(type='button') Select
+          button.btn.dark#close_btn(type='button', data-dismiss='modal') Close

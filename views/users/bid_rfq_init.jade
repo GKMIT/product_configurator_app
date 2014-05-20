@@ -50,16 +50,16 @@ block page_content
         .form-body
           - each ques in rfq_questions
             .form-group
-              label.col-md-6.control-label= ques.question+'?'
-              .col-md-6(style='margin-top:5px;')
+              label.col-md-4.control-label= ques.question+'?'
+              .col-md-8(style='margin-top:5px;')
                 input(type='radio', name="ques_#{ques.id}" value='1', checked='true')
                 | &nbsp;Yes&nbsp;&nbsp;&nbsp;
                 input(type='radio', name="ques_#{ques.id}" value='0',checked= ques.question_value == 0)
                 | &nbsp;No
         .form-actions.fluid
           .col-md-offset-3.col-md-9
-            button#save_bid.btn.blue(type='button', onclick="save_questions(#{rfq[0].id},1)") Bid
+            button#save_bid.btn.green(type='button', onclick="save_questions(#{rfq[0].id},1)") Bid
             | &nbsp;&nbsp;
-            button#save_nobid.btn.blue(type='button', onclick="save_questions(#{rfq[0].id},2)") No Bid
+            button#save_nobid.btn.green(type='button', onclick="save_questions(#{rfq[0].id},2)") No Bid
             | &nbsp;&nbsp;
-            a.btn.default(type='button', href="/users/") Cancel
+            a.btn.dark(type='button', href="/users/") Cancel
