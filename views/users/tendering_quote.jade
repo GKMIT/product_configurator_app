@@ -33,9 +33,8 @@ block page_content
               td= rfq[0].document_no
               td= rfq[0].version_no
     .col-md-6
-      a#submit_to_sales_final.btn.green.pull-right(href="javascript:;",onclick="submit_to_sales_final(#{rfq[0].id})")
-        | Submit to Sales&nbsp;
-        i.fa.fa-angle-double-right
+      a#submit_to_sales_final.btn.blue.pull-right(href="javascript:;",onclick="submit_to_sales_final(#{rfq[0].id})")
+        | Submit to Sales
   - each rfq_line in rfq_lines
     .portlet(class=(rfq_line.product_design_detail.length != 0)?'green box':'red box')
       .portlet-title
@@ -133,7 +132,7 @@ block page_content
             a.btn.blue(href="#basic",data-toggle="modal",onclick="product_designs(#{rfq[0].id},#{rfq_line.id})")
               | Apply Filters
           - else
-            a.btn.yellow.reset(href="javascript:;",onclick="product_designs_reset(#{rfq[0].id},#{rfq_line.id})")
+            a.btn.dark.reset(href="javascript:;",onclick="product_designs_reset(#{rfq[0].id},#{rfq_line.id})")
               | Reset
   #basic.modal.fade.bs-modal-lg.in(tabindex='-1', role='basic', aria-hidden='true', style='display: none;')
     .modal-dialog.modal-full
@@ -144,4 +143,5 @@ block page_content
         .modal-body(style="")
           | Loading...
         .modal-footer
+          button.btn.blue#select_btn(type='button') Select
           button.btn.default#close_btn(type='button', data-dismiss='modal') Close
