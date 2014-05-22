@@ -670,3 +670,13 @@ function submit_to_sales_final(rfq_id){
 function reset_initial(rfq_id, rfq_lines_id){
     $("#product_design_details_"+rfq_lines_id).html('<a href="#basic" data-toggle="modal" onclick="product_designs('+rfq_id+','+rfq_lines_id+')" class="btn blue">Apply Filters</a>');
 }
+
+$(document).on('click','.check_input', function() {
+    var tr_body = $(this).parent().parent();
+    if(!this.checked){
+        tr_body.find('input[type="text"]').removeAttr('name');
+    } else {
+        tr_body.find('input[type="text"]').attr('name','value');
+    }
+    
+});

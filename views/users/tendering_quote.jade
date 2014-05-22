@@ -81,7 +81,7 @@ block page_content
                  - if(man_array.indexOf(spec.product_properties_id.toString()) !== -1)
                     input(type='checkbox',name='property[]',value='#{spec.product_properties_id}',style='display:none',checked)
                  - else
-                    input(type='checkbox',name='property[]',value='#{spec.product_properties_id}',checked)
+                    input.check_input(type='checkbox',name='property[]',value='#{spec.product_properties_id}',checked)
                 td= spec.property_name
                 td= spec.unit_of_measurement
                 td
