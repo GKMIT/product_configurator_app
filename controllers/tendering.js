@@ -103,6 +103,7 @@ exports.tendering_rfq_quote = function(req, res){
 
 exports.product_designs = function(req, res){
  	
+    console.log(req.body);
  	req.body.user_id = req.session.member_id;
     req.body.rfq_id = req.params.rfq_id;
     req.body.rfq_lines_id = req.params.rfq_lines_id;
@@ -150,10 +151,14 @@ exports.product_designs = function(req, res){
             console.log(data_final);
             var data = JSON.parse(data_final);
             if(data.statusCode == 200){
-                var i;
-                res.render('users/product_design_data', {rfq_lines: data.rfq_lines, product_designs: data.product_designs, props:data.filter_properties });
+                if(data.product_designs.length > 0){
+                   res.render('users/product_design_data', {rfq_lines: data.rfq_lines, product_designs: data.product_designs, props:data.filter_properties }); 
+               } else {
+                res.send(data.message);
+               }
+                
             } else {
-                res.send(data.success);
+                res.send(data.message);
             }
         });
     });

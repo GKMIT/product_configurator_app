@@ -27,4 +27,4 @@ form#rfq_line_edit_form.form-horizontal(action='#')
               - var count = 0
               - each prop in props
                 td= design.range_properties[count].spec_value + ' (+'+design.range_properties[count].plus_tolerance+', -'+ design.range_properties[count].minus_tolerance +')'
-              - count++
+                - count = count + 1

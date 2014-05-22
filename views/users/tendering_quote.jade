@@ -132,7 +132,7 @@ block page_content
             a.btn.blue(href="#basic",data-toggle="modal",onclick="product_designs(#{rfq[0].id},#{rfq_line.id})")
               | Apply Filters
           - else
-            a.btn.dark.reset(href="javascript:;",onclick="product_designs_reset(#{rfq[0].id},#{rfq_line.id})")
+            a.btn.yellow.reset(href="javascript:;",onclick="product_designs_reset(#{rfq[0].id},#{rfq_line.id})")
               | Reset
   #basic.modal.fade.bs-modal-lg.in(tabindex='-1', role='basic', aria-hidden='true', style='display: none;')
     .modal-dialog.modal-full

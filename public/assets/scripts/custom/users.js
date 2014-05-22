@@ -571,6 +571,7 @@ function product_designs(rfq_id,rfq_lines_id){
     $("#select_btn").attr('onclick','select_design('+rfq_id+','+rfq_lines_id+')');
     var val = $("#property_table_"+rfq_lines_id).serialize();
     val = val.replace(/&value%5B%5D=&/g, '&value%5B%5d= &');
+    
     $.post("/users/product_designs/"+rfq_id+"/"+rfq_lines_id,val, function(data) {
         $(".modal-body").html(data);
     });
@@ -582,7 +583,7 @@ function select_design(rfq_id, rfq_lines_id){
     $("#product_design_details_"+rfq_lines_id).html('Loading..');
     $.get("/users/product_designs_details/"+design_id+"/"+rfq_lines_id, function(data) {
         $("#product_design_details_"+rfq_lines_id).html(data);
-        $("#product_design_details_"+rfq_lines_id).append('<a href="javascript:;" class="btn green submit_sales" onclick="submit_sales('+rfq_id+','+rfq_lines_id+')">Submit</a>&nbsp;&nbsp;<a href="javascript:;" class="btn dark reset_initial" onclick="reset_initial('+rfq_id+','+rfq_lines_id+')">Reset</a>');
+        $("#product_design_details_"+rfq_lines_id).append('<a href="javascript:;" class="btn green submit_sales" onclick="submit_sales('+rfq_id+','+rfq_lines_id+')">Submit</a>&nbsp;&nbsp;<a href="javascript:;" class="btn yellow reset_initial" onclick="reset_initial('+rfq_id+','+rfq_lines_id+')">Reset</a>');
     });
 }
  
@@ -631,7 +632,7 @@ function submit_sales(rfq_id, rfq_lines_id){
                 $("#product_design_details_"+rfq_lines_id).find('input[name="weeks_sel"]').parent().html(no_weeks);
                 $("#product_design_details_"+rfq_lines_id).find('.submit_sales').remove();
                 $("#product_design_details_"+rfq_lines_id).find('.reset_initial').remove();
-                $("#product_design_details_"+rfq_lines_id).append('<a href="javascript:;" onclick="product_designs_reset('+rfq_id+','+rfq_lines_id+')" class="btn dark reset">Reset</a>');
+                $("#product_design_details_"+rfq_lines_id).append('<a href="javascript:;" onclick="product_designs_reset('+rfq_id+','+rfq_lines_id+')" class="btn yellow reset">Reset</a>');
  
             } else{
                 bootbox.alert(data.message);
