@@ -562,7 +562,7 @@ exports.fetch_rfq_line_items = function(req, res){
 								option_string += '<option value="'+ data2.product_properties[i].id+'">'+ data2.product_properties[i].property_name+'</option>';
 							};
 
-							res.render('users/fetch_line_items', { rfq_lines:data.rfq_lines, production_plants:data2.production_plants, product_properties:data2.product_properties, technical_specifications:data.technical_specifications, product_lines:data.product_lines, option_string:option_string, mandatory_properties:data2.mandatory_properties[0].mandatory_properties });
+							res.render('users/fetch_line_items', { rfq_lines:data.rfq_lines, production_plants:data2.production_plants, product_properties:data2.product_properties, technical_specifications:data.technical_specifications, product_lines:data.product_lines, option_string:option_string, mandatory_properties:data2.mandatory_properties[0].mandatory_properties, complexities: data2.complexity, product_types: data2.product_types });
 						} else {
 							res.send(data2.success);
 						}

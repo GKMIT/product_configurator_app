@@ -98,6 +98,16 @@ function put_property_value(i){
      $.get('/users/fetch_unit/'+val, function(data) {
         if(data.success == "true"){
             prop_line.find('td').eq(1).html(data.properties[0].unit_of_measurement);
+             var td_target = prop_line.find('.value_in').parent();
+            if(data.value.length > 0){
+                var text = '<select id="value" name="value[]" class="form-control value_in">';
+                var j = 0;
+                for (j=0; j < data.value.length; ++j) {
+                    text += '<option value='+data.value[j].id+'>'+data.value[j].name+'</option>';
+                }
+                text += '</select>';
+                td_target.html(text);
+            }
         }
     });
 }
@@ -278,12 +288,14 @@ function validate_tech(table_name){
     var mans = $("#man_"+table_name).val().split(',');
 
     $( "#"+table_name+' .props').each(function() {
+        //alert($(this).val());
       if(mans.indexOf($(this).val()) != -1) {
-        i++; 
+        var r = mans.indexOf($(this).val());
+        mans.splice(r,1);
       }
     });
 
-    if(i < mans.length){
+    if(mans.length > 0){
         bootbox.alert("Please fill mandatory technical properties ");
         return false;
     }
@@ -424,6 +436,18 @@ $(document).on('change','.props', function() {
      $.get(file_name+val, function(data) {
         if(data.success == "true"){
             prop_line.find('td').eq(1).html(data.properties[0].unit_of_measurement);
+            var td_target = prop_line.find('.value_in').parent();
+            if(data.value.length > 0){
+                var text = '<select id="value" name="value[]" class="form-control value_in">';
+                var j = 0;
+                for (j=0; j < data.value.length; ++j) {
+                    text += '<option value='+data.value[j].id+'>'+data.value[j].name+'</option>';
+                }
+                text += '</select>';
+            } else {
+                 var text = '<input id="value" name="value[]" class="form-control value_in">';
+            }
+            td_target.html(text);
         } else {
             bootbox.alert('Invalid Property');
         }
