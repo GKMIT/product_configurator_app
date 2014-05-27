@@ -1,0 +1,69 @@
+extends layout
+
+block title_top
+  | Finalize Quote
+
+block meta_tags
+  meta(content='', name='description')
+  meta(content='', name='author')
+
+block title
+  | Finalize Quote
+
+block hint
+  | 
+
+block doc_ready
+  script.
+    jQuery(document).ready(function() {
+    });
+
+block page_content
+  .row
+    .col-md-6
+      table.table.table-bordered
+        tr
+          th Document Number
+          td= rfq[0].document_no
+        tr
+          th Version Number
+          td= rfq[0].version_no
+        tr
+          th Creation Date
+          td= rfq[0].quote_creation_date
+  .row  
+    .col-md-12
+      .portlet.box.grey
+        .portlet-title
+          .caption
+            i.fa.fa-reorder
+            | Finalize Quote
+        .portlet-body
+          form#quote_finalize.form-horizontal(action='#')
+            .form-group
+              label.control-label.col-md-4
+                | Sales Price
+              .col-md-4
+                p.form-control-static= rfq[0].estimated_sales_price
+            .form-group
+              label.control-label.col-md-4
+                | Validity Date
+                span.required *
+              .col-md-4
+                input#quote_validity_date.form-control.date-picker(type="text",name="quote_validity_date",onchange="validate_date('quote_validity_date','Please select valid Date')")
+                span.help-block
+            .form-group
+              label.control-label.col-md-4
+                | Probability
+                span.required *
+              .col-md-4
+                select#probability.form-control(name='probability',onchange="validate_number('probability','Please select valid Probability')")
+                  - each prob in probabilities
+                    option(value="#{prob}",selected=prob == rfq[0].probability)= prob+'%'
+                span.help-block
+            .form-group
+              label.control-label.col-md-4
+              .col-md-4
+                a.btn.blue#approve(href='javascript:;', onclick="approve_rfq(#{rfq[0].id})")
+                  | Approve
+           

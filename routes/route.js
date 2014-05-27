@@ -3,6 +3,7 @@ var admin = require('../controllers/admin');
 var users = require('../controllers/users');
 var login = require('../controllers/login');
 var tendering = require('../controllers/tendering');
+var quote_finalize = require('../controllers/quote_finalize');
 var globalfunctions = require('../controllers/global');
 
 module.exports = function () {
@@ -63,4 +64,11 @@ module.exports = function () {
     app.get('/users/product_designs_details/:design_id/:rfq_lines_id', globalfunctions.checkUserAuth, tendering.product_designs_details);
     app.post('/users/submit_to_sales', globalfunctions.checkUserAuth, tendering.submit_to_sales);
     app.post('/users/submit_to_sales_final', globalfunctions.checkUserAuth, tendering.submit_to_sales_final);
+
+     // Quotes Finalize
+    app.get('/users/quote_finalize', globalfunctions.checkUserAuth, quote_finalize.quote_finalize_init);
+    app.get('/users/quote_finalize/:rfq_id', globalfunctions.checkUserAuth, quote_finalize.quote_finalize);
+    app.post('/users/approve_rfq/:rfq_id', globalfunctions.checkUserAuth, quote_finalize.approve_rfq);
+    app.get('/users/follow_up', globalfunctions.checkUserAuth, quote_finalize.follow_up_init);
+    
 };
