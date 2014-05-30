@@ -190,7 +190,7 @@ exports.product_designs_details = function(req, res){
             var data = JSON.parse(data_final);
             if(data.statusCode == 200){
                 var i;
-                res.render('users/product_design_detail', { product_designs: data.design });
+                res.render('users/product_design_detail', { product_designs: data.design, rfq_lines_id: req.params.rfq_lines_id, plants_id:req.params.plants_id, complexity_id:req.params.complexity_id });
             } else {
                 res.send(data.success);
             }
@@ -261,4 +261,36 @@ exports.submit_to_sales_final = function(req, res){
  
     reqPost.write(dGet);
     reqPost.end();
+};
+
+exports.minimum_price_ui = function(req, res){
+ 
+    var options = {
+        host : config.host,
+        port : config.port,
+        path : '/tendering_calculate_sales_price/'+req.session.member_id+'/'+req.params.rfq_lines_id+'/'+req.params.plants_id+'/'+req.params.complexity_id,
+        method : 'GET',
+        headers: {
+            'Content-Type':'application/json',
+            'authentication_token': req.session.token
+        }
+    };
+ 
+    var reqGet = http.request(options, function(response) {
+        var data_final ="";
+        response.on('data', function(chunk) {
+            data_final = data_final+chunk;
+        });
+        response.on('end',function (){
+            console.log(data_final);
+            // var data = JSON.parse(data_final);
+            // if(data.statusCode == 200){
+            //     var i;
+            //     res.render('users/product_design_detail', { product_designs: data.design, rfq_lines_id: req.params.rfq_lines_id, plants_id:req.params.plants_id, complexity_id:req.params.complexity_id });
+            // } else {
+            //     res.send(data.success);
+            // }
+        });
+    });
+    reqGet.end();
 };

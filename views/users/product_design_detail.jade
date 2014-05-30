@@ -36,6 +36,7 @@ form.form-horizontal(action='#')
               td
                 input#sales_price.form-control(value='#{design.minimum_price}',name="sales_price", onkeyup="validate_number('sales_price','Please select valid Sales Price',1)")
                 span.help-blocks
+                button.btn.blue(onclick="minimum_price_ui(#{rfq_lines_id},#{plants_id},#{complexity_id})") Select
               td
                 input#weeks_sel.form-control(value='',name="weeks_sel", onkeyup="validate_number('weeks_sel','Please select valid no of weeks',1)")
                 span.help-blocks
