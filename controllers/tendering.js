@@ -283,13 +283,13 @@ exports.minimum_price_ui = function(req, res){
         });
         response.on('end',function (){
             console.log(data_final);
-            // var data = JSON.parse(data_final);
-            // if(data.statusCode == 200){
-            //     var i;
-            //     res.render('users/product_design_detail', { product_designs: data.design, rfq_lines_id: req.params.rfq_lines_id, plants_id:req.params.plants_id, complexity_id:req.params.complexity_id });
-            // } else {
-            //     res.send(data.success);
-            // }
+            var data = JSON.parse(data_final);
+            if(data.statusCode == 200){
+                var i;
+                res.render('users/minimum_price_ui', {} );
+            } else {
+                res.send(data.success);
+            }
         });
     });
     reqGet.end();

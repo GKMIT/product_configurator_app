@@ -598,6 +598,7 @@ function product_designs(rfq_id,rfq_lines_id,plants_id,complexity_id){
     val = val.replace(/&value%5B%5D=&/g, '&value%5B%5d= &');
     
     $.post("/users/product_designs/"+rfq_id+"/"+rfq_lines_id,val, function(data) {
+        $(".modal-title").html("Select Product Design");
         $(".modal-body").html(data);
     });
 }
@@ -698,13 +699,9 @@ function reset_initial(rfq_id, rfq_lines_id){
 }
 
 function minimum_price_ui(rfq_lines_id, plants_id, complexity_id){
-    alert('minimum_price_ui');
      $.get("/users/minimum_price_ui/"+rfq_lines_id+"/"+plants_id+"/"+complexity_id, function(data) {
-        if(data.success == 'true'){
-
-        } else {
-
-        }
+        //$(".modal-title").html("Select Minimum Price");
+        //$(".modal-body").html(data);
     });
 }
 
