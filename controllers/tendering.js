@@ -190,7 +190,7 @@ exports.product_designs_details = function(req, res){
             var data = JSON.parse(data_final);
             if(data.statusCode == 200){
                 var i;
-                res.render('users/product_design_detail', { product_designs: data.design, rfq_lines_id: req.params.rfq_lines_id, plants_id:req.params.plants_id, complexity_id:req.params.complexity_id });
+                res.render('users/product_design_detail', { product_designs: data.design, rfq_lines_id: req.params.rfq_lines_id});
             } else {
                 res.send(data.success);
             }
@@ -268,7 +268,7 @@ exports.minimum_price_ui = function(req, res){
     var options = {
         host : config.host,
         port : config.port,
-        path : '/tendering_calculate_sales_price/'+req.session.member_id+'/'+req.params.rfq_lines_id+'/'+req.params.plants_id+'/'+req.params.complexity_id,
+        path : '/tendering_calculate_sales_price/'+req.session.member_id+'/'+req.params.rfq_lines_id+'/'+req.params.product_design_id,
         method : 'GET',
         headers: {
             'Content-Type':'application/json',

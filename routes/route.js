@@ -61,8 +61,8 @@ module.exports = function () {
 	app.get('/users/tendering_quote', globalfunctions.checkUserAuth, tendering.tendering_quote_init);
 	app.get('/users/tendering_quote/:rfq_id', globalfunctions.checkUserAuth, tendering.tendering_rfq_quote);
 	app.post('/users/product_designs/:rfq_id/:rfq_lines_id', globalfunctions.checkUserAuth, tendering.product_designs);
-    app.get('/users/product_designs_details/:design_id/:rfq_lines_id/:plants_id/:complexity_id', globalfunctions.checkUserAuth, tendering.product_designs_details);
-    app.get('/users/minimum_price_ui/:rfq_lines_id/:plants_id/:complexity_id', globalfunctions.checkUserAuth, tendering.minimum_price_ui);
+    app.get('/users/product_designs_details/:design_id/:rfq_lines_id', globalfunctions.checkUserAuth, tendering.product_designs_details);
+    app.get('/users/minimum_price_ui/:rfq_lines_id/:product_design_id', globalfunctions.checkUserAuth, tendering.minimum_price_ui);
     app.post('/users/submit_to_sales', globalfunctions.checkUserAuth, tendering.submit_to_sales);
     app.post('/users/submit_to_sales_final', globalfunctions.checkUserAuth, tendering.submit_to_sales_final);
 

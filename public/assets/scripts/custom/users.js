@@ -587,13 +587,13 @@ function close_document(rfq_id){
     }
 }
 
-function product_designs(rfq_id,rfq_lines_id,plants_id,complexity_id){
-    alert(complexity_id);
+function product_designs(rfq_id,rfq_lines_id){
+    //alert(complexity_id);
     $(".modal-title").html('Select Product Design');
     $("#select_btn").removeAttr('onclick');
     $(".modal-body").html('Loading..');
 
-    $("#select_btn").attr('onclick','select_design('+rfq_id+','+rfq_lines_id+','+plants_id+','+complexity_id+')');
+    $("#select_btn").attr('onclick','select_design('+rfq_id+','+rfq_lines_id+')');
     var val = $("#property_table_"+rfq_lines_id).serialize();
     val = val.replace(/&value%5B%5D=&/g, '&value%5B%5d= &');
     
@@ -603,12 +603,12 @@ function product_designs(rfq_id,rfq_lines_id,plants_id,complexity_id){
     });
 }
  
-function select_design(rfq_id, rfq_lines_id,plants_id,complexity_id){
+function select_design(rfq_id, rfq_lines_id){
     var design_id = $("input[name='product_design']:checked").val();
     $("#close_btn").trigger('click');
     $("#product_design_details_"+rfq_lines_id).html('Loading..');
-    alert(design_id+"/"+rfq_lines_id+"/"+plants_id+"/"+complexity_id);
-    $.get("/users/product_designs_details/"+design_id+"/"+rfq_lines_id+"/"+plants_id+"/"+complexity_id, function(data) {
+   // alert(design_id+"/"+rfq_lines_id+"/"+plants_id+"/"+complexity_id);
+    $.get("/users/product_designs_details/"+design_id+"/"+rfq_lines_id, function(data) {
         $("#product_design_details_"+rfq_lines_id).html(data);
         $("#product_design_details_"+rfq_lines_id).append('<a href="javascript:;" class="btn green submit_sales" onclick="submit_sales('+rfq_id+','+rfq_lines_id+')">Submit</a>&nbsp;&nbsp;<a href="javascript:;" class="btn yellow reset_initial" onclick="reset_initial('+rfq_id+','+rfq_lines_id+')">Reset</a>');
     });
@@ -698,10 +698,12 @@ function reset_initial(rfq_id, rfq_lines_id){
     $("#product_design_details_"+rfq_lines_id).html('<a href="#basic" data-toggle="modal" onclick="product_designs('+rfq_id+','+rfq_lines_id+')" class="btn blue">Apply Filters</a>');
 }
 
-function minimum_price_ui(rfq_lines_id, plants_id, complexity_id){
-     $.get("/users/minimum_price_ui/"+rfq_lines_id+"/"+plants_id+"/"+complexity_id, function(data) {
-        //$(".modal-title").html("Select Minimum Price");
-        //$(".modal-body").html(data);
+function minimum_price_ui(rfq_lines_id,product_design_id){
+    $(".modal-title").html("Select Minimum Price");
+    $(".modal-body").html("Loading..");
+
+    $.get("/users/minimum_price_ui/"+rfq_lines_id+"/"+product_design_id, function(data) {
+        $(".modal-body").html(data);
     });
 }
 

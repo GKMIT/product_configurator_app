@@ -131,7 +131,7 @@ block page_content
                         td= rfq_lines[0].sales_price
                         td= rfq_lines[0].confirmed_delivery_date
           - if(rfq_line.product_design_detail.length == 0)
-            a.btn.blue(href="#basic",data-toggle="modal",onclick="product_designs(#{rfq[0].id},#{rfq_line.id},#{rfq_line.plants_id}, #{complexity_id})")
+            a.btn.blue(href="#basic",data-toggle="modal",onclick="product_designs(#{rfq[0].id},#{rfq_line.id})")
               | Apply Filters
           - else
             a.btn.yellow.reset(href="javascript:;",onclick="product_designs_reset(#{rfq[0].id},#{rfq_line.id})")
