@@ -53,6 +53,8 @@ module.exports = function () {
 	app.get('/users/fetch_plants_properties/:product_line_id', globalfunctions.checkUserAuth, users.fetch_plants_properties);
 
 	app.get('/users/bid_rfq/:rfq_id', globalfunctions.checkUserAuth, users.bid_rfq);
+	app.get('/users/view_quote/:rfq_id', globalfunctions.checkUserAuth, users.view_quote);
+
 	app.get('/users/no_bid_rfq/:rfq_id', globalfunctions.checkUserAuth, users.no_bid_rfq);
 
 	app.get('/users/fetch_tendering_teams_members/:tendering_teams_id', globalfunctions.checkUserAuth, users.fetch_tendering_teams_members);

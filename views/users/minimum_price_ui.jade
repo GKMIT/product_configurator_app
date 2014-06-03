@@ -1,48 +1,51 @@
 script(src='/assets/plugins/jquery-1.10.2.min.js', type='text/javascript')
 script(src='/assets/scripts/custom/minimum_price.js', type='text/javascript')
-input.form-control#trans_numbers(name="trans_numbers",placeholder="No of Units")
+a.btn.default= 'Number of Transformers: '+ trans_num
+br
+br
+input.form-control#trans_numbers(name="trans_numbers", readonly, style="display:none", value="#{trans_num}")
 form#rfq_line_edit_form.form-horizontal(action='#')
   .portlet.blue.box
     .portlet-title
       .caption DCP
       .tools.pull-right
         a.collapse
-      input.pull-right.caption-input#dcp(readonly, name="dcp")
+      - var initial_dcp = parseFloat(initial_cost_data.labor_cost) + parseFloat(initial_cost_data.material_cost)
+        input.pull-right.caption-input#dcp(readonly, name="dcp", value="#{initial_dcp}")
     .portlet-body#dcp_body
       table.table.table-hover.table-striped.table-bordered
         tr
           td Material Cost
           td (Euro)
           td
-            input.count_change.form-control#material_cost(name="material_cost")
+            input.count_change.form-control#material_cost(name="material_cost", value='#{initial_cost_data.material_cost}', readonly)
         tr
           td Labour Cost
           td (Euro)
           td
-            input.count_change.form-control#labor_cost(name="labor_cost")
+            input.count_change.form-control#labor_cost(name="labor_cost",value="#{initial_cost_data.labor_cost}", readonly)
         tr  
           td Labour Hours
           td (hrs)
           td
-            input.form-control#labor_hours(name="labor_hours")
+            input.form-control#labor_hours(name="labor_hours",value="#{initial_cost_data.labor_hours}",readonly)
          tr 
           td Extra Engineering Hours
           td (hrs)
           td
             input.form-control#extra_engineering_hours
             input.count_change.form-control#extra_engineering_cost(name="extra_engineering_cost",style="display:none",readonly)
-            input.form-control#engineering_cost_hrs(style="display:none",readonly, value="60")
+            input.form-control#engineering_cost_hrs(style="display:none",readonly, value='#{overheads["engineering_cost"]}')
         tr 
           td ACC Cost
           td (Euro)
           td
-            input.form-control#acc_cost(name="acc_cost")
+            input.form-control#acc_cost(name="acc_cost",readonly)
         tr  
           td ACC Factor
           td (Euro)
           td
-            input.form-control#acc_factor(name="acc_factor")
-
+            input.form-control#acc_factor(name="acc_factor",value="1")
   .portlet.blue.box
     .portlet-title
       .caption PACKAGING
@@ -69,50 +72,74 @@ form#rfq_line_edit_form.form-horizontal(action='#')
           td
             input.form-control#extra_packaging_costs_build_of_parts(name="extra_packaging_costs_build_of_parts" value="600", readonly)
 
+  - var engineering_overheads = parseFloat(overheads["engineering_overheads"])/100
+  - //var engineering_overheads =20
+  - var initial_engineering_overheads = (engineering_overheads*initial_dcp/trans_num).toFixed(2)
+  - var plant_overheads = parseFloat(overheads["plant_overheads"])/100
+  - var initial_plant_overheads = (plant_overheads*initial_dcp).toFixed(2)
+  - var site_overheads = parseFloat(overheads["site_overheads"])/100
+  - var initial_site_overheads = (site_overheads*initial_dcp).toFixed(2)
+  - var regional_overheads = parseFloat(overheads["regional_overheads"])/100
+  - var initial_regional_overheads = (regional_overheads*initial_dcp).toFixed(2)
+  - var productline_overheads = parseFloat(overheads["productline_overheads"])/100
+  - var initial_productline_overheads = (productline_overheads*initial_dcp).toFixed(2)
+  - var corporate_overheads = parseFloat(overheads["corporate_overheads"])/100
+  - var initial_corporate_overheads = (corporate_overheads*initial_dcp).toFixed(2)
+  - var depreciation = parseFloat(overheads["depreciation"])/100
+  - var initial_depreciation = (depreciation*initial_dcp).toFixed(2)
+  - var initial_overheads =parseFloat(engineering_overheads )+ parseFloat(initial_engineering_overheads)+ parseFloat(plant_overheads)+ parseFloat(initial_plant_overheads)+ parseFloat(site_overheads)+ parseFloat(initial_site_overheads)+ parseFloat(regional_overheads)+ parseFloat(initial_regional_overheads)+ parseFloat(productline_overheads)+ parseFloat(initial_productline_overheads)+ parseFloat(corporate_overheads)+ parseFloat(initial_corporate_overheads )+ parseFloat(initial_depreciation)
+  - var initial_overheads = initial_overheads.toFixed(2)
   .portlet.blue.box
     .portlet-title
       .caption OVERHEADS
       .tools.pull-right
         a.collapse
-      input.pull-right.caption-input#overheads(readonly, name="overheads")
-    .portlet-body
+      input.pull-right.caption-input#overheads(readonly, name="overheads", value="#{initial_overheads}")
+    .portlet-body#overheads_body
       table.table.table-hover.table-striped.table-bordered
         tr
           td Engineering Overheads
-          td (Euro)
+          td= overheads["engineering_overheads"] +'%'
+            input.overhead(value='#{engineering_overheads}', style="display:none")
           td
-            input.form-control#engineering_overheads(name="engineering_overheads" ,readonly)
+            input.form-control#engineering_overheads(name="engineering_overheads", value='#{initial_engineering_overheads}' ,readonly)
         tr
           td Plant Overheads
-          td (Euro)
+          td= overheads["plant_overheads"] +'%'
+            input.overhead(value='#{plant_overheads}', style="display:none")
           td
-            input.form-control#plant_overheads(name="plant_overheads" ,readonly)
+            input.form-control#plant_overheads(name="plant_overheads" , value='#{initial_plant_overheads}',readonly)
         tr  
           td Site Overheads
-          td (Euro)
+          td= overheads["site_overheads"] +'%'
+            input.overhead(value='#{site_overheads}', style="display:none")
           td
-            input.form-control#site_overheads(name="site_overheads" ,readonly)
+            input.form-control#site_overheads(name="site_overheads" , value='#{initial_site_overheads}',readonly)
          tr 
           td Regional Overheads
-          td (Euro)
+          td= overheads["regional_overheads"] +'%'
+            input.overhead(value='#{regional_overheads}', style="display:none")
           td
-            input.form-control#regional_overheads(name="regional_overheads" ,readonly)
+            input.form-control#regional_overheads(name="regional_overheads" , value='#{initial_regional_overheads}',readonly)
         tr 
           td Product Line Overheads
-          td (Euro)
+          td= overheads["productline_overheads"] +'%'
+            input.overhead(value='#{productline_overheads}', style="display:none")
           td
-            input.form-control#product_line_overheads(name="product_line_overheads" ,readonly)
+            input.form-control#product_line_overheads(name="product_line_overheads" , value='#{initial_productline_overheads}',readonly)
         tr  
           td Corporate Overheads
-          td (Euro)
+          td= overheads["corporate_overheads"] +'%'
+            input.overhead(value='#{corporate_overheads}', style="display:none")
           td
-            input.form-control#corporate_overheads(name="corporate_overheads" ,readonly)
+            input.form-control#corporate_overheads(name="corporate_overheads" , value='#{initial_corporate_overheads}',readonly)
         tr  
           td Depreciation
-          td (Euro)
+          td= overheads["depreciation"] +'%'
+            input.overhead(value='#{depreciation}', style="display:none")
           td
-            input.form-control#depreciation(name="depreciation",readonly)
-
+            input.form-control#depreciation(name="depreciation", value='#{initial_depreciation}',readonly)
+ 
   .portlet.blue.box
     .portlet-title
       .caption TRANSPORT
@@ -190,7 +217,7 @@ form#rfq_line_edit_form.form-horizontal(action='#')
           td (Euro)
           td
             input.form-control.count_change#onsite_training(name="onsite_training")
-            input.form-control.count_change#extra_cost_with_percent(name="extra_cost_with_percent",value='0',style='display:none')
+            input.form-control.count_change#extra_cost_with_percent(value='0',style='display:none')
         tr  
           td Warranty On Full Cost
           td (%)
@@ -233,25 +260,28 @@ form#rfq_line_edit_form.form-horizontal(action='#')
           td (%)
           td
             input.form-control#commission_on_net_sales_price(name="commission_on_net_sales_price")
+            input.form-control#commission_on_net_sales_price_value(style='display:none')
         tr
           td Commission on F-term 
           td (%)
           td
             input.form-control#commission_on_f_term(name="commission_on_f_term")
+            input.form-control#commission_on_f_term_value(style='display:none')
         tr  
           td Commission on gross sales
           td (%)
           td
             input.form-control#commission_on_gross_sales(name="commission_on_gross_sales")
+            input.form-control#commission_on_gross_sales_value(style='display:none')
 
   table.table.table-hover.table-striped.table-bordered
-  tr
-    td MINIMUM INTERCOMPANY SALES
-    td (Euro)
-    td
-      input.form-control#minimum_intercompany_sales(name="minimum_intercompany_sales",readonly)
-  tr  
-    td MINIMUM SALES PRICE TO CUSTOMER
-    td (Euro)
-    td
-      input.form-control#minimum_sales_price_to_customer(name="minimum_sales_price_to_customer",readonly)
+    tr
+      td MINIMUM INTERCOMPANY SALES
+      td (Euro)
+      td
+        input.caption-input.form-control#minimum_intercompany_sales(name="minimum_intercompany_sales",readonly)
+    tr  
+      td MINIMUM SALES PRICE TO CUSTOMER
+      td (Euro)
+      td
+        input.caption-input.form-control#minimum_sales_price_to_customer(name="minimum_sales_price_to_customer",readonly)

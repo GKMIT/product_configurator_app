@@ -16,7 +16,6 @@ exports.rfq_general_data = function(req, res){
 		rfq_id = 0;
 	} else rfq_id = req.params.rfq_id;
 
-	var probabilities = ["Select Probability ","20","40","60","80"];
 	var options = {
 		host : config.host,
 		port : config.port,
@@ -71,7 +70,7 @@ exports.rfq_general_data = function(req, res){
 					response_next.on('end',function (){
 						var data_next = JSON.parse(data_final_next);
 						if(data_next.statusCode == 200){
-							res.render('users/newrfq', { username: req.session.member_username, title: 'New RFQ', rfq:'active',sub_sidebar1:flag_1, sub_sidebar2:flag_2, sales_hubs: data.sales_hubs, sales_persons:data.sales_persons, countries: data.countries, type_of_quote: data.type_of_quote, customers: data.customers, sales_segments: data.sales_segments, selected_rfq:data.selected_rfq, sales_agents:data.sales_agents, sales_persons:data.sales_persons, probabilities:probabilities, flag_product:flag_product, flag_line:flag_line, channel_to_market : data.channel_to_market, rejection_remarks:data_next.rejection_remarks});
+							res.render('users/newrfq', { username: req.session.member_username, title: 'New RFQ', rfq:'active',sub_sidebar1:flag_1, sub_sidebar2:flag_2, sales_hubs: data.sales_hubs, sales_persons:data.sales_persons, countries: data.countries, type_of_quote: data.type_of_quote, customers: data.customers, sales_segments: data.sales_segments, selected_rfq:data.selected_rfq, sales_agents:data.sales_agents, sales_persons:data.sales_persons, probabilities:data.probability, flag_product:flag_product, flag_line:flag_line, channel_to_market : data.channel_to_market, rejection_remarks:data_next.rejection_remarks});
 						} else {
 							res.send(data_next.success);
 						}
@@ -1058,4 +1057,44 @@ exports.rfq_submit_no_bid = function(req, res){
 
 	reqPost.write(dGet);
 	reqPost.end();
+};
+
+exports.view_quote = function(req, res){
+
+	var options = {
+		host : config.host,
+		port : config.port,
+		path : '/full_rfq_detail/'+req.session.member_id+'/'+req.params.rfq_id,
+		method : 'GET',
+		headers: {
+			'Content-Type':'application/json',
+	        'authentication_token': req.session.token
+	    }
+	};
+	console.log(req.params.rfq_id);
+	var reqGet = http.request(options, function(response) {
+		var data_final ="";
+		response.on('data', function(chunk) {
+			data_final = data_final+chunk;
+		});
+		response.on('end',function (){
+			console.log(data_final);
+			var data = JSON.parse(data_final);
+			if(data.statusCode == 200){
+				var i;
+				for(i=0; i< data.rfq.length; ++i){
+					data.rfq[i].date_rfq_in = moment(data.rfq[i].date_rfq_in.substring(0,10), "YYYY-MM-DD").format('DD-MM-YYYY');
+					data.rfq[i].requested_quotation_date = moment(data.rfq[i].requested_quotation_date.substring(0,10), "YYYY-MM-DD").format('DD-MM-YYYY');
+				}
+				for(i=0; i< data.rfq_lines.length; ++i){
+					data.rfq_lines[i].req_delivery_date = moment(data.rfq_lines[i].req_delivery_date.substring(0,10), "YYYY-MM-DD").format('DD-MM-YYYY');
+				}
+				res.render('users/bid_rfq', {username: req.session.member_username, bid:'active', rfq: data.rfq, rfq_lines: data.rfq_lines });
+			} else {
+				res.send(data.success);
+			}
+		});
+	});
+
+	reqGet.end();
 };

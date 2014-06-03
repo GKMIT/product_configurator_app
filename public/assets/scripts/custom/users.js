@@ -366,7 +366,7 @@ function validate_number(id_info, alttext, parent_up){
     if(parent_up == 1) var parent = $("#"+id_info).parent();
     else var parent = $("#"+id_info).parent().parent();
 
-    if (value.match(/^[0-9]+$/) == null || value == 0){
+    if (value.match(/^(?:[1-9]\d*|0)?(?:\.\d+)?$/) == null || value == 0){
         errorspan.text(alttext);
         parent.addClass("has-error");
         return false;
@@ -701,9 +701,12 @@ function reset_initial(rfq_id, rfq_lines_id){
 function minimum_price_ui(rfq_lines_id,product_design_id){
     $(".modal-title").html("Select Minimum Price");
     $(".modal-body").html("Loading..");
+    $("#select_btn").removeAttr('onclick');
 
     $.get("/users/minimum_price_ui/"+rfq_lines_id+"/"+product_design_id, function(data) {
         $(".modal-body").html(data);
+        $("#select_btn").attr('onclick','put_minimum_value('+rfq_lines_id+')');
+
     });
 }
 
@@ -716,3 +719,18 @@ $(document).on('click','.check_input', function() {
     }
     
 });
+
+function put_minimum_value(rfq_lines_id){
+    $("#product_design_details_"+rfq_lines_id).find("#sales_price").val($("#minimum_sales_price_to_customer").val());
+    $("#close_btn").trigger('click');
+
+}
+
+function view_quote(rfq_id){
+   $(".modal-title").html("Full Quote");
+   $(".modal-body").html("Loading..");
+
+    $.get("/users/view_quote/"+rfq_id, function(data) {
+        $(".modal-body").html(data);
+    });  
+}

@@ -286,7 +286,37 @@ exports.minimum_price_ui = function(req, res){
             var data = JSON.parse(data_final);
             if(data.statusCode == 200){
                 var i;
-                res.render('users/minimum_price_ui', {} );
+                var overheads = [];
+                for(i=0; i<data.overheads.length;i++){
+                    switch(data.overheads[i].overhead_name){
+                        case 'Engineering cost/hour': 
+                            overheads["engineering_cost"] = data.overheads[i].value;
+                            break;
+                        case 'engineering overheads': 
+                            overheads["engineering_overheads"] = data.overheads[i].value;
+                            break;
+                        case 'plant overheads': 
+                            overheads["plant_overheads"] = data.overheads[i].value;
+                            break;
+                        case 'site overheads': 
+                            overheads["site_overheads"] = data.overheads[i].value;
+                            break;
+                        case 'regional overheads': 
+                            overheads["regional_overheads"] = data.overheads[i].value;
+                            break;
+                        case 'productline overheads': 
+                            overheads["productline_overheads"] = data.overheads[i].value;
+                            break;
+                        case 'corporate overheads': 
+                            overheads["corporate_overheads"] = data.overheads[i].value;
+                            break;                        
+                        case 'depreciation': 
+                            overheads["depreciation"] = data.overheads[i].value;
+                            break;
+                    }
+                }
+
+                res.render('users/minimum_price_ui', {initial_cost_data: data.product_cost_data[0], trans_num: data.rfq_lines[0].number_of_units, overheads:overheads} );
             } else {
                 res.send(data.success);
             }

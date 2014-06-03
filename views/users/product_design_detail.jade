@@ -28,15 +28,17 @@ form.form-horizontal(action='#')
               td= design.material_cost
               td= design.currency
             tr
-              th
+              th(colspan="2")
                 | Minimum Price*
               th
                 | Confirm Delivery* (in weeks)
             tr
-              td
-                input#sales_price.form-control(value='#{design.minimum_price}',name="sales_price", onkeyup="validate_number('sales_price','Please select valid Sales Price',1)")
-                a.btn.blue(href='#basic',data-toggle='modal',onclick="minimum_price_ui(#{rfq_lines_id},#{product_designs[0].id})") Select
-                span.help-blocks
+              td(colspan="2")
+                .col-lg-6
+                  input#sales_price.form-control.span6(value='',name="sales_price", onkeyup="validate_number('sales_price','Please select valid Sales Price',1)")
+                  span.help-blocks
+                .col-lg-6
+                  a.btn.blue.span6(href='#basic',data-toggle='modal',onclick="minimum_price_ui(#{rfq_lines_id},#{product_designs[0].id})") Select Minimum Price
               td
                 input#weeks_sel.form-control(value='',name="weeks_sel", onkeyup="validate_number('weeks_sel','Please select valid no of weeks',1)")
                 span.help-blocks
