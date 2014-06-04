@@ -81,6 +81,17 @@ function change_overheads(final_dcp){
     calculate_full_cost_ex_com();
   });
 
+  $(document).on('keyup','#packaging_body input', function() {
+    var value = 0;
+     $( "#packaging_body input" ).each(function() {
+      if(!isNaN(parseFloat($(this).val()))){
+        value = value + parseFloat($(this).val());
+      }
+    });
+      $("#packaging").val(Math.round(value));
+      calculate_full_cost_ex_com();
+  });
+
   $(document).on('keyup','#extra_cost_body input.count_change', function() {
     warranty_change();
     extra_final();

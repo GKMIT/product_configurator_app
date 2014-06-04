@@ -21,11 +21,14 @@ form.form-horizontal(action='#')
             tr
               td= design.id
                 input(name='design_id_sel', value='#{design.id}',type='hidden')
-              td= design.design_number
+              td= design.design_number 
               td= design.design_variant
               td= design.labor_cost
+                  input(name='labor_cost', value='#{design.labor_cost}',type='hidden')
               td= design.labor_hours
+                  input(name='labor_hours', value='#{design.labor_hours}',type='hidden')
               td= design.material_cost
+                  input(name='material_cost', value='#{design.material_cost}',type='hidden')
               td= design.currency
             tr
               th(colspan="2")

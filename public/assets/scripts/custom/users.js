@@ -640,14 +640,20 @@ $(document).on('click','.choose_btn', function() {
  
 function submit_sales(rfq_id, rfq_lines_id){
     var design_id = $("#product_design_details_"+rfq_lines_id).find('input[name="design_id_sel"]').val();
+    var material_cost = $("#product_design_details_"+rfq_lines_id).find('input[name="material_cost"]').val();
+    var labor_cost = $("#product_design_details_"+rfq_lines_id).find('input[name="labor_cost"]').val();
+    var labor_hours = $("#product_design_details_"+rfq_lines_id).find('input[name="labor_hours"]').val();
     var sales_price = $("#product_design_details_"+rfq_lines_id).find('input[name="sales_price"]').val();
     var no_weeks = $("#product_design_details_"+rfq_lines_id).find('input[name="weeks_sel"]').val();
+    labor_cost = labor_cost.replace(/,/g, '');
+
     var flag1 = validate_number('sales_price','Please select valid Sales price',1);
     var flag2 = validate_number('weeks_sel','Please select valid no of weeks',1);
  
     if(flag1 && flag2){
         $("#product_design_details_"+rfq_lines_id).find('.submit_sales').html('Processing..');
-        $.post("/users/submit_to_sales", {rfq_id:rfq_id, rfq_lines_id:rfq_lines_id, product_designs_id:design_id, sales_price:sales_price, confirmed_delivery_date:no_weeks}, function(data) {
+
+        $.post("/users/submit_to_sales", {rfq_id:rfq_id, rfq_lines_id:rfq_lines_id, product_designs_id:design_id, sales_price:sales_price, confirmed_delivery_date:no_weeks, material_cost:material_cost, labor_cost:labor_cost, no_of_labor_hours:labor_hours}, function(data) {
             if(data.success == 'true'){
                 
                 var portlet_design = $("#product_design_details_"+rfq_lines_id).parent().parent();
@@ -673,7 +679,7 @@ function product_designs_reset(rfq_id, rfq_lines_id){
     $("#product_design_details_"+rfq_lines_id).parent().parent().removeClass('green').addClass('red');
     $("#product_design_details_"+rfq_lines_id).find('.reset').html('Processing..');
  
-    $.post("/users/submit_to_sales", {rfq_id:rfq_id, rfq_lines_id:rfq_lines_id, product_designs_id:0, sales_price:0, confirmed_delivery_date:0}, function(data) {
+    $.post("/users/submit_to_sales", {rfq_id:rfq_id, rfq_lines_id:rfq_lines_id, product_designs_id:0, sales_price:0, confirmed_delivery_date:0,material_cost:0, labor_cost:0, no_of_labor_hours:0}, function(data) {
         if(data.success == 'true'){
              $("#product_design_details_"+rfq_lines_id).html('<a href="#basic" data-toggle="modal" onclick="product_designs('+rfq_id+','+rfq_lines_id+')" class="btn blue">Apply Filters</a>');
           

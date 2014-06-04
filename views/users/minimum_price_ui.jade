@@ -52,8 +52,8 @@ form#minimum_price_form.form-horizontal(action='#')
       .caption PACKAGING
       .tools.pull-right
         a.collapse
-      input.pull-right.caption-input#packaging(readonly, name="packaging", value="1100")
-    .portlet-body
+      input.pull-right.caption-input#packaging(readonly, name="packaging", value="0")
+    .portlet-body#packaging_body
       table.table.table-hover.table-striped.table-bordered
         tr
           td Cost Packaging 
@@ -66,12 +66,12 @@ form#minimum_price_form.form-horizontal(action='#')
           td Packaging Cost Transformer
           td (Euro)
           td
-            input.form-control#packaging_cost_transformer(name="packaging_cost_transformer", value="500")
+            input.form-control#packaging_cost_transformer(name="packaging_cost_transformer", value="")
         tr  
           td Extra Packaging Costs Build of Parts
           td (Euro)
           td
-            input.form-control#extra_packaging_costs_build_of_parts(name="extra_packaging_costs_build_of_parts" value="600")
+            input.form-control#extra_packaging_costs_build_of_parts(name="extra_packaging_costs_build_of_parts" value="")
 
   - var engineering_overheads = parseFloat(overheads["engineering_overheads"])/100
   - //var engineering_overheads =20
@@ -158,12 +158,12 @@ form#minimum_price_form.form-horizontal(action='#')
           td Freight-C term
           td (Euro)
           td
-            input.form-control#frieght_c_term(name="frieght_c_term")
+            input.form-control#frieght_c_term(name="friegth_c_term")
         tr  
           td Freight-D term
           td (Euro)
           td
-            input.form-control#frieght_d_term(name="frieght_d_term")
+            input.form-control#frieght_d_term(name="friegth_d_term")
 
   .portlet.blue.box
     .portlet-title
