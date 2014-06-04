@@ -317,7 +317,7 @@ exports.minimum_price_ui = function(req, res){
                     }
                 }
 
-                res.render('users/minimum_price_ui', {initial_cost_data: data.product_cost_data[0], trans_num: data.rfq_lines[0].number_of_units, overheads:overheads} );
+                res.render('users/minimum_price_ui', {initial_cost_data: data.product_cost_data[0], trans_num: data.rfq_lines[0].number_of_units, overheads:overheads, complexities:data.complexities} );
             } else {
                 res.send(data.success);
             }
@@ -328,13 +328,13 @@ exports.minimum_price_ui = function(req, res){
 
 exports.put_minimum_price = function(req, res){
     console.log(req.body);
-    var dGet = querystring.stringify(req.body)+'&user_id='+req.session.member_id+'&complexity_id='+req.params.complexity_id;
+    var dGet = querystring.stringify(req.body)+'&user_id='+req.session.member_id+'&complexities_id='+req.params.complexity_id+'&rfq_lines_id='+req.params.rfq_lines_id+'&product_design_id='+req.params.product_design_id;
     console.log(dGet);
     var options = {
             host : config.host,
             port : config.port,
-            path : '/tendering_submit_rfq_to_sales',
-            method : 'PUT',
+            path : '/tendering_save_calculated_sales_price',
+            method : 'POST',
             headers: {
                   'Content-Type': 'application/x-www-form-urlencoded',
                   'authentication_token': req.session.token

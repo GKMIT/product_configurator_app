@@ -74,9 +74,9 @@ function change_overheads(final_dcp){
       $("#packaging_cost_transformer").val('0');
       $("#extra_packaging_costs_build_of_parts").val('0');
     } else {
-      $("#packaging").val('1100');
-      $("#packaging_cost_transformer").val('500');
-      $("#extra_packaging_costs_build_of_parts").val('600');
+      $("#packaging").val('0');
+      $("#packaging_cost_transformer").val('0');
+      $("#extra_packaging_costs_build_of_parts").val('0');
     }
     calculate_full_cost_ex_com();
   });
