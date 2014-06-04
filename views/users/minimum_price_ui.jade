@@ -65,30 +65,30 @@ form#rfq_line_edit_form.form-horizontal(action='#')
           td Packaging Cost Transformer
           td (Euro)
           td
-            input.form-control#packaging_cost_transformer(name="packaging_cost_transformer", value="500", readonly)
+            input.form-control#packaging_cost_transformer(name="packaging_cost_transformer", value="500")
         tr  
           td Extra Packaging Costs Build of Parts
           td (Euro)
           td
-            input.form-control#extra_packaging_costs_build_of_parts(name="extra_packaging_costs_build_of_parts" value="600", readonly)
+            input.form-control#extra_packaging_costs_build_of_parts(name="extra_packaging_costs_build_of_parts" value="600")
 
   - var engineering_overheads = parseFloat(overheads["engineering_overheads"])/100
   - //var engineering_overheads =20
-  - var initial_engineering_overheads = (engineering_overheads*initial_dcp/trans_num).toFixed(2)
+  - var initial_engineering_overheads = Math.round(engineering_overheads*initial_dcp/trans_num)
   - var plant_overheads = parseFloat(overheads["plant_overheads"])/100
-  - var initial_plant_overheads = (plant_overheads*initial_dcp).toFixed(2)
+  - var initial_plant_overheads = Math.round(plant_overheads*initial_dcp)
   - var site_overheads = parseFloat(overheads["site_overheads"])/100
-  - var initial_site_overheads = (site_overheads*initial_dcp).toFixed(2)
+  - var initial_site_overheads = Math.round(site_overheads*initial_dcp)
   - var regional_overheads = parseFloat(overheads["regional_overheads"])/100
-  - var initial_regional_overheads = (regional_overheads*initial_dcp).toFixed(2)
+  - var initial_regional_overheads = Math.round(regional_overheads*initial_dcp)
   - var productline_overheads = parseFloat(overheads["productline_overheads"])/100
-  - var initial_productline_overheads = (productline_overheads*initial_dcp).toFixed(2)
+  - var initial_productline_overheads = Math.round(productline_overheads*initial_dcp)
   - var corporate_overheads = parseFloat(overheads["corporate_overheads"])/100
-  - var initial_corporate_overheads = (corporate_overheads*initial_dcp).toFixed(2)
+  - var initial_corporate_overheads = Math.round(corporate_overheads*initial_dcp)
   - var depreciation = parseFloat(overheads["depreciation"])/100
-  - var initial_depreciation = (depreciation*initial_dcp).toFixed(2)
+  - var initial_depreciation = Math.round(depreciation*initial_dcp)
   - var initial_overheads =parseFloat(engineering_overheads )+ parseFloat(initial_engineering_overheads)+ parseFloat(plant_overheads)+ parseFloat(initial_plant_overheads)+ parseFloat(site_overheads)+ parseFloat(initial_site_overheads)+ parseFloat(regional_overheads)+ parseFloat(initial_regional_overheads)+ parseFloat(productline_overheads)+ parseFloat(initial_productline_overheads)+ parseFloat(corporate_overheads)+ parseFloat(initial_corporate_overheads )+ parseFloat(initial_depreciation)
-  - var initial_overheads = initial_overheads.toFixed(2)
+  - var initial_overheads = Math.round(initial_overheads)
   .portlet.blue.box
     .portlet-title
       .caption OVERHEADS

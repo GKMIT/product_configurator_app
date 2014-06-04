@@ -6,7 +6,7 @@ $(document).on('keyup change','#extra_engineering_hours', function() {
   var hours = parseFloat($(this).val()); 
   var costperhour = parseFloat($("#engineering_cost_hrs").val());
   var trans_numbers = parseFloat($("#trans_numbers").val());
-  $("#extra_engineering_cost").val(hours*costperhour/trans_numbers);
+  $("#extra_engineering_cost").val(Math.round(hours*costperhour/trans_numbers));
   dcp_final();
 });
 
@@ -24,7 +24,8 @@ function dcp_final(){
   var accFactor = 0;
   if( !isNaN(parseFloat($("#acc_factor").val())) ) accFactor = parseFloat($("#acc_factor").val());
   
-  var final_dcp = value*accFactor
+  var final_dcp = Math.round(value*accFactor);
+
   $("#dcp").val(final_dcp);
   change_overheads(final_dcp);
   warranty_change();
@@ -39,9 +40,9 @@ function change_overheads(final_dcp){
  
       if(!isNaN(percen) && !isNaN(final_dcp)){
         if($(this).attr('name') == 'engineering_overheads'){
-          var this_value = Math.round(percen*final_dcp*100/trans_numbers)/100;
+          var this_value = Math.round(percen*final_dcp/trans_numbers);
         } else {
-          var this_value = Math.round(percen*final_dcp*100)/100;
+          var this_value = Math.round(percen*final_dcp);
         }
         
         $(this).val(this_value);
@@ -51,7 +52,7 @@ function change_overheads(final_dcp){
       }
  
     });
-  $("#overheads").val(Math.round(final_overhead*100)/100);
+  $("#overheads").val(Math.round(final_overhead));
 }
 
   $(document).on('keyup change','#transport_body input', function() {
@@ -61,7 +62,7 @@ function change_overheads(final_dcp){
         value = value + parseFloat($(this).val());
       }
     });
-    $("#transport").val(value);
+    $("#transport").val(Math.round(value));
     calculate_commission_f_frieght();
     warranty_change();
 
@@ -101,7 +102,7 @@ function change_overheads(final_dcp){
        value = value + parseFloat($("#extra_cost_with_percent"));
     }
    
-    $("#extra_cost").val(value);
+    $("#extra_cost").val(Math.round(value));
     calculate_full_cost_ex_com();
   }
 
@@ -117,7 +118,7 @@ function change_overheads(final_dcp){
           }
         }
       var final_val = value*percen/100;
-        $("#extra_cost_with_percent").val(final_val);
+        $("#extra_cost_with_percent").val(Math.round(final_val));
       } else {
         $("#extra_cost_with_percent").val('0');
       }
@@ -133,7 +134,7 @@ function change_overheads(final_dcp){
         value = value + parseFloat($("#"+sum_array[i]).val());
       }
     }
-    $("#full_cost_excluding_commision").val(value);
+    $("#full_cost_excluding_commision").val(Math.round(value));
     calculate_ebit();
  }
 
@@ -145,7 +146,7 @@ function calculate_ebit(){
     var ebit_percen = parseFloat($("#ebit_percentage").val()); 
     var full_cost_excluding_commision = parseFloat($("#full_cost_excluding_commision").val());
     if(!isNaN(ebit_percen) && !isNaN(full_cost_excluding_commision)){
-      $("#ebit").val(full_cost_excluding_commision*ebit_percen/100);
+      $("#ebit").val(Math.round(full_cost_excluding_commision*ebit_percen/100));
     } else {
       $("#ebit").val('0');
     }
@@ -163,8 +164,8 @@ function calculate_final_price(){
  if(isNaN(ebit)) ebit = 0;
  if(isNaN(commission)) commission = 0;
  
-  $("#minimum_intercompany_sales").val(Math.round((full_cost_excluding_commision+ebit)*100)/100);
-  $("#minimum_sales_price_to_customer").val(Math.round((full_cost_excluding_commision+ebit+commission)*100)/100);
+  $("#minimum_intercompany_sales").val(Math.round(full_cost_excluding_commision+ebit));
+  $("#minimum_sales_price_to_customer").val(Math.round(full_cost_excluding_commision+ebit+commission));
 }
  
 $(document).on('keyup change','#commission_on_net_sales_price', function() {
@@ -184,7 +185,7 @@ function calculate_commission_net_sales(){
     var commission_on_net_sales_price = parseFloat($("#commission_on_net_sales_price").val());
     if(!isNaN(ebit) && !isNaN(commission_on_net_sales_price)){
       var value = ebit/(1-commission_on_net_sales_price/100) - ebit;
-      $("#commission_on_net_sales_price_value").val(value);
+      $("#commission_on_net_sales_price_value").val(Math.round(value));
  
     } else {
       $("#commission_on_net_sales_price_value").val('0');
@@ -202,7 +203,7 @@ function calculate_commission_f_frieght(){
  
     if(!isNaN(commission_on_f_term)){
       var value = (ebit+frieght_f_term)/(1-commission_on_f_term/100) - (ebit+frieght_f_term);
-      $("#commission_on_f_term_value").val(value);
+      $("#commission_on_f_term_value").val(Math.round(value));
     } else {
       $("#commission_on_f_term_value").val('0');
     }
@@ -225,7 +226,7 @@ function calculate_commission_gross_sales(){
     if(!isNaN(commission_on_gross_sales)){
       var sumup = ebit + full_cost_excluding_commision + commission_on_f_term_value + commission_on_net_sales_price_value;
       var value = sumup/(1-commission_on_gross_sales/100) - sumup;
-      $("#commission_on_gross_sales_value").val(value);
+      $("#commission_on_gross_sales_value").val(Math.round(value));
     } else {
       $("#commission_on_gross_sales_value").val('0');
     }
@@ -245,7 +246,7 @@ function calculate_final_commission(){
  
  var sumup = commission_on_f_term_value + commission_on_net_sales_price_value + commission_on_gross_sales_value;
  
- $("#commission").val(Math.round(sumup*100)/100);
+ $("#commission").val(Math.round(sumup));
  
   calculate_final_price();
 }
