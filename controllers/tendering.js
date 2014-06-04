@@ -328,7 +328,7 @@ exports.minimum_price_ui = function(req, res){
 
 exports.put_minimum_price = function(req, res){
     console.log(req.body);
-    var dGet = querystring.stringify(req.body)+'&user_id='+req.session.member_id;
+    var dGet = querystring.stringify(req.body)+'&user_id='+req.session.member_id+'&complexity_id='+req.params.complexity_id;
     console.log(dGet);
     var options = {
             host : config.host,
