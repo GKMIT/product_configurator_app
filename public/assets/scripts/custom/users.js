@@ -726,9 +726,11 @@ function put_minimum_value(rfq_lines_id, product_design_id, complexity_id){
     var val = $("#minimum_price_form").serialize();
     $.post("/users/put_minimum_price/"+rfq_lines_id+"/"+product_design_id+"/"+complexity_id, val, function(data) {
         if(data.success == "true"){
-        $("#product_design_details_"+rfq_lines_id).find("#sales_price").val($("#minimum_sales_price_to_customer").val());
-        $("#close_btn").trigger('click');
-        $("#select_btn").html('Select');
+            $("#product_design_details_"+rfq_lines_id).find("#sales_price").val($("#minimum_sales_price_to_customer").val());
+            $("#close_btn").trigger('click');
+            $("#select_btn").html('Select');
+        } else {
+            alert(data.message);
         }
     });
     
