@@ -55,12 +55,13 @@ exports.tendering_rfq_quote = function(req, res){
 		response.on('end',function (){
 			console.log(data_final);
 			var data = JSON.parse(data_final);
+            console.log(data.complexities);
 			if(data.statusCode == 200){
 				var i;
 				for(i=0; i< data.rfq_lines.length; ++i){
 					data.rfq_lines[i].req_delivery_date = moment(data.rfq_lines[i].req_delivery_date.substring(0,10), "YYYY-MM-DD").format('DD-MM-YYYY');
 				}
-				res.render('users/tendering_quote', {username: req.session.member_username, tender_quote:'active', rfq: data.rfq, rfq_lines: data.rfq_lines });
+				res.render('users/tendering_quote', {username: req.session.member_username, tender_quote:'active', rfq: data.rfq, rfq_lines: data.rfq_lines, product_types:data.product_types, complexities: data.complexities });
 			} else {
 				res.send(data.success);
 			}
@@ -268,7 +269,7 @@ exports.minimum_price_ui = function(req, res){
     var options = {
         host : config.host,
         port : config.port,
-        path : '/tendering_calculate_sales_price/'+req.session.member_id+'/'+req.params.rfq_lines_id+'/'+req.params.product_design_id,
+        path : '/tendering_calculate_sales_price/'+req.session.member_id+'/'+req.params.rfq_lines_id+'/'+req.params.product_design_id+'/'+req.params.complexity_id,
         method : 'GET',
         headers: {
             'Content-Type':'application/json',
@@ -323,4 +324,36 @@ exports.minimum_price_ui = function(req, res){
         });
     });
     reqGet.end();
+};
+
+exports.put_minimum_price = function(req, res){
+    console.log(req.body);
+    var dGet = querystring.stringify(req.body)+'&user_id='+req.session.member_id;
+    console.log(dGet);
+    var options = {
+            host : config.host,
+            port : config.port,
+            path : '/tendering_submit_rfq_to_sales',
+            method : 'PUT',
+            headers: {
+                  'Content-Type': 'application/x-www-form-urlencoded',
+                  'authentication_token': req.session.token
+            }
+        };
+ 
+    var reqPost = http.request(options, function(response) {
+        response.on('data', function(data) {
+            var data=JSON.parse(data);
+            console.log(data);
+            if(data.statusCode == 200){
+                res.json(data);
+            } else {
+                res.json(data);
+            }
+        });
+ 
+    });
+ 
+    reqPost.write(dGet);
+    reqPost.end();
 };

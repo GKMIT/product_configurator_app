@@ -35,7 +35,7 @@ form.form-horizontal(action='#')
             tr
               td(colspan="2")
                 .col-lg-6
-                  input#sales_price.form-control.span6(value='',name="sales_price", onkeyup="validate_number('sales_price','Please select valid Sales Price',1)")
+                  input#sales_price.form-control.span6(value='',name="sales_price", onkeyup="validate_number('sales_price','Please select valid Sales Price',1)", readonly)
                   span.help-blocks
                 .col-lg-6
                   a.btn.blue.span6(href='#basic',data-toggle='modal',onclick="minimum_price_ui(#{rfq_lines_id},#{product_designs[0].id})") Select Minimum Price

@@ -595,8 +595,9 @@ function product_designs(rfq_id,rfq_lines_id){
 
     $("#select_btn").attr('onclick','select_design('+rfq_id+','+rfq_lines_id+')');
     var val = $("#property_table_"+rfq_lines_id).serialize();
-    val = val.replace(/&value%5B%5D=&/g, '&value%5B%5d= &');
-    
+    val = val.replace(/&value=&/g, '&value= &');
+
+//    alert(val); 
     $.post("/users/product_designs/"+rfq_id+"/"+rfq_lines_id,val, function(data) {
         $(".modal-title").html("Select Product Design");
         $(".modal-body").html(data);
@@ -702,10 +703,10 @@ function minimum_price_ui(rfq_lines_id,product_design_id){
     $(".modal-title").html("Select Minimum Price");
     $(".modal-body").html("Loading..");
     $("#select_btn").removeAttr('onclick');
-
-    $.get("/users/minimum_price_ui/"+rfq_lines_id+"/"+product_design_id, function(data) {
+    var complexity_id = $("#property_table_"+rfq_lines_id).find('select.complexity').val();
+    $.get("/users/minimum_price_ui/"+rfq_lines_id+"/"+product_design_id+"/"+complexity_id, function(data) {
         $(".modal-body").html(data);
-        $("#select_btn").attr('onclick','put_minimum_value('+rfq_lines_id+')');
+        $("#select_btn").attr('onclick','put_minimum_value('+rfq_lines_id+','+product_design_id+','+complexity_id+')');
 
     });
 }
@@ -720,9 +721,17 @@ $(document).on('click','.check_input', function() {
     
 });
 
-function put_minimum_value(rfq_lines_id){
-    $("#product_design_details_"+rfq_lines_id).find("#sales_price").val($("#minimum_sales_price_to_customer").val());
-    $("#close_btn").trigger('click');
+function put_minimum_value(rfq_lines_id, product_design_id, complexity_id){
+    $("#select_btn").html('Processing..');
+    var val = $("#minimum_price_form").serialize();
+    $.post("/users/put_minimum_price/"+rfq_lines_id+"/"+product_design_id+"/"+complexity_id, val, function(data) {
+        if(data.success == true){
+        $("#product_design_details_"+rfq_lines_id).find("#sales_price").val($("#minimum_sales_price_to_customer").val());
+        $("#close_btn").trigger('click');
+        $("#select_btn").html('Select');
+        }
+    });
+    
 
 }
 
