@@ -594,11 +594,20 @@ function product_designs(rfq_id,rfq_lines_id){
     $(".modal-body").html('Loading..');
 
     $("#select_btn").attr('onclick','select_design('+rfq_id+','+rfq_lines_id+')');
-    var val = $("#property_table_"+rfq_lines_id).serialize();
-    val = val.replace(/&value=&/g, '&value= &');
+    
+    var tableform= $("#property_table_"+rfq_lines_id);
+    var jsonArr = [];
+    $( "#property_table_"+rfq_lines_id+' input[type=checkbox]').each(function() {
+        var parent_element = $(this).parent().parent();
+        if($(this).is(':checked')){
+            jsonArr.push({
+                id: parent_element.find('input.property_id').val(),
+                value: parent_element.find('.value_in').val()
+            });
+        }
+    });
 
-//    alert(val); 
-    $.post("/users/product_designs/"+rfq_id+"/"+rfq_lines_id,val, function(data) {
+    $.post("/users/product_designs/"+rfq_id+"/"+rfq_lines_id,{properties:jsonArr}, function(data) {
         $(".modal-title").html("Select Product Design");
         $(".modal-body").html(data);
     });

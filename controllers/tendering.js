@@ -108,25 +108,6 @@ exports.product_designs = function(req, res){
  	req.body.user_id = req.session.member_id;
     req.body.rfq_id = req.params.rfq_id;
     req.body.rfq_lines_id = req.params.rfq_lines_id;
-
- 	req.body.properties = [];
- 	
-    var props = req.body.property;
-    var values = req.body.value;
- 
-    if(typeof props !== 'undefined'){
-        for (i = 0; i < props.length; ++i) {
-            if(values[i] == ' ') values[i] = '';
-            var obj = { 'id':props[i], 'value':values[i]};
-            if(props[i] != 0 && values[i] != '' ){
-                req.body.properties[i] = obj;
-            }
-        }
-    }
-
-    delete req.body.property;
-    delete req.body.value;
-    delete req.body.no_use;
  
     console.log(req.body);
     
