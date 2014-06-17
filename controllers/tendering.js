@@ -202,7 +202,8 @@ exports.product_designs_details = function(req, res){
  
 exports.submit_to_sales = function(req, res){
     console.log(req.body);
-    var dGet = querystring.stringify(req.body)+'&user_id='+req.session.member_id;
+    req.body.user_id = req.session.member_id;
+    var dGet = JSON.stringify(req.body);
     console.log(dGet);
     var options = {
             host : config.host,
@@ -210,7 +211,7 @@ exports.submit_to_sales = function(req, res){
             path : '/tendering_submit_rfq_lines',
             method : 'PUT',
             headers: {
-                  'Content-Type': 'application/x-www-form-urlencoded',
+                  'Content-Type': 'application/json',
                   'authentication_token': req.session.token
             }
         };

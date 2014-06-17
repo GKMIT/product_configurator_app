@@ -647,13 +647,26 @@ function submit_sales(rfq_id, rfq_lines_id){
     var no_weeks = $("#product_design_details_"+rfq_lines_id).find('input[name="weeks_sel"]').val();
     labor_cost = labor_cost.replace(/,/g, '');
 
+    var tableform= $("#property_table_"+rfq_lines_id);
+
+    var jsonArr = [];
+    $( "#property_table_"+rfq_lines_id+' input.prop_id').each(function() {
+        var parent_element = $(this).parent().parent();
+        jsonArr.push({
+            id: $(this).val(),
+            property_id: parent_element.find('input.property_id').val(),
+            value: parent_element.find('.value_in').val(),
+            remark: parent_element.find('input.remark').val()
+        });
+    });
+
     var flag1 = validate_number('sales_price','Please select valid Sales price',1);
     var flag2 = validate_number('weeks_sel','Please select valid no of weeks',1);
  
     if(flag1 && flag2){
         $("#product_design_details_"+rfq_lines_id).find('.submit_sales').html('Processing..');
 
-        $.post("/users/submit_to_sales", {rfq_id:rfq_id, rfq_lines_id:rfq_lines_id, product_designs_id:design_id, sales_price:sales_price, confirmed_delivery_date:no_weeks, material_cost:material_cost, labor_cost:labor_cost, no_of_labor_hours:labor_hours}, function(data) {
+        $.post("/users/submit_to_sales", {rfq_id:rfq_id, rfq_lines_id:rfq_lines_id, product_designs_id:design_id, sales_price:sales_price, confirmed_delivery_date:no_weeks, material_cost:material_cost, labor_cost:labor_cost, no_of_labor_hours:labor_hours, properties:jsonArr}, function(data) {
             if(data.success == 'true'){
                 
                 var portlet_design = $("#product_design_details_"+rfq_lines_id).parent().parent();
@@ -678,8 +691,21 @@ function submit_sales(rfq_id, rfq_lines_id){
 function product_designs_reset(rfq_id, rfq_lines_id){
     $("#product_design_details_"+rfq_lines_id).parent().parent().removeClass('green').addClass('red');
     $("#product_design_details_"+rfq_lines_id).find('.reset').html('Processing..');
- 
-    $.post("/users/submit_to_sales", {rfq_id:rfq_id, rfq_lines_id:rfq_lines_id, product_designs_id:0, sales_price:0, confirmed_delivery_date:0,material_cost:0, labor_cost:0, no_of_labor_hours:0}, function(data) {
+    
+    var tableform= $("#property_table_"+rfq_lines_id);
+
+    var jsonArr = [];
+    $( "#property_table_"+rfq_lines_id+' input.prop_id').each(function() {
+        var parent_element = $(this).parent().parent();
+        jsonArr.push({
+            id: $(this).val(),
+            property_id: parent_element.find('input.property_id').val(),
+            value: parent_element.find('.value_in').val(),
+            remark: parent_element.find('input.remark').val()
+        });
+    });
+
+    $.post("/users/submit_to_sales", {rfq_id:rfq_id, rfq_lines_id:rfq_lines_id, product_designs_id:0, sales_price:0, confirmed_delivery_date:0,material_cost:0, labor_cost:0, no_of_labor_hours:0, properties: jsonArr}, function(data) {
         if(data.success == 'true'){
              $("#product_design_details_"+rfq_lines_id).html('<a href="#basic" data-toggle="modal" onclick="product_designs('+rfq_id+','+rfq_lines_id+')" class="btn blue">Apply Filters</a>');
           

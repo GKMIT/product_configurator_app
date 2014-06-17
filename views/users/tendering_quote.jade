@@ -80,14 +80,16 @@ block page_content
                 tr
                 td= i
                 td
-                 - complexity_id = 0
                  - if(spec.product_properties_id == 2) complexity_id = spec.value
                  - else class_put=''
                  - if(man_array.indexOf(spec.product_properties_id.toString()) !== -1)
                     input(type='checkbox',name='property[]',value='#{spec.product_properties_id}',style='display:none',checked)
+                    input.property_id(type='hidden',name='property_id[]',value='#{spec.product_properties_id}')
                  - else
                     input.check_input(type='checkbox',name='property[]',value='#{spec.product_properties_id}',checked)
+                    input.property_id(type='hidden',name='property_id[]',value='#{spec.product_properties_id}')
                 td= spec.property_name
+                    input.prop_id(type='hidden',name='prop_id[]',value='#{spec.id}')
                 td= spec.unit_of_measurement
                 td
                   - if(spec.product_properties_id == 1)
@@ -97,10 +99,11 @@ block page_content
                   - else if(spec.product_properties_id == 2)
                     select.complexity.form-control.value_in(name='value')
                       - each comp in complexities
-                        option(value='#{comp.id}',selected=spec.value == comp.id)= comp.name
+                        option(value='#{comp.name}',selected=spec.value == comp.name)= comp.name
                   -else
-                    input.form-control(type='text',name='value',value='#{spec.value}')
-                td= spec.remark
+                    input.form-control.value_in(type='text',name='value',value='#{spec.value}')
+                td
+                  input.form-control.remark(type='text',name='remark[]',value='#{spec.remark}')
                 - i = i+1
           input(type='hidden',name='no_use',value='null')
         div(id='product_design_details_#{rfq_line.id}')
