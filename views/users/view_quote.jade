@@ -1,0 +1,90 @@
+.row
+  .col-md-12
+    table.table.table-hover.table-striped.table-bordered
+      tbody
+          tr
+            td
+              | Document Number
+            td= rfq[0].document_no
+          tr
+            td
+              | Version Number
+            td= rfq[0].version_no
+          tr
+            td
+              | Project Name
+            td= rfq[0].project_name
+          tr
+            td
+              | Sub-Region
+            td= rfq[0].sales_hub
+          tr
+            td
+              | Sales Person
+            td= rfq[0].sales_person
+          tr
+            td
+              | Sales Segment
+            td= rfq[0].sales_segment
+          tr
+            td
+              | Sales Agent
+            td= rfq[0].sales_agent_name
+          tr
+            td
+              | Tendering Team
+            td= rfq[0].tendering_team
+          tr
+            td
+              | Tendering Team Member
+            td= rfq[0].tendering_team_members
+          tr
+            td
+              | Type of Quote
+            td= rfq[0].quote_type
+          tr
+            td
+              | Customer Country
+            td= rfq[0].customer_country
+          tr
+            td
+              | Installation Country 
+            td= rfq[0].installation_country
+          tr
+            td
+              | Date RFQ
+            td= rfq[0].date_rfq_in
+          tr
+            td
+              | Requested Quotation Date
+            td= rfq[0].requested_quotation_date
+          tr
+            td
+              | Probability
+            td= rfq[0].probability_name
+          tr
+            td
+              | Strategic Quote
+            td= (rfq[0].strategic_quote == 1)?'Yes':'No'
+          tr
+- if (rfq_lines.length > 0)
+  .row
+    .col-md-12
+      table.table.table-hover.table-striped.table-bordered
+        thead
+          tr
+            th
+              | Product Line
+            th
+              | Production Plant
+            th
+              | Number of Units
+            th
+              | Requested Delivery Date
+        tbody
+          - each line_items in rfq_lines
+            tr(id='row_line_item_' +line_items.id)
+              td= line_items.product_lines_id
+              td= line_items.plant_name
+              td= line_items.number_of_units
+              td= line_items.req_delivery_date
