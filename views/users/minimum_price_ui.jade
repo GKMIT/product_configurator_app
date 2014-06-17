@@ -1,7 +1,7 @@
 script(src='/assets/plugins/jquery-1.10.2.min.js', type='text/javascript')
 script(src='/assets/scripts/custom/minimum_price.js', type='text/javascript')
 a.btn.default= 'Number of Transformers: '+ trans_num
-a.btn.default= 'Complexity: '+ complexities[0].complexity_name
+a.btn.default= 'Complexity: '+ complexities[0].name
 br
 br
 input.form-control#trans_numbers(name="trans_numbers", readonly, style="display:none", value="#{trans_num}")
@@ -17,12 +17,12 @@ form#minimum_price_form.form-horizontal(action='#')
       table.table.table-hover.table-striped.table-bordered
         tr
           td Material Cost
-          td (Euro)
+          td (#{initial_cost_data.currency})
           td
             input.count_change.form-control#material_cost(name="material_cost", value='#{initial_cost_data.material_cost}', readonly)
         tr
           td Labour Cost
-          td (Euro)
+          td (#{initial_cost_data.currency})
           td
             input.count_change.form-control#labor_cost(name="labor_cost",value="#{initial_cost_data.labor_cost}", readonly)
         tr  
@@ -39,12 +39,12 @@ form#minimum_price_form.form-horizontal(action='#')
             input.form-control#engineering_cost_hrs(style="display:none",readonly, value='#{overheads["engineering_cost"]}')
         tr 
           td ACC Cost
-          td (Euro)
+          td (#{initial_cost_data.currency})
           td
             input.form-control#acc_cost(name="acc_cost",readonly)
         tr  
           td ACC Factor
-          td (Euro)
+          td (#{initial_cost_data.currency})
           td
             input.form-control#acc_factor(name="acc_factor",value="1")
   .portlet.blue.box
@@ -57,19 +57,19 @@ form#minimum_price_form.form-horizontal(action='#')
       table.table.table-hover.table-striped.table-bordered
         tr
           td Cost Packaging 
-          td (Euro)
+          td (#{initial_cost_data.currency})
           td
             select.form-control#cost_packaging(name="cost_packaging")
               option(value="1") Included in DCP
               option(value="2", selected) By Tendering
         tr
           td Packaging Cost Transformer
-          td (Euro)
+          td (#{initial_cost_data.currency})
           td
             input.form-control#packaging_cost_transformer(name="packaging_cost_transformer", value="")
         tr  
           td Extra Packaging Costs Build of Parts
-          td (Euro)
+          td (#{initial_cost_data.currency})
           td
             input.form-control#extra_packaging_costs_build_of_parts(name="extra_packaging_costs_build_of_parts" value="")
 
@@ -151,17 +151,17 @@ form#minimum_price_form.form-horizontal(action='#')
       table.table.table-hover.table-striped.table-bordered
         tr
           td Freight-F term 
-          td (Euro)
+          td (#{initial_cost_data.currency})
           td
             input.form-control#frieght_f_term(name="frieght_f_term")
         tr
           td Freight-C term
-          td (Euro)
+          td (#{initial_cost_data.currency})
           td
             input.form-control#frieght_c_term(name="friegth_c_term")
         tr  
           td Freight-D term
-          td (Euro)
+          td (#{initial_cost_data.currency})
           td
             input.form-control#frieght_d_term(name="friegth_d_term")
 
@@ -175,47 +175,47 @@ form#minimum_price_form.form-horizontal(action='#')
       table.table.table-hover.table-striped.table-bordered
         tr
           td Financial Cost LOC
-          td (Euro)
+          td (#{initial_cost_data.currency})
           td
             input.form-control.count_change#financial_cost_loc(name="financial_cost_loc")
         tr
           td Financial Cost Bonds
-          td (Euro)
+          td (#{initial_cost_data.currency})
           td
             input.form-control.count_change#financial_cost_bonds(name="financial_cost_bonds")
         tr  
           td Maintenance Equipment
-          td (Euro)
+          td (#{initial_cost_data.currency})
           td
             input.form-control.count_change#maintenance_equipment(name="maintenance_equipment")
          tr 
           td Administrative Cost Various
-          td (Euro)
+          td (#{initial_cost_data.currency})
           td
             input.form-control.count_change#administrative_cost_various(name="administrative_cost_various")
         tr 
           td Extra Documentation Required
-          td (Euro)
+          td (#{initial_cost_data.currency})
           td
             input.form-control.count_change#extra_documentation_required(name="extra_documentation_required")
         tr  
           td Supervision
-          td (Euro)
+          td (#{initial_cost_data.currency})
           td
             input.form-control.count_change#supervision(name="supervision")
         tr  
           td Erection/Comm
-          td (Euro)
+          td (#{initial_cost_data.currency})
           td
             input.form-control.count_change#erection_comm(name="erection_comm")
         tr  
           td Factory Training
-          td (Euro)
+          td (#{initial_cost_data.currency})
           td
             input.form-control.count_change#factory_training(name="factory_training")
         tr  
           td Onsite Training
-          td (Euro)
+          td (#{initial_cost_data.currency})
           td
             input.form-control.count_change#onsite_training(name="onsite_training")
             input.form-control.count_change#extra_cost_with_percent(value='0',style='display:none')
@@ -234,7 +234,7 @@ form#minimum_price_form.form-horizontal(action='#')
       table.table.table-hover.table-striped.table-bordered
         tr
           td Full Cost Excluding Commision
-          td (Euro)
+          td (#{initial_cost_data.currency})
           td
             input.form-control#full_cost_excluding_commision(name="full_cost_excluding_commision",readonly)
         tr
@@ -244,7 +244,7 @@ form#minimum_price_form.form-horizontal(action='#')
             input.form-control#ebit_percentage(name="ebit_percentage")
         tr  
           td EBIT
-          td (Euro)
+          td (#{initial_cost_data.currency})
           td
             input.form-control#ebit(name="ebit",readonly)
 
@@ -278,11 +278,11 @@ form#minimum_price_form.form-horizontal(action='#')
   table.table.table-hover.table-striped.table-bordered
     tr
       td MINIMUM INTERCOMPANY SALES
-      td (Euro)
+      td (#{initial_cost_data.currency})
       td
         input.caption-input.form-control#minimum_intercompany_sales(name="minimum_intercompany_sales",readonly)
     tr  
       td MINIMUM SALES PRICE TO CUSTOMER
-      td (Euro)
+      td (#{initial_cost_data.currency})
       td
         input.caption-input.form-control#minimum_sales_price_to_customer(name="minimum_sales_price_to_customer",readonly)

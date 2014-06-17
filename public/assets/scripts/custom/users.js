@@ -710,7 +710,8 @@ function minimum_price_ui(rfq_lines_id,product_design_id){
     $(".modal-body").html("Loading..");
     $("#select_btn").removeAttr('onclick');
     var complexity_id = $("#property_table_"+rfq_lines_id).find('select.complexity').val();
-    $.get("/users/minimum_price_ui/"+rfq_lines_id+"/"+product_design_id+"/"+complexity_id, function(data) {
+    complexity_id = 0;
+    $.get("/users/minimum_price_ui/"+rfq_lines_id+"/"+product_design_id, function(data) {
         $(".modal-body").html(data);
         $("#select_btn").attr('onclick','put_minimum_value('+rfq_lines_id+','+product_design_id+','+complexity_id+')');
 

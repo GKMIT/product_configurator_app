@@ -269,7 +269,7 @@ exports.minimum_price_ui = function(req, res){
     var options = {
         host : config.host,
         port : config.port,
-        path : '/tendering_calculate_sales_price/'+req.session.member_id+'/'+req.params.rfq_lines_id+'/'+req.params.product_design_id+'/'+req.params.complexity_id,
+        path : '/tendering_calculate_sales_price/'+req.session.member_id+'/'+req.params.rfq_lines_id+'/'+req.params.product_design_id,
         method : 'GET',
         headers: {
             'Content-Type':'application/json',
