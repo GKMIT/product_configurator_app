@@ -199,12 +199,12 @@ block page_content
                             .com-md-12
                               a.btn.purple(href="javascript:;",style="margin-left:30px;",onclick="add_more_line_items('table_body')")
                                 | Add More Properties
+                              a#btn_add_more.btn.purple.button-add_more(href='javascript:;', onclick="rfq_line_save(2,#{selected_rfq[0].id})", style="margin-left:10px;")
+                                | Save
                           input(name='dummy',type='hidden',value='0')
                   .form-actions.fluid
                     .row
                       .col-md-2
-                        a#btn_add_more.btn.purple.button-add_more(href='javascript:;', onclick="rfq_line_save(2,#{selected_rfq[0].id})", style="margin-left:10px;")
-                            | Add More
                       .col-md-10
                         .col-md-offset-3.col-md-9
                           a#btn_save.btn.blue.button-save(href='javascript:;', onclick="rfq_line_save(1,#{selected_rfq[0].id})")
