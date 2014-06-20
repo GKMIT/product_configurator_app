@@ -34,7 +34,7 @@ form#minimum_price_form.form-horizontal(action='#')
           td Extra Engineering Hours
           td (hrs)
           td
-            - if (spec[0].extra_engineering_cost)
+            - if(spec[0].extra_engineering_cost)
               - var extra_e_cost = spec[0].extra_engineering_cost
               - var extra_e_hours = extra_e_cost*trans_num/overheads["engineering_cost"]
             - else
@@ -45,20 +45,20 @@ form#minimum_price_form.form-horizontal(action='#')
             input.form-control#engineering_cost_hrs(style="display:none",readonly, value='#{overheads["engineering_cost"]}')
         tr 
           td ACC Cost
-          td (#{initial_cost_data.currency}, value="#{spec[0].acc_cost}")
+          td (#{initial_cost_data.currency})
           td
-            input.form-control#acc_cost(name="acc_cost",readonly)
+            input.form-control#acc_cost(name="acc",readonly, value= (spec[0].acc?spec[0].acc:''))
         tr  
           td ACC Factor
           td (#{initial_cost_data.currency})
           td
-            input.form-control#acc_factor(name="acc_factor",value="1")
+            input.form-control#acc_factor(name="acc_factor",value= (spec[0].acc_factor?spec[0].acc_factor:'1'))
   .portlet.blue.box
     .portlet-title
       .caption PACKAGING
       .tools.pull-right
         a.collapse
-      input.pull-right.caption-input#packaging(readonly, name="packaging", value="0")
+      input.pull-right.caption-input#packaging(readonly, name="packaging", value= (spec[0].packaging?spec[0].packaging:''))
     .portlet-body#packaging_body
       table.table.table-hover.table-striped.table-bordered
         tr
@@ -66,18 +66,18 @@ form#minimum_price_form.form-horizontal(action='#')
           td (#{initial_cost_data.currency})
           td
             select.form-control#cost_packaging(name="cost_packaging")
-              option(value="1") Included in DCP
-              option(value="2", selected) By Tendering
+              option(value="1",selected=spec[0].cost_packaging == 1) Included in DCP
+              option(value="2",selected=spec[0].cost_packaging == 2) By Tendering
         tr
           td Packaging Cost Transformer
           td (#{initial_cost_data.currency})
           td
-            input.form-control#packaging_cost_transformer(name="packaging_cost_transformer", value="")
+            input.form-control#packaging_cost_transformer(name="packaging_cost_transformer",value= (spec[0].packaging_cost_transformer?spec[0].packaging_cost_transformer:''))
         tr  
           td Extra Packaging Costs Build of Parts
           td (#{initial_cost_data.currency})
           td
-            input.form-control#extra_packaging_costs_build_of_parts(name="extra_packaging_costs_build_of_parts" value="")
+            input.form-control#extra_packaging_costs_build_of_parts(name="extra_packaging_costs_build_of_parts", value= (spec[0].extra_packaging_costs_build_of_parts?spec[0].extra_packaging_costs_build_of_parts:''))
 
   - var engineering_overheads = parseFloat(overheads["engineering_overheads"])/100
   - //var engineering_overheads =20
@@ -152,84 +152,84 @@ form#minimum_price_form.form-horizontal(action='#')
       .caption TRANSPORT
       .tools.pull-right
         a.collapse
-      input.pull-right.caption-input#transport(readonly, name="transport")
+      input.pull-right.caption-input#transport(readonly, name="transport",value= (spec[0].transport?spec[0].transport:''))
     .portlet-body#transport_body
       table.table.table-hover.table-striped.table-bordered
         tr
           td Freight-F term 
           td (#{initial_cost_data.currency})
           td
-            input.form-control#frieght_f_term(name="frieght_f_term")
+            input.form-control#frieght_f_term(name="frieght_f_term", value= (spec[0].frieght_f_term?spec[0].frieght_f_term:''))
         tr
           td Freight-C term
           td (#{initial_cost_data.currency})
           td
-            input.form-control#frieght_c_term(name="friegth_c_term")
+            input.form-control#frieght_c_term(name="friegth_c_term", value= (spec[0].friegth_c_term?spec[0].friegth_c_term:''))
         tr  
           td Freight-D term
           td (#{initial_cost_data.currency})
           td
-            input.form-control#frieght_d_term(name="friegth_d_term")
+            input.form-control#frieght_d_term(name="friegth_d_term", value= (spec[0].friegth_d_term?spec[0].friegth_d_term:''))
 
   .portlet.blue.box
     .portlet-title
       .caption EXTRA COSTS
       .tools.pull-right
         a.collapse
-      input.pull-right.caption-input#extra_cost(readonly, name="extra_cost")
+      input.pull-right.caption-input#extra_cost(readonly, name="extra_cost", value= (spec[0].extra_cost?spec[0].extra_cost:''))
     .portlet-body#extra_cost_body
       table.table.table-hover.table-striped.table-bordered
         tr
           td Financial Cost LOC
           td (#{initial_cost_data.currency})
           td
-            input.form-control.count_change#financial_cost_loc(name="financial_cost_loc")
+            input.form-control.count_change#financial_cost_loc(name="financial_cost_loc", value= (spec[0].financial_cost_loc?spec[0].financial_cost_loc:''))
         tr
           td Financial Cost Bonds
           td (#{initial_cost_data.currency})
           td
-            input.form-control.count_change#financial_cost_bonds(name="financial_cost_bonds")
+            input.form-control.count_change#financial_cost_bonds(name="financial_cost_bonds", value= (spec[0].financial_cost_bonds?spec[0].financial_cost_bonds:''))
         tr  
           td Maintenance Equipment
           td (#{initial_cost_data.currency})
           td
-            input.form-control.count_change#maintenance_equipment(name="maintenance_equipment")
+            input.form-control.count_change#maintenance_equipment(name="maintenance_equipment", value= (spec[0].maintenance_equipment?spec[0].maintenance_equipment:''))
          tr 
           td Administrative Cost Various
           td (#{initial_cost_data.currency})
           td
-            input.form-control.count_change#administrative_cost_various(name="administrative_cost_various")
+            input.form-control.count_change#administrative_cost_various(name="administrative_cost_various", value= (spec[0].administrative_cost_various?spec[0].administrative_cost_various:''))
         tr 
           td Extra Documentation Required
           td (#{initial_cost_data.currency})
           td
-            input.form-control.count_change#extra_documentation_required(name="extra_documentation_required")
+            input.form-control.count_change#extra_documentation_required(name="extra_documentation_required", value= (spec[0].extra_documentation_required?spec[0].extra_documentation_required:''))
         tr  
           td Supervision
           td (#{initial_cost_data.currency})
           td
-            input.form-control.count_change#supervision(name="supervision")
+            input.form-control.count_change#supervision(name="supervision", value= (spec[0].supervision?spec[0].supervision:''))
         tr  
           td Erection/Comm
           td (#{initial_cost_data.currency})
           td
-            input.form-control.count_change#erection_comm(name="erection_comm")
+            input.form-control.count_change#erection_comm(name="erection_comm", value= (spec[0].erection_comm?spec[0].erection_comm:''))
         tr  
           td Factory Training
           td (#{initial_cost_data.currency})
           td
-            input.form-control.count_change#factory_training(name="factory_training")
+            input.form-control.count_change#factory_training(name="factory_training", value= (spec[0].factory_training?spec[0].factory_training:''))
         tr  
           td Onsite Training
           td (#{initial_cost_data.currency})
           td
-            input.form-control.count_change#onsite_training(name="onsite_training")
+            input.form-control.count_change#onsite_training(name="onsite_training", value= (spec[0].onsite_training?spec[0].onsite_training:''))
             input.form-control.count_change#extra_cost_with_percent(value='0',style='display:none')
         tr  
           td Warranty On Full Cost
           td (%)
           td
-            input.form-control#warranty_on_full_cost(name="warranty_on_full_cost")
+            input.form-control#warranty_on_full_cost(name="warranty_on_full_cost", value= (spec[0].warranty_on_full_cost?spec[0].warranty_on_full_cost:''))
 
   .portlet.blue.box
     .portlet-title
@@ -247,7 +247,7 @@ form#minimum_price_form.form-horizontal(action='#')
           td EBIT percentage
           td (%)
           td
-            input.form-control#ebit_percentage(name="ebit_percentage")
+            input.form-control#ebit_percentage(name="ebit_percentage", value= (spec[0].ebit_percentage?spec[0].ebit_percentage:''))
         tr  
           td EBIT
           td (#{initial_cost_data.currency})
@@ -266,19 +266,19 @@ form#minimum_price_form.form-horizontal(action='#')
           td Commission on net sales price 
           td (%)
           td
-            input.form-control#commission_on_net_sales_price(name="commission_on_net_sales_price")
+            input.form-control#commission_on_net_sales_price(name="commission_on_net_sales_price", value= (spec[0].commission_on_net_sales_price?spec[0].commission_on_net_sales_price:''))
             input.form-control#commission_on_net_sales_price_value(style='display:none')
         tr
           td Commission on F-term 
           td (%)
           td
-            input.form-control#commission_on_f_term(name="commission_on_f_term")
+            input.form-control#commission_on_f_term(name="commission_on_f_term", value= (spec[0].commission_on_f_term?spec[0].commission_on_f_term:''))
             input.form-control#commission_on_f_term_value(style='display:none')
         tr  
           td Commission on gross sales
           td (%)
           td
-            input.form-control#commission_on_gross_sales(name="commission_on_gross_sales")
+            input.form-control#commission_on_gross_sales(name="commission_on_gross_sales", value= (spec[0].commission_on_gross_sales?spec[0].commission_on_gross_sales:''))
             input.form-control#commission_on_gross_sales_value(style='display:none')
 
   table.table.table-hover.table-striped.table-bordered
