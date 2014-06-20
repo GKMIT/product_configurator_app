@@ -11,7 +11,7 @@ block title
   | Quote - Tendering
 
 block title_left
-  a.btn.blue.pull-right.col-md-4(href="#basic", data-toggle="modal", onclick="view_quote(#{rfq[0].id})") View Full Quote
+  a.btn.blue.pull-right.col-md-4(href="#basic_quote", data-toggle="modal", onclick="view_quote(#{rfq[0].id})") View Full Quote
 
 block hint
   | 
@@ -162,4 +162,14 @@ block page_content
           | Loading...
         .modal-footer
           button.btn.green#select_btn(type='button') Select
+          button.btn.dark#close_btn(type='button', data-dismiss='modal') Close
+  #basic_quote.modal.fade.bs-modal-lg.in(tabindex='-1', role='basic', aria-hidden='true', style='display: none;')
+    .modal-dialog.modal-full
+      .modal-content
+        .modal-header
+          button.close(type='button', data-dismiss='modal', aria-hidden='true')
+          h4.modal-title Select Product Design
+        .modal-body(style="")
+          | Loading...
+        .modal-footer
           button.btn.dark#close_btn(type='button', data-dismiss='modal') Close
