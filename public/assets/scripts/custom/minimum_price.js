@@ -16,16 +16,20 @@ $(document).on('keyup change','#acc_factor', function() {
 
 function dcp_final(){
   var value =0;
-  $( "#dcp_body input.count_change" ).each(function() {
+  var count = 0;
+  console.log($( "#dcp_body table input.count_change" ).length);
+
+  $( "#dcp_body table input.count_change" ).each(function() {
     if(!isNaN(parseFloat($(this).val()))){
       value = value + parseFloat($(this).val());
     }
+    count++;
   });
+
   var accFactor = 0;
   if( !isNaN(parseFloat($("#acc_factor").val())) ) accFactor = parseFloat($("#acc_factor").val());
   
   var final_dcp = Math.round(value*accFactor);
-
   $("#dcp").val(final_dcp);
   change_overheads(final_dcp);
   warranty_change();
@@ -263,5 +267,5 @@ function calculate_final_commission(){
 }
  
 jQuery(document).ready(function() {
-    calculate_full_cost_ex_com();
+   dcp_final();
 });

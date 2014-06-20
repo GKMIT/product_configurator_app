@@ -741,14 +741,12 @@ function reset_initial(rfq_id, rfq_lines_id){
 }
 
 function minimum_price_ui(rfq_lines_id,product_design_id){
-    $(".modal-title").html("Select Minimum Price");
-    $(".modal-body").html("Loading..");
+    $("#basic .modal-title").html("Select Minimum Price");
+    $("#basic .modal-body").html("Loading..");
     $("#select_btn").removeAttr('onclick');
-    var complexity_id = $("#property_table_"+rfq_lines_id).find('select.complexity').val();
-    complexity_id = 0;
     $.get("/users/minimum_price_ui/"+rfq_lines_id+"/"+product_design_id, function(data) {
-        $(".modal-body").html(data);
-        $("#select_btn").attr('onclick','put_minimum_value('+rfq_lines_id+','+product_design_id+','+complexity_id+')');
+        $("#basic .modal-body").html(data);
+        $("#select_btn").attr('onclick','put_minimum_value('+rfq_lines_id+','+product_design_id+')');
 
     });
 }
@@ -763,10 +761,10 @@ $(document).on('click','.check_input', function() {
     
 });
 
-function put_minimum_value(rfq_lines_id, product_design_id, complexity_id){
+function put_minimum_value(rfq_lines_id, product_design_id){
     $("#select_btn").html('Processing..');
     var val = $("#minimum_price_form").serialize();
-    $.post("/users/put_minimum_price/"+rfq_lines_id+"/"+product_design_id+"/"+complexity_id, val, function(data) {
+    $.post("/users/put_minimum_price/"+rfq_lines_id+"/"+product_design_id, val, function(data) {
         if(data.success == "true"){
             $("#product_design_details_"+rfq_lines_id).find("#sales_price").val($("#minimum_sales_price_to_customer").val());
             $("#close_btn").trigger('click');

@@ -11,9 +11,9 @@ form#minimum_price_form.form-horizontal(action='#')
       .caption DCP
       .tools.pull-right
         a.collapse
-      - var initial_dcp = parseFloat(initial_cost_data.labor_cost) + parseFloat(initial_cost_data.material_cost)
-        input.pull-right.caption-input#dcp(readonly, name="dcp", value="#{initial_dcp}")
+      input.pull-right.caption-input#dcp(readonly, name="dcp", value="")
     .portlet-body#dcp_body
+      input(type="hidden",name="complexities_id", value='#{complexities[0].id}', readonly)
       table.table.table-hover.table-striped.table-bordered
         tr
           td Material Cost
@@ -34,12 +34,18 @@ form#minimum_price_form.form-horizontal(action='#')
           td Extra Engineering Hours
           td (hrs)
           td
-            input.form-control#extra_engineering_hours
-            input.count_change.form-control#extra_engineering_cost(name="extra_engineering_cost",style="display:none",readonly)
+            - if (spec[0].extra_engineering_cost)
+              - var extra_e_cost = spec[0].extra_engineering_cost
+              - var extra_e_hours = extra_e_cost*trans_num/overheads["engineering_cost"]
+            - else
+              - var extra_e_cost = 0
+              - var extra_e_hours = 0
+            input.form-control#extra_engineering_hours(value='#{extra_e_hours}')
+            input.count_change.form-control#extra_engineering_cost(name="extra_engineering_cost",style="display:none",readonly,value='#{extra_e_cost}')
             input.form-control#engineering_cost_hrs(style="display:none",readonly, value='#{overheads["engineering_cost"]}')
         tr 
           td ACC Cost
-          td (#{initial_cost_data.currency})
+          td (#{initial_cost_data.currency}, value="#{spec[0].acc_cost}")
           td
             input.form-control#acc_cost(name="acc_cost",readonly)
         tr  
