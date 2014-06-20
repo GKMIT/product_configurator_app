@@ -41,7 +41,12 @@ form.form-horizontal(action='#')
                   input#sales_price.form-control.span6(value='',name="sales_price", onchange="validate_number('sales_price','Please select valid Sales Price',1)", readonly)
                   span.help-blocks
                 .col-lg-6
-                  a.btn.blue.span6(href='#basic',data-toggle='modal',onclick="minimum_price_ui(#{rfq_lines_id},#{product_designs[0].id})") Select Minimum Price
+                  - if (design.product_design_costs_id != '' && design.product_design_costs_id != null)
+                    a.btn.blue.span6(href='#basic',data-toggle='modal',onclick="minimum_price_ui(#{rfq_lines_id},#{product_designs[0].id})") Select Minimum Price
+                  - else
+                    a.btn.blue.span6.disabled(href='#') Select Minimum Price
+                    script.
+                      bootbox.alert("Product design cost data is not available for this design for selected quarter.");
               td
                 input#weeks_sel.form-control(value='',name="weeks_sel", onkeyup="validate_number('weeks_sel','Please select valid no of weeks',1)")
                 span.help-blocks
