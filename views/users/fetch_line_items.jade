@@ -64,11 +64,11 @@ form#rfq_line_edit_form.form-horizontal(action='#')
                     option(value='#{prop.id}',selected=spec.product_properties_id == prop.id)= prop.property_name
               td= spec.unit_of_measurement
               td
-                - if(spec.product_properties_id == 2)
+                - if(spec.product_properties_id == 1)
                   select#value.form-control.value_in(name='value[]')
                     - each ptype in product_types
                       option(value='#{ptype.id}',selected=spec.value == ptype.id)= ptype.name
-                - else if(spec.product_properties_id == 3)
+                - else if(spec.product_properties_id == 2)
                   select#value.form-control.value_in(name='value[]')
                     - each comp in complexities
                       option(value='#{comp.id}',selected=spec.value == comp.id)= comp.name
