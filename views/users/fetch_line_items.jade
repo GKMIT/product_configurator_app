@@ -65,15 +65,15 @@ form#rfq_line_edit_form.form-horizontal(action='#')
               td= spec.unit_of_measurement
               td
                 - if(spec.product_properties_id == 1)
-                  select#value.form-control.value_in(name='value[]')
+                  select#value.form-control.value_in(name='value[]', data-type='#{spec.data_type}')
                     - each ptype in product_types
                       option(value='#{ptype.id}',selected=spec.value == ptype.id)= ptype.name
                 - else if(spec.product_properties_id == 2)
-                  select#value.form-control.value_in(name='value[]')
+                  select#value.form-control.value_in(name='value[]', data-type='#{spec.data_type}')
                     - each comp in complexities
                       option(value='#{comp.id}',selected=spec.value == comp.id)= comp.name
                 -else
-                  input#value.form-control.value_in(name='value[]', value='#{spec.value}')
+                  input#value.form-control.value_in(name='value[]', value='#{spec.value}', data-type='#{spec.data_type}')
               td
                 input#remark.form-control(name='remark[]', value='#{spec.remark}')
               td

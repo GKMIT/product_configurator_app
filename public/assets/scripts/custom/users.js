@@ -100,13 +100,16 @@ function put_property_value(i){
             prop_line.find('td').eq(1).html(data.properties[0].unit_of_measurement);
              var td_target = prop_line.find('.value_in').parent();
             if(data.value.length > 0){
-                var text = '<select id="value" name="value[]" class="form-control value_in">';
+                var text = '<select id="value" name="value[]" class="form-control value_in" data-type="'+data.properties[0].data_type+'">';
                 var j = 0;
                 for (j=0; j < data.value.length; ++j) {
                     text += '<option value='+data.value[j].id+'>'+data.value[j].name+'</option>';
                 }
                 text += '</select>';
                 td_target.html(text);
+             } else {
+                td_target.find('.value_in').removeAttr('data-type');
+                td_target.find('.value_in').attr('data-type',data.properties[0].data_type);
             }
         }
     });
@@ -300,19 +303,32 @@ function validate_tech(table_name){
         return false;
     }
     var flag = true;
+    var alttext = '';
+
     $( "#"+table_name+' .props').each(function() {
-      if($(this).val() != null && $(this).val() != 0 ){
-        var input_box = $(this).parent().parent().find('td').eq(2).find('input');
-        value = input_box.val();
-        if(value == ''){
-            flag = false;
+      var input_box = $(this).parent().parent().find('td').eq(2).find('.value_in');
+      var datatype = input_box.attr('data-type');
+      var value = input_box.val();
+
+      if(datatype == 'number'){
+        if (value.match(/^(?:[1-9]\d*|0)?(?:\.\d+)?$/) == null || value == 0){
             input_box.parent().addClass('has-error');
+            flag = false;
+            alttext += $(this).find('option:selected').text() + ' must be a valid number <br>';
         }
+      } else if(datatype == 'string') {
+        if (value == ''){
+            input_box.parent().addClass('has-error');
+            flag = false;
+            alttext += $(this).find('option:selected').text() + ' must be a valid string <br>';
+        }  
       }
+    
     });
+ 
     if(flag == true) return true;
     else {
-        bootbox.alert("Please input value for each product property");
+        bootbox.alert(alttext);
         return false;
     }
 
@@ -438,14 +454,14 @@ $(document).on('change','.props', function() {
             prop_line.find('td').eq(1).html(data.properties[0].unit_of_measurement);
             var td_target = prop_line.find('.value_in').parent();
             if(data.value.length > 0){
-                var text = '<select id="value" name="value[]" class="form-control value_in">';
+                var text = '<select id="value" name="value[]" class="form-control value_in" data-type="'+data.properties[0].data_type+'">';
                 var j = 0;
                 for (j=0; j < data.value.length; ++j) {
                     text += '<option value='+data.value[j].id+'>'+data.value[j].name+'</option>';
                 }
                 text += '</select>';
             } else {
-                 var text = '<input id="value" name="value[]" class="form-control value_in">';
+                 var text = '<input id="value" name="value[]" class="form-control value_in" data-type="'+data.properties[0].data_type+'">';
             }
             td_target.html(text);
         } else {
