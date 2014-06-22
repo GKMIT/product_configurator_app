@@ -106,10 +106,11 @@ block page_content
                   input.form-control.remark(type='text',name='remark[]',value='#{spec.remark}')
                 - i = i+1
           input(type='hidden',name='no_use',value='null')
-          .row
-            .com-md-12
-              a.btn.purple(href="javascript:;",style="margin-bottom:20px;margin-left:15px;",onclick="add_more_props('property_tbody_#{rfq_line.id}',#{rfq_line.product_lines_id})")
-                | Add More Properties
+          - if(rfq_line.product_design_detail.length == 0)
+            .row
+              .com-md-12
+                a.btn.purple#add_more(href="javascript:;",style="margin-bottom:20px;margin-left:15px;",onclick="add_more_props('property_tbody_#{rfq_line.id}',#{rfq_line.product_lines_id})")
+                  | Add More Properties
         div(id='product_design_details_#{rfq_line.id}')
           - if(rfq_line.product_design_detail.length != 0)
             .row

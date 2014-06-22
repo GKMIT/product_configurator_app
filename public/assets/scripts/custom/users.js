@@ -637,6 +637,8 @@ function select_design(rfq_id, rfq_lines_id){
     $.get("/users/product_designs_details/"+design_id+"/"+rfq_lines_id, function(data) {
         $("#product_design_details_"+rfq_lines_id).html(data);
         $("#product_design_details_"+rfq_lines_id).append('<a href="javascript:;" class="btn green submit_sales" onclick="submit_sales('+rfq_id+','+rfq_lines_id+')">Submit</a>&nbsp;&nbsp;<a href="javascript:;" class="btn yellow reset_initial" onclick="reset_initial('+rfq_id+','+rfq_lines_id+')">Reset</a>');
+
+        $("#property_table_"+rfq_lines_id).find('#add_more').remove();
     });
 }
  
@@ -708,6 +710,8 @@ function submit_sales(rfq_id, rfq_lines_id){
                 $("#product_design_details_"+rfq_lines_id).find('.submit_sales').remove();
                 $("#product_design_details_"+rfq_lines_id).find('.reset_initial').remove();
                 $("#product_design_details_"+rfq_lines_id).append('<a href="javascript:;" onclick="product_designs_reset('+rfq_id+','+rfq_lines_id+')" class="btn yellow reset">Reset</a>');
+
+
  
             } else{
                 bootbox.alert(data.message);
@@ -727,7 +731,7 @@ function product_designs_reset(rfq_id, rfq_lines_id){
         var parent_element = $(this).parent().parent();
         jsonArr.push({
             id: $(this).val(),
-            property_id: parent_element.find('input.property_id').val(),
+            property_id: parent_element.find('.property_id').val(),
             value: parent_element.find('.value_in').val(),
             remark: parent_element.find('input.remark').val()
         });
@@ -739,7 +743,8 @@ function product_designs_reset(rfq_id, rfq_lines_id){
              $("#product_design_details_"+rfq_lines_id).html('<a href="#basic" data-toggle="modal" onclick="product_designs('+rfq_id+','+rfq_lines_id+')" class="btn blue">Apply Filters</a>');
                 portlet_design.find('.portlet-title .choose_btn').html('Choose');
 
-          
+                $("#property_table_"+rfq_lines_id).append('<div class="row"><div class="com-md-12"><a id="add_more" href="javascript:;" style="margin-bottom:20px;margin-left:15px;" onclick="add_more_props(\'property_tbody_'+rfq_lines_id+'\',1)" class="btn purple">Add More Properties</a></div></div>');
+
         } else{
             bootbox.alert(data.message);
         }
@@ -760,6 +765,9 @@ function submit_to_sales_final(rfq_id){
 
 function reset_initial(rfq_id, rfq_lines_id){
     $("#product_design_details_"+rfq_lines_id).html('<a href="#basic" data-toggle="modal" onclick="product_designs('+rfq_id+','+rfq_lines_id+')" class="btn blue">Apply Filters</a>');
+
+    $("#property_table_"+rfq_lines_id).append('<div class="row"><div class="com-md-12"><a id="add_more" href="javascript:;" style="margin-bottom:20px;margin-left:15px;" onclick="add_more_props(\'property_tbody_'+rfq_lines_id+'\',1)" class="btn purple">Add More Properties</a></div></div>');
+
 }
 
 function minimum_price_ui(rfq_lines_id,product_design_id){
