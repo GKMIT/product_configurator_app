@@ -36,11 +36,11 @@ form#minimum_price_form.form-horizontal(action='#')
           td
             - if(spec[0].extra_engineering_cost)
               - var extra_e_cost = spec[0].extra_engineering_cost
-              - var extra_e_hours = extra_e_cost*trans_num/overheads["engineering_cost"]
+              - var extra_e_hours = spec[0].extra_engineering_hours
             - else
               - var extra_e_cost = 0
               - var extra_e_hours = 0
-            input.form-control#extra_engineering_hours(value='#{extra_e_hours}')
+            input.form-control#extra_engineering_hours(value='#{extra_e_hours}',name='extra_engineering_hours')
             input.count_change.form-control#extra_engineering_cost(name="extra_engineering_cost",style="display:none",readonly,value='#{extra_e_cost}')
             input.form-control#engineering_cost_hrs(style="display:none",readonly, value='#{overheads["engineering_cost"]}')
         tr 

@@ -303,7 +303,7 @@ exports.minimum_price_ui = function(req, res){
 
                 res.render('users/minimum_price_ui', {initial_cost_data: data.product_cost_data[0], trans_num: data.rfq_lines[0].number_of_units, overheads:overheads, complexities:data.complexities, spec: data.minimum_calculated_sales_price} );
             } else {
-                res.send(data.success);
+                res.send(data.message);
             }
         });
     });
