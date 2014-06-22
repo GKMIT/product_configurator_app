@@ -617,7 +617,7 @@ function product_designs(rfq_id,rfq_lines_id){
         var parent_element = $(this).parent().parent();
         if($(this).is(':checked')){
             jsonArr.push({
-                id: parent_element.find('input.property_id').val(),
+                id: parent_element.find('.property_id').val(),
                 value: parent_element.find('.value_in').val()
             });
         }
@@ -677,18 +677,21 @@ function submit_sales(rfq_id, rfq_lines_id){
     var jsonArr = [];
     $( "#property_table_"+rfq_lines_id+' input.prop_id').each(function() {
         var parent_element = $(this).parent().parent();
-        jsonArr.push({
-            id: $(this).val(),
-            property_id: parent_element.find('input.property_id').val(),
-            value: parent_element.find('.value_in').val(),
-            remark: parent_element.find('input.remark').val()
-        });
+        if(parent_element.find('.property_id').val() != 0) {
+            jsonArr.push({
+                id: $(this).val(),
+                property_id: parent_element.find('.property_id').val(),
+                value: parent_element.find('.value_in').val(),
+                remark: parent_element.find('input.remark').val()
+            });
+        }
     });
 
     var flag1 = validate_number('sales_price','Please select valid Sales price',1);
     var flag2 = validate_number('weeks_sel','Please select valid no of weeks',1);
+    var flag3 = validate_tender_tech(rfq_lines_id);
  
-    if(flag1 && flag2){
+    if(flag1 && flag2 && flag3){
         $("#product_design_details_"+rfq_lines_id).find('.submit_sales').html('Processing..');
 
         $.post("/users/submit_to_sales", {rfq_id:rfq_id, rfq_lines_id:rfq_lines_id, product_designs_id:design_id, sales_price:sales_price, confirmed_delivery_date:no_weeks, material_cost:material_cost, labor_cost:labor_cost, no_of_labor_hours:labor_hours, properties:jsonArr}, function(data) {
@@ -732,7 +735,10 @@ function product_designs_reset(rfq_id, rfq_lines_id){
 
     $.post("/users/submit_to_sales", {rfq_id:rfq_id, rfq_lines_id:rfq_lines_id, product_designs_id:0, sales_price:0, confirmed_delivery_date:0,material_cost:0, labor_cost:0, no_of_labor_hours:0, properties: jsonArr}, function(data) {
         if(data.success == 'true'){
+            var portlet_design = $("#product_design_details_"+rfq_lines_id).parent().parent();
              $("#product_design_details_"+rfq_lines_id).html('<a href="#basic" data-toggle="modal" onclick="product_designs('+rfq_id+','+rfq_lines_id+')" class="btn blue">Apply Filters</a>');
+                portlet_design.find('.portlet-title .choose_btn').html('Choose');
+
           
         } else{
             bootbox.alert(data.message);
@@ -800,4 +806,87 @@ function view_quote(rfq_id){
     $.get("/users/view_quote/"+rfq_id, function(data) {
         $(".modal-body").html(data);
     });  
+}
+
+function add_more_props(id_info, product_lines_id){
+
+    $.get("/users/fetch_plants_properties/"+product_lines_id, function(data) {
+        var i;
+
+        response ='<option value="0">Select Property</option>';
+        for (i = 0; i < data.product_properties.length; ++i) {
+            obj = data.product_properties[i];
+            response += '<option value="'+obj.id+'" ';
+            response += '>'+obj.property_name+'</option>';
+        }
+
+        // $("#"+id_info).append('<tr><td><a href="javascript:;" class="btn dark icn-only remove_prop"><i class="fa fa-times"></i></a></td><td></td><td><select id="property_id" name="property_id[]" class="props form-control">'+ response +'</select></td><td></td><td><input id="value" name="value" class="form-control value_in "></td><td><input id="remark" name="remark[]" class="form-control"></td></tr>');
+
+        $("#"+id_info).append('<tr><td><a href="javascript:;" class="btn dark icn-only remove_prop"><i class="fa fa-times"></i></a></td><td></td><td><select id="property_id" name="property_id[]" class="tender_props form-control property_id">'+ response +'</select><input type="hidden" name="prop_id[]" value="0" class="prop_id"></td><td></td><td><input type="text" name="value" value="" class="form-control value_in"></td><td><input type="text" name="remark[]" value="" class="form-control remark"></td></tr>');
+    });
+ 
+}
+
+$(document).on('change','.tender_props', function() {
+    var prop_line = $(this).parent().parent();
+    var val = $(this).val();
+    var file_name = '/users/fetch_unit/'
+     $.get(file_name+val, function(data) {
+        if(data.success == "true"){
+            prop_line.find('td').eq(3).html(data.properties[0].unit_of_measurement);
+            prop_line.find('td').eq(1).html('<input type="checkbox" name="property[]" value="'+data.properties[0].id+'" checked="">');
+
+            var td_target = prop_line.find('.value_in').parent();
+            if(data.value.length > 0){
+                var text = '<select id="value" name="value" class="form-control value_in" data-type="'+data.properties[0].data_type+'" prop-name="'+data.properties[0].property_name+'">';
+                var j = 0;
+                for (j=0; j < data.value.length; ++j) {
+                    text += '<option value='+data.value[j].id+'>'+data.value[j].name+'</option>';
+                }
+                text += '</select>';
+            } else {
+                 var text = '<input id="value" name="value" class="form-control value_in" data-type="'+data.properties[0].data_type+'" prop-name="'+data.properties[0].property_name+'">';
+            }
+            td_target.html(text);
+        } else {
+            bootbox.alert('Invalid Property');
+        }
+    });
+});
+
+function validate_tender_tech(rfq_lines_id){
+
+    var flag = true;
+    var alttext = '';
+   
+
+    $( "#property_table_"+rfq_lines_id+' table .tender_props').each(function() {
+      var input_box = $(this).parent().parent().find('td').eq(4).find('.value_in');
+      var datatype = input_box.attr('data-type');
+      var value = input_box.val();
+      var prop = input_box.attr('prop-name');
+
+      if(datatype == 'number'){
+        if (value.match(/^(?:[1-9]\d*|0)?(?:\.\d+)?$/) == null || value == 0){
+            input_box.parent().addClass('has-error');
+            flag = false;
+            alttext += prop + ' must be a valid number <br>';
+        }
+      } else if(datatype == 'string') {
+        if (value == ''){
+            input_box.parent().addClass('has-error');
+            flag = false;
+            alttext += prop + ' must be a valid string <br>';
+        }  
+      }
+    
+    });
+    
+
+    if(flag == true) return true;
+    else {
+        bootbox.alert(alttext);
+        return false;
+    }
+
 }

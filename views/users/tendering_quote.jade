@@ -72,7 +72,7 @@ block page_content
                 th Unit of Measurement
                 th Value
                 th Remark
-            tbody
+            tbody(id='property_tbody_#{rfq_line.id}')
               -var complexity_id =0
               -var i = 1
               -var man_array = rfq_line.mandatory_properties.split(',')
@@ -84,28 +84,32 @@ block page_content
                  - else class_put=''
                  - if(man_array.indexOf(spec.product_properties_id.toString()) !== -1)
                     input(type='checkbox',name='property[]',value='#{spec.product_properties_id}',style='display:none',checked)
-                    input.property_id(type='hidden',name='property_id[]',value='#{spec.product_properties_id}')
+                    input.property_id.tender_props(type='hidden',name='property_id[]',value='#{spec.product_properties_id}')
                  - else
                     input.check_input(type='checkbox',name='property[]',value='#{spec.product_properties_id}',checked)
-                    input.property_id(type='hidden',name='property_id[]',value='#{spec.product_properties_id}')
+                    input.property_id.tender_props(type='hidden',name='property_id[]',value='#{spec.product_properties_id}')
                 td= spec.property_name
                     input.prop_id(type='hidden',name='prop_id[]',value='#{spec.id}')
                 td= spec.unit_of_measurement
                 td
                   - if(spec.product_properties_id == 1)
-                    select.form-control.value_in(name='value')
+                    select.form-control.value_in(name='value', data-type='#{spec.data_type}',prop-name='#{spec.property_name}')
                       - each ptype in product_types
                         option(value='#{ptype.id}',selected=spec.value == ptype.id)= ptype.name
                   - else if(spec.product_properties_id == 2)
-                    select.complexity.form-control.value_in(name='value')
+                    select.complexity.form-control.value_in(name='value', data-type='#{spec.data_type}',prop-name='#{spec.property_name}')
                       - each comp in complexities
                         option(value='#{comp.name}',selected=spec.value == comp.name)= comp.name
                   -else
-                    input.form-control.value_in(type='text',name='value',value='#{spec.value}')
+                    input.form-control.value_in(type='text',name='value',value='#{spec.value}', data-type='#{spec.data_type}',prop-name='#{spec.property_name}')
                 td
                   input.form-control.remark(type='text',name='remark[]',value='#{spec.remark}')
                 - i = i+1
           input(type='hidden',name='no_use',value='null')
+          .row
+            .com-md-12
+              a.btn.purple(href="javascript:;",style="margin-bottom:20px;margin-left:15px;",onclick="add_more_props('property_tbody_#{rfq_line.id}',#{rfq_line.product_lines_id})")
+                | Add More Properties
         div(id='product_design_details_#{rfq_line.id}')
           - if(rfq_line.product_design_detail.length != 0)
             .row
