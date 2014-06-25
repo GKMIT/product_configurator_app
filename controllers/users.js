@@ -1,6 +1,31 @@
 exports.index = function(req, res){
-   res.render('users/index', { username: req.session.member_username, title: 'CG Dashboard', dashboard:'active' });
-   //console.log(moment("04/13/2014", "DD-MM-YYYY").format('YYYY-MM-DD hh:mm:ss'));
+	var options = {
+		host : config.host,
+		port : config.port,
+		path : '/dashboard/'+req.session.member_id,
+		method : 'GET',
+		headers: {
+			'Content-Type':'application/json',
+	        'authentication_token': req.session.token
+	    }
+	};
+
+	var reqGet = http.request(options, function(response) {
+		var data_final ="";
+		response.on('data', function(chunk) {
+			data_final = data_final+chunk;
+		});
+		response.on('end',function (){
+			console.log(data_final);
+			var data = JSON.parse(data_final);
+			if(data.statusCode == 200){
+				res.render('users/index', { username: req.session.member_username, title: 'CG Dashboard', dashboard:'active', dashboard_data:data });
+			} else {
+				res.send(data.success);
+			}
+		});
+	});
+	reqGet.end();
 };
 
 exports.newrfq = function(req,res){
