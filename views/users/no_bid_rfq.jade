@@ -113,7 +113,7 @@ block page_content
     .portlet-title
       .caption
         i.fa.fa-reorder
-        | Form Actions On Bottom
+        | Action
       .tools
         a.collapse(href='javascript:;')
     .portlet-body.form
@@ -129,10 +129,10 @@ block page_content
                   option(value="#{remark.id}")= remark.description
               span.help-block
           .form-group
-            label.col-md-3.control-label Estimated Cost
+            label.col-md-3.control-label Estimated Sales Price
             .col-md-4
               .input-group
-                input#estimated_sales_price.form-control(type='Text', placeholder='Estimated Cost', name='estimated_sales_price', onkeyup="validate_number('estimated_sales_price','Please input a valid number')")
+                input#estimated_sales_price.form-control(type='Text', placeholder='Estimated Sales Price', name='estimated_sales_price', onkeyup="validate_number('estimated_sales_price','Please input a valid number')")
                 span.help-block
         .form-actions.fluid
           .col-md-offset-3.col-md-9

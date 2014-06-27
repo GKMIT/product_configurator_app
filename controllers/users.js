@@ -1059,7 +1059,7 @@ exports.rfq_submit_no_bid = function(req, res){
 	var options = {
 			host : config.host,
 			port : config.port,
-			path : '/rfq_bid_submit',
+			path : '/rfq_no_bid_submit',
 			method : 'PUT',
 			headers: {
 		          'Content-Type': 'application/json',

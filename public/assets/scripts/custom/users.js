@@ -571,15 +571,18 @@ function save_questions(rfq_id,type){
 function rfq_submit_tender(rfq_id){
 
     $("#btn_submit").removeAttr("onclick");
-    $("#btn_submit").html("Saving.. Please Wait");
     
-    $.post("/users/rfq_submit_bid/"+rfq_id,{}, function(data) {
-        if(data.success == "true"){
-            window.location.replace("/users/");
-        } else {
-            bootbox.alert(data.message);
-        }
-    });
+    var flag1 = validate_number('estimated_sales_price','Please input a valid number');
+    if(flag1){
+         $.post("/users/rfq_submit_bid/"+rfq_id,{estimated_sales_price:$("#estimated_sales_price").val()}, function(data) {
+            $("#btn_submit").html("Saving.. Please Wait");
+            if(data.success == "true"){
+                window.location.replace("/users/");
+            } else {
+                bootbox.alert(data.message);
+            }
+        });
+    }
 }
 
 function close_document(rfq_id){
@@ -624,8 +627,13 @@ function product_designs(rfq_id,rfq_lines_id){
     });
 
     $.post("/users/product_designs/"+rfq_id+"/"+rfq_lines_id,{properties:jsonArr}, function(data) {
-        $(".modal-title").html("Select Product Design");
-        $(".modal-body").html(data);
+       if(data.success == 'false'){
+        bootbox.alert(data.message);
+       } else {
+            $("#basic").modal("show");
+            $(".modal-title").html("Select Product Design");
+            $(".modal-body").html(data);
+       }
     });
 }
  
@@ -740,7 +748,7 @@ function product_designs_reset(rfq_id, rfq_lines_id){
     $.post("/users/submit_to_sales", {rfq_id:rfq_id, rfq_lines_id:rfq_lines_id, product_designs_id:0, sales_price:0, confirmed_delivery_date:0,material_cost:0, labor_cost:0, no_of_labor_hours:0, properties: jsonArr}, function(data) {
         if(data.success == 'true'){
             var portlet_design = $("#product_design_details_"+rfq_lines_id).parent().parent();
-             $("#product_design_details_"+rfq_lines_id).html('<a href="#basic" data-toggle="modal" onclick="product_designs('+rfq_id+','+rfq_lines_id+')" class="btn blue">Apply Filters</a>');
+             $("#product_design_details_"+rfq_lines_id).html('<a href="javascript:;" onclick="product_designs('+rfq_id+','+rfq_lines_id+')" class="btn blue">Apply Filters</a>');
                 portlet_design.find('.portlet-title .choose_btn').html('Choose');
 
                 $("#property_table_"+rfq_lines_id).append('<div class="row"><div class="com-md-12"><a id="add_more" href="javascript:;" style="margin-bottom:20px;margin-left:15px;" onclick="add_more_props(\'property_tbody_'+rfq_lines_id+'\',1)" class="btn purple">Add More Properties</a></div></div>');
@@ -764,7 +772,7 @@ function submit_to_sales_final(rfq_id){
 }
 
 function reset_initial(rfq_id, rfq_lines_id){
-    $("#product_design_details_"+rfq_lines_id).html('<a href="#basic" data-toggle="modal" onclick="product_designs('+rfq_id+','+rfq_lines_id+')" class="btn blue">Apply Filters</a>');
+    $("#product_design_details_"+rfq_lines_id).html('<a href="javascript:;" onclick="product_designs('+rfq_id+','+rfq_lines_id+')" class="btn blue">Apply Filters</a>');
 
     $("#property_table_"+rfq_lines_id).append('<div class="row"><div class="com-md-12"><a id="add_more" href="javascript:;" style="margin-bottom:20px;margin-left:15px;" onclick="add_more_props(\'property_tbody_'+rfq_lines_id+'\',1)" class="btn purple">Add More Properties</a></div></div>');
 
@@ -897,4 +905,129 @@ function validate_tender_tech(rfq_lines_id){
         return false;
     }
 
+}
+function finalize_rfq(type,rfq_id){
+    var val = $("#quote_finalize").serialize();
+    var prob = $("#probability").val();
+    var flag1 = validate_date('quote_validity_date','Please select valid Date');
+    var flag3 = validate_date('quote_submission_date','Please select valid Date');
+    var flag4 = validate_number('sales_price','Please select valid Date');
+    if(type == 1){
+         if( flag1 && flag3 && flag4 ){
+            if(prob == 6){
+                var flag2 = validate_number('rejection_remarks_id','Please select a valid remark');
+            } else {
+                var flag2 = true;
+            }
+            if(flag2){
+                $("#finalize_rfq").html("Saving.. Please Wait");
+                $.post("/users/save_finalize_quote/"+rfq_id+"/6",val, function(data) {
+                    if(data.success == "true"){
+                        window.location.replace("/users/quote_finalize");
+                    } else {
+                        bootbox.alert(data.message);
+                    }
+                });
+            }
+        }
+    } else {
+        var prob = $("#probability").val();
+
+        if(prob == 1 || prob == 6){
+            if(prob == 1){
+                flag2 = true;
+            } else {
+               flag2 = validate_number('rejection_remarks_id','Please select a valid remark'); 
+            }
+            
+        } else {
+            var flag2 = false;
+            bootbox.alert('You must select probability Win or Lost, if closing document.');
+        }
+
+         if( flag1 && flag2 && flag3 && flag4 ){
+            $("#close_document_finalize").html("Saving.. Please Wait");
+            $.post("/users/save_finalize_quote/"+rfq_id+"/7",val, function(data) {
+                if(data.success == "true"){
+                    window.location.replace("/users/quote_finalize");
+                } else {
+                    bootbox.alert(data.message);
+                }
+            });
+        } 
+    }
+   
+}
+
+function check_for_lost(){
+    if($("#probability").val() == 6){
+        $("#rejection_remarks_div").show();
+    } else {
+        $("#rejection_remarks_div").find('select option:first-child').attr('selected','selected').show();
+        $("#rejection_remarks_div").hide();
+    }
+}
+
+function mark_obsolete(rfq_id){
+    $("#mark_obsolete").html("Saving.. Please Wait");
+    $.post("/users/mark_obsolete/"+rfq_id+"/8",{}, function(data) {
+        if(data.success == "true"){
+            window.location.replace("/users/follow_up");
+        } else {
+            bootbox.alert(data.message);
+        }
+    });
+}
+
+function follow_up(type,rfq_id){
+    var val = $("#quote_finalize").serialize();
+    var prob = $("#probability").val();
+    var flag1 = validate_date('quote_validity_date','Please select valid Date');
+    var flag3 = validate_date('quote_submission_date','Please select valid Date');
+    var flag4 = validate_number('sales_price','Please select valid Date');
+    if(type == 1){
+         if( flag1 && flag3 && flag4 ){
+            if(prob == 6){
+                var flag2 = validate_number('rejection_remarks_id','Please select a valid remark');
+            } else {
+                var flag2 = true;
+            }
+            if(flag2){
+                $("#follow_up").html("Saving.. Please Wait");
+                $.post("/users/save_finalize_quote/"+rfq_id+"/6",val, function(data) {
+                    if(data.success == "true"){
+                        window.location.replace("/users/follow_up");
+                    } else {
+                        bootbox.alert(data.message);
+                    }
+                });
+            }
+        }
+    } else {
+        var prob = $("#probability").val();
+
+        if(prob == 1 || prob == 6){
+            if(prob == 1){
+                flag2 = true;
+            } else {
+               flag2 = validate_number('rejection_remarks_id','Please select a valid remark'); 
+            }
+            
+        } else {
+            var flag2 = false;
+            bootbox.alert('You must select probability Win or Lost, if closing document.');
+        }
+
+         if( flag1 && flag2 && flag3 && flag4 ){
+            $("#close_document_follow_up").html("Saving.. Please Wait");
+            $.post("/users/save_finalize_quote/"+rfq_id+"/7",val, function(data) {
+                if(data.success == "true"){
+                    window.location.replace("/users/follow_up");
+                } else {
+                    bootbox.alert(data.message);
+                }
+            });
+        } 
+    }
+   
 }

@@ -72,7 +72,11 @@ module.exports = function () {
      // Quotes Finalize
     app.get('/users/quote_finalize', globalfunctions.checkUserAuth, quote_finalize.quote_finalize_init);
     app.get('/users/quote_finalize/:rfq_id', globalfunctions.checkUserAuth, quote_finalize.quote_finalize);
-    app.post('/users/approve_rfq/:rfq_id', globalfunctions.checkUserAuth, quote_finalize.approve_rfq);
     app.get('/users/follow_up', globalfunctions.checkUserAuth, quote_finalize.follow_up_init);
+    app.get('/users/follow_up/:rfq_id', globalfunctions.checkUserAuth, quote_finalize.follow_up);
+    app.post('/users/save_finalize_quote/:rfq_id/:rfq_status_id', globalfunctions.checkUserAuth, quote_finalize.save_finalize_quote);
+    app.post('/users/mark_obsolete/:rfq_id/:rfq_status_id', globalfunctions.checkUserAuth, quote_finalize.mark_obsolete);
+
+
     
 };

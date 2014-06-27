@@ -109,14 +109,22 @@ block page_content
                 td= line_items.plant_name
                 td= line_items.number_of_units
                 td= line_items.req_delivery_date
-  .form-actions.fluid
-    .row
-      .col-md-12
-        .col-md-offset-3.col-md-9
-          a#btn_save.btn.yellow.button-save(href='/users/bid/#{rfq[0].id}', onclick="#")
-            | Back
-          &nbsp;&nbsp;&nbsp;
-          a#btn_submit.btn.green.button-add_more(href='javascript:;', onclick="rfq_submit_tender(#{rfq[0].id})")
-            | Submit to Tendering Team
-          &nbsp;&nbsp;&nbsp;
-          a.btn.dark(href='/users/') Cancel
+  form#bid_form.form-horizontal(action='#')
+    .form-body
+      .form-group
+        label.col-md-3.control-label Estimated Sales Price
+        .col-md-4
+          .input-group
+            input#estimated_sales_price.form-control(type='Text', placeholder='Estimated Sales Price', name='estimated_sales_price', onkeyup="validate_number('estimated_sales_price','Please input a valid number')")
+            span.help-block
+    .form-actions.fluid
+      .row
+        .col-md-12
+          .col-md-offset-3.col-md-9
+            a#btn_save.btn.yellow.button-save(href='/users/bid/#{rfq[0].id}', onclick="#")
+              | Back
+            &nbsp;&nbsp;&nbsp;
+            a#btn_submit.btn.green.button-add_more(href='javascript:;', onclick="rfq_submit_tender(#{rfq[0].id})")
+              | Submit to Tendering Team
+            &nbsp;&nbsp;&nbsp;
+            a.btn.dark(href='/users/') Cancel
