@@ -611,30 +611,58 @@ function product_designs(rfq_id,rfq_lines_id){
     $(".modal-title").html('Select Product Design');
     $("#select_btn").removeAttr('onclick');
     $(".modal-body").html('Loading..');
-
     $("#select_btn").attr('onclick','select_design('+rfq_id+','+rfq_lines_id+')');
     
     var tableform= $("#property_table_"+rfq_lines_id);
     var jsonArr = [];
+    var flag = true;
     $( "#property_table_"+rfq_lines_id+' input[type=checkbox]').each(function() {
-        var parent_element = $(this).parent().parent();
-        if($(this).is(':checked')){
-            jsonArr.push({
-                id: parent_element.find('.property_id').val(),
-                value: parent_element.find('.value_in').val()
-            });
-        }
-    });
+            
+            var alttext = '';
+            if($(this).is(':checked')){
+              var parent_element = $(this).parent().parent();
+              var input_box = parent_element.find('td').eq(4).find('.value_in');
+              var datatype = input_box.attr('data-type');
+              var value = input_box.val();
+              var prop = input_box.attr('prop-name');
 
-    $.post("/users/product_designs/"+rfq_id+"/"+rfq_lines_id,{properties:jsonArr}, function(data) {
-       if(data.success == 'false'){
-        bootbox.alert(data.message);
-       } else {
-            $("#basic").modal("show");
-            $(".modal-title").html("Select Product Design");
-            $(".modal-body").html(data);
-       }
+            if(datatype == 'number'){
+                if (value.match(/^(?:[1-9]\d*|0)?(?:\.\d+)?$/) == null || value == 0){
+                    input_box.parent().addClass('has-error');
+                    flag = false;
+                    alttext += prop + ' must be a valid number <br>';
+                }
+              } else if(datatype == 'string') {
+                if (value == ''){
+                    input_box.parent().addClass('has-error');
+                    flag = false;
+                    alttext += prop + ' must be a valid string <br>';
+                }  
+              }
+
+              if(flag == true){
+                jsonArr.push({
+                    id: parent_element.find('.property_id').val(),
+                    value: parent_element.find('.value_in').val()
+                });
+                } else {
+                    bootbox.alert(alttext);
+                } 
+                
+            }
     });
+    
+    if(flag == true){
+        $.post("/users/product_designs/"+rfq_id+"/"+rfq_lines_id,{properties:jsonArr}, function(data) {
+           if(data.success == 'false'){
+            bootbox.alert(data.message);
+           } else {
+                $("#basic").modal("show");
+                $(".modal-title").html("Select Product Design");
+                $(".modal-body").html(data);
+           }
+        });
+    }
 }
  
 function select_design(rfq_id, rfq_lines_id){
@@ -767,6 +795,8 @@ function submit_to_sales_final(rfq_id){
             window.location.replace("/users/tendering_quote");
         } else{
             bootbox.alert(data.message);
+        $("#submit_to_sales_final").html('Submit to Sales');
+
         }
     });
 }
