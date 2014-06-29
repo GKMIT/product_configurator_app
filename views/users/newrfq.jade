@@ -126,6 +126,9 @@ block page_content
                             - each customer in customers
                               option(value="#{customer.id}",selected=customer.id == selected_rfq[0].customers_id)= customer.name
                           span.help-block
+                        .col-md-4
+                          a.btn.default(href="#basic", data-toggle="modal")
+                           | Add New Customer
                       .form-group
                         label.control-label.col-md-3
                           | Type of quote
@@ -242,3 +245,35 @@ block page_content
                          &nbsp;&nbsp;
                         a.btn.dark.button-submit(href="/users/")
                           | Cancel
+    #basic.modal.fade.bs-modal-lg.in(tabindex='-1', role='basic', aria-hidden='true', style='display: none;')
+      .modal-dialog.modal-full
+        .modal-content
+          .modal-header
+            button.close(type='button', data-dismiss='modal', aria-hidden='true')
+            h4.modal-title Add New Customer
+          .modal-body(style="")
+            form#customer_form.form-horizontal(action='#')
+              .form-group
+                label.control-label.col-md-4
+                  | Customer Name
+                  span.required *
+                .col-md-4
+                  input#customer_name.form-control(type="text",name="customer_name",onkeyup="validate_entry('customer_name','Please input customer name')")
+                  span.help-block
+              .form-group
+                label.control-label.col-md-4
+                  | Customer Email
+                  span.required *
+                .col-md-4
+                  input#customer_email.form-control(type="text",name="customer_email",onkeyup="validate_email('customer_email','Please input valid customer email')")
+                  span.help-block
+              .form-group
+                label.control-label.col-md-4
+                  | Customer SAP ID
+                  span.required *
+                .col-md-4
+                  input#sap_customer_id.form-control(type="text",name="sap_customer_id", onkeyup="validate_entry('sap_customer_id','Please input valid customer SAP id');")
+                  span.help-block
+          .modal-footer
+            button.btn.green#select_btn(type='button', onclick="create_customer()") Create
+            button.btn.dark#close_btn(type='button', data-dismiss='modal') Close  

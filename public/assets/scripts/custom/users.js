@@ -412,6 +412,41 @@ function validate_date(id_info, alttext){
     }
 }
 
+function validate_email(id_info, alttext){
+    var value = $("#"+id_info).val();
+    var errorspan = $("#"+id_info).parent().find('span');
+    var parent = $("#"+id_info).parent().parent();
+
+    if(value.match(/([\w\-]+\@[\w\-]+\.[\w\-]+)/) == null){
+        errorspan.text(alttext);
+        parent.addClass("has-error");
+        return false;
+    }
+    else {
+        errorspan.text("");
+        parent.removeClass("has-error");
+        return true;
+    }
+}
+
+
+function validate_entry(id_info, alttext){
+    var value = $("#"+id_info).val();
+    var errorspan = $("#"+id_info).parent().find('span');
+    var parent = $("#"+id_info).parent().parent();
+    
+    if(value.match(/^.+$/) == null){
+        errorspan.text(alttext);
+        parent.addClass("has-error");
+        return false;
+    }
+    else {
+        errorspan.text("");
+        parent.removeClass("has-error");
+        return true;
+    }
+}
+
 function add_more_line_items(id_info){
     if(id_info == 'table_body'){
         var val = $("#props_def").val();
@@ -1062,4 +1097,36 @@ function follow_up(type,rfq_id){
         } 
     }
    
+}
+
+function create_customer(){
+    var flag1 = validate_entry('customer_name','Please input customer name');
+    var flag2 = validate_email('customer_email','Please input valid customer email');
+    var flag3 = validate_entry('sap_customer_id','Please input valid customer sap id');
+     if( flag1 && flag2 && flag3 ){
+        $("#select_btn").html("Saving.. Please Wait");
+        $.post("/users/customer",{name:$("#customer_name").val(), email:$("#customer_email").val(), sap_customer_id: $("#sap_customer_id").val()}, function(data) {
+            if(data.success == "true"){
+               $("#customer_name").val('');
+               $("#customer_email").val('');
+               $("#sap_customer_id").val('');
+               $("#close_btn").trigger('click');
+               $("#select_btn").html("Create");
+                $("#customers_id").html('<option>Fetching..</option>');
+
+                $.get("/users/customer", function(data) {
+                        var i;
+                        var response = '<option value="0">Select Customer</option>';
+                        for (i = 0; i < data.length; ++i) {
+                            obj = data[i];
+                            response += '<option value="'+obj.id+'">'+obj.name+'</option>';
+                        }
+                        $("#customers_id").html(response);
+                });
+            } else {
+                bootbox.alert(data.message);
+                $("#select_btn").html("Create");
+            }
+        });
+    } 
 }

@@ -47,15 +47,15 @@ block page_content
                 p.form-control-static= rfq[0].minimum_sales_price
             .form-group
               label.control-label.col-md-4
-                | Minimum Sales Price
+                | Estimated Sales Price
               .col-md-4
-                p.form-control-static= rfq[0].minimum_sales_price
+                p.form-control-static= rfq[0].estimated_sales_price
             .form-group
               label.control-label.col-md-4
                 | Sales Price
                 span.required *
               .col-md-4
-                input#sales_price.form-control(type="text",name="sales_price",onkeyup="validate_number('sales_price','Please put valid price')", value="#{rfq[0].estimated_sales_price}")
+                input#sales_price.form-control(type="text",name="sales_price",onkeyup="validate_number('sales_price','Please put valid price')", value="#{rfq[0].minimum_sales_price}")
                 span.help-block
             .form-group
               label.control-label.col-md-4

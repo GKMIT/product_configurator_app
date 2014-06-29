@@ -1123,3 +1123,66 @@ exports.view_quote = function(req, res){
 
 	reqGet.end();
 };
+
+exports.add_customer = function(req, res){
+	console.log(req.body);
+
+	var dGet = querystring.stringify(req.body)+'&user_id='+req.session.member_id;
+	console.log(dGet);
+	var options = {
+			host : config.host,
+			port : config.port,
+			path : '/customer',
+			method : 'POST',
+			headers: {
+		          'Content-Type': 'application/x-www-form-urlencoded',
+		          'authentication_token': req.session.token
+		    }
+		};
+
+	var reqPost = http.request(options, function(response) {
+		response.on('data', function(data) {
+			var data=JSON.parse(data);
+			console.log(data);
+			if(data.statusCode == 200){
+				res.json(data);
+			} else {
+				res.json(data);
+			}
+		});
+
+	});
+
+	reqPost.write(dGet);
+	reqPost.end();
+};
+
+exports.get_customers = function(req, res){
+
+	var options = {
+		host : config.host,
+		port : config.port,
+		path : '/customer/'+req.session.member_id,
+		method : 'GET',
+		headers: {
+			'Content-Type':'application/json',
+	        'authentication_token': req.session.token
+	    }
+	};
+	var reqGet = http.request(options, function(response) {
+		var data_final ="";
+		response.on('data', function(chunk) {
+			data_final = data_final+chunk;
+		});
+		response.on('end',function (){
+			var data = JSON.parse(data_final);
+			console.log(data);
+			if(data.statusCode == 200){
+				res.send(data.customers);
+			} else {
+				res.send(data.message);
+			}
+		});
+	});
+	reqGet.end();
+};

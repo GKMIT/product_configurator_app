@@ -49,6 +49,10 @@ module.exports = function () {
 
 	app.get('/users/bid_rfq/:rfq_id', globalfunctions.checkSalesAuth, users.bid_rfq);
 	app.get('/users/no_bid_rfq/:rfq_id', globalfunctions.checkSalesAuth, users.no_bid_rfq);
+
+	//customer
+	app.post('/users/customer', globalfunctions.checkSalesAuth, users.add_customer);
+	app.get('/users/customer', globalfunctions.checkSalesAuth, users.get_customers);
 	
 	// Access to All
 	app.get('/users/view_quote/:rfq_id', globalfunctions.checkAllAuth, users.view_quote);
