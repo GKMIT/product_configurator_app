@@ -19,7 +19,7 @@ exports.index = function(req, res){
 			console.log(data_final);
 			var data = JSON.parse(data_final);
 			if(data.statusCode == 200){
-				res.render('users/index', { username: req.session.member_username, title: 'CG Dashboard', dashboard:'active', dashboard_data:data });
+				res.render('users/index', { username: req.session.member_username, priv: req.session.priv, title: 'CG Dashboard', dashboard:'active', dashboard_data:data });
 			} else {
 				res.send(data.success);
 			}
@@ -95,7 +95,7 @@ exports.rfq_general_data = function(req, res){
 					response_next.on('end',function (){
 						var data_next = JSON.parse(data_final_next);
 						if(data_next.statusCode == 200){
-							res.render('users/newrfq', { username: req.session.member_username, title: 'New RFQ', rfq:'active',sub_sidebar1:flag_1, sub_sidebar2:flag_2, sales_hubs: data.sales_hubs, sales_persons:data.sales_persons, countries: data.countries, type_of_quote: data.type_of_quote, customers: data.customers, sales_segments: data.sales_segments, selected_rfq:data.selected_rfq, sales_agents:data.sales_agents, sales_persons:data.sales_persons, probabilities:data.probability, flag_product:flag_product, flag_line:flag_line, channel_to_market : data.channel_to_market, rejection_remarks:data_next.rejection_remarks});
+							res.render('users/newrfq', { username: req.session.member_username, priv: req.session.priv, title: 'New RFQ', rfq:'active',sub_sidebar1:flag_1, sub_sidebar2:flag_2, sales_hubs: data.sales_hubs, sales_persons:data.sales_persons, countries: data.countries, type_of_quote: data.type_of_quote, customers: data.customers, sales_segments: data.sales_segments, selected_rfq:data.selected_rfq, sales_agents:data.sales_agents, sales_persons:data.sales_persons, probabilities:data.probability, flag_product:flag_product, flag_line:flag_line, channel_to_market : data.channel_to_market, rejection_remarks:data_next.rejection_remarks});
 						} else {
 							res.send(data_next.success);
 						}
@@ -136,7 +136,7 @@ exports.get_bids = function(req, res){
 				for(i=0; i< data.rfq.length; ++i){
 					data.rfq[i].date_rfq_in = moment(data.rfq[i].date_rfq_in.substring(0,10), "YYYY-MM-DD").format('DD-MM-YYYY');
 				}
-				res.render('users/bids', {username: req.session.member_username, bid:'active', rfqs: data.rfq });
+				res.render('users/bids', {username: req.session.member_username, priv: req.session.priv, bid:'active', rfqs: data.rfq });
 			} else {
 				res.send(data.success);
 			}
@@ -171,7 +171,7 @@ exports.get_rfq_bid = function(req, res){
 				for(i=0; i< data.rfq.length; ++i){
 					data.rfq[i].requested_quotation_date = moment(data.rfq[i].requested_quotation_date.substring(0,10), "YYYY-MM-DD").format('DD-MM-YYYY');
 				}
-				res.render('users/bid_rfq_init', {username: req.session.member_username, bid:'active', rfq: data.rfq, rfq_questions : data.rfq_questions });
+				res.render('users/bid_rfq_init', {username: req.session.member_username, priv: req.session.priv, bid:'active', rfq: data.rfq, rfq_questions : data.rfq_questions });
 			} else {
 				res.send(data.success);
 			}
@@ -334,7 +334,7 @@ exports.rfq_product_data = function(req, res){
 					var flag_1 = 'active'; var flag_2 = ''; 
 				}
 
-				res.render('users/product_data', { username: req.session.member_username, title: 'RFQ Product Data', rfq:'active',sub_sidebar1:flag_1,sub_sidebar2:flag_2, product_lines:data.product_lines, selected_rfq:data.selected_rfq, tendering_teams:data.tendering_teams, tendering_teams_members: data.tendering_teams_members, flag_line:flag_line});
+				res.render('users/product_data', { username: req.session.member_username, priv: req.session.priv, title: 'RFQ Product Data', rfq:'active',sub_sidebar1:flag_1,sub_sidebar2:flag_2, product_lines:data.product_lines, selected_rfq:data.selected_rfq, tendering_teams:data.tendering_teams, tendering_teams_members: data.tendering_teams_members, flag_line:flag_line});
 			} else {
 				res.send(data.success);
 			}
@@ -531,7 +531,7 @@ exports.rfq_line_items = function(req, res){
 				} else {
 					var flag_1 = 'active'; var flag_2 = ''; 
 				}
-				res.render('users/line_items', { username: req.session.member_username, title: 'RFQ Product Data', rfq:'active',sub_sidebar1:flag_1,sub_sidebar2:flag_2, selected_rfq:data.selected_rfq, product_lines:data.product_lines, selected_rfq_lines_items:data.selected_rfq_lines_items });
+				res.render('users/line_items', { username: req.session.member_username, priv: req.session.priv, title: 'RFQ Product Data', rfq:'active',sub_sidebar1:flag_1,sub_sidebar2:flag_2, selected_rfq:data.selected_rfq, product_lines:data.product_lines, selected_rfq_lines_items:data.selected_rfq_lines_items });
 			} else {
 				res.send(data.success);
 			}
@@ -779,7 +779,7 @@ exports.finalize = function(req, res){
 				for(i=0; i< data.partial_rfq.length; ++i){
 					data.partial_rfq[i].date_rfq_in = moment(data.partial_rfq[i].date_rfq_in.substring(0,10), "YYYY-MM-DD").format('DD-MM-YYYY');
 				}
-				res.render('users/finalize', { username: req.session.member_username, title: 'Finalize', rfq:'active',sub_sidebar2:'active', partial_rfq:data.partial_rfq });
+				res.render('users/finalize', { username: req.session.member_username, priv: req.session.priv, title: 'Finalize', rfq:'active',sub_sidebar2:'active', partial_rfq:data.partial_rfq });
 			} else {
 				res.send(data.success);
 			}
@@ -936,7 +936,7 @@ exports.bid_rfq = function(req, res){
 				for(i=0; i< data.rfq_lines.length; ++i){
 					data.rfq_lines[i].req_delivery_date = moment(data.rfq_lines[i].req_delivery_date.substring(0,10), "YYYY-MM-DD").format('DD-MM-YYYY');
 				}
-				res.render('users/bid_rfq', {username: req.session.member_username, bid:'active', rfq: data.rfq, rfq_lines: data.rfq_lines });
+				res.render('users/bid_rfq', {username: req.session.member_username, priv: req.session.priv, bid:'active', rfq: data.rfq, rfq_lines: data.rfq_lines });
 			} else {
 				res.send(data.success);
 			}
@@ -1031,7 +1031,7 @@ exports.no_bid_rfq = function(req, res){
 					response_next.on('end',function (){
 						var data_next = JSON.parse(data_final_next);
 						if(data_next.statusCode == 200){
-							res.render('users/no_bid_rfq', {username: req.session.member_username, bid:'active', rfq: data.rfq, rfq_lines: data.rfq_lines, rejection_remarks:data_next.rejection_remarks });
+							res.render('users/no_bid_rfq', {username: req.session.member_username, priv: req.session.priv, bid:'active', rfq: data.rfq, rfq_lines: data.rfq_lines, rejection_remarks:data_next.rejection_remarks });
 						} else {
 							res.send(data_next.success);
 						}
@@ -1114,7 +1114,7 @@ exports.view_quote = function(req, res){
 				for(i=0; i< data.rfq_lines.length; ++i){
 					data.rfq_lines[i].req_delivery_date = moment(data.rfq_lines[i].req_delivery_date.substring(0,10), "YYYY-MM-DD").format('DD-MM-YYYY');
 				}
-				res.render('users/view_quote', {username: req.session.member_username, bid:'active', rfq: data.rfq, rfq_lines: data.rfq_lines });
+				res.render('users/view_quote', {username: req.session.member_username, priv: req.session.priv, bid:'active', rfq: data.rfq, rfq_lines: data.rfq_lines });
 			} else {
 				res.send(data.success);
 			}

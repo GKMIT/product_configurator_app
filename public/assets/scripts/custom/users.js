@@ -371,6 +371,8 @@ function rfq_complete(rfq_id){
             window.location.replace("/users/");
         } else {
             bootbox.alert(data.message);
+            $("#btn_complete").html("Complete RFQ");
+
         }
     });
 }

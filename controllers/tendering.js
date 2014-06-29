@@ -25,7 +25,7 @@ exports.tendering_quote_init = function(req, res){
 					data.rfq[i].requested_quotation_date = moment(data.rfq[i].requested_quotation_date.substring(0,10), "YYYY-MM-DD").format('DD-MM-YYYY');
 					data.rfq[i].date_rfq_in = moment(data.rfq[i].date_rfq_in.substring(0,10), "YYYY-MM-DD").format('DD-MM-YYYY');
 				}
-				res.render('users/tendering_quote_init', {username: req.session.member_username, tender_quote:'active', rfq: data.rfq });
+				res.render('users/tendering_quote_init', {username: req.session.member_username, priv: req.session.priv, tender_quote:'active', rfq: data.rfq });
 			} else {
 				res.send(data.success);
 			}
@@ -61,7 +61,7 @@ exports.tendering_rfq_quote = function(req, res){
 				for(i=0; i< data.rfq_lines.length; ++i){
 					data.rfq_lines[i].req_delivery_date = moment(data.rfq_lines[i].req_delivery_date.substring(0,10), "YYYY-MM-DD").format('DD-MM-YYYY');
 				}
-				res.render('users/tendering_quote', {username: req.session.member_username, tender_quote:'active', rfq: data.rfq, rfq_lines: data.rfq_lines, product_types:data.product_types, complexities: data.complexities });
+				res.render('users/tendering_quote', {username: req.session.member_username, priv: req.session.priv, tender_quote:'active', rfq: data.rfq, rfq_lines: data.rfq_lines, product_types:data.product_types, complexities: data.complexities });
 			} else {
 				res.send(data.success);
 			}

@@ -2498,7 +2498,7 @@ Vertical inline menu
   font-size: 13px;
   color:#557386;
   display:block;
-  background:#f0f6fa;
+  background:#f0f6fa; 
   border-left:solid 2px #c4d5df;
 }
 
@@ -4364,4 +4364,17 @@ UI Loading
   color:#888;
   font-size: 16px;
   font-weight: bold;
+}
+
+li.disabled{
+  opacity: 0.4;
+   cursor: default;
+}
+li.disabled a{
+
+   cursor: default;
+}
+li.diabled:hover a {
+  background-color: #3d3d3d !important;
+  cursor: default;
 }

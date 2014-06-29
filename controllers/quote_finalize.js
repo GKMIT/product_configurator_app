@@ -24,7 +24,7 @@ exports.quote_finalize_init = function(req, res){
 				for(i=0; i< data.rfq.length; ++i){
 					data.rfq[i].quote_creation_date = moment(data.rfq[i].quote_creation_date.substring(0,10), "YYYY-MM-DD").format('DD-MM-YYYY');
 				}
-				res.render('users/quote_finalize_init', {username: req.session.member_username, quote:'active', sub_sidebar1:'active', rfq: data.rfq });
+				res.render('users/quote_finalize_init', {username: req.session.member_username, priv: req.session.priv, quote:'active', sub_sidebar1:'active', rfq: data.rfq });
 			} else {
 				res.send(data.success);
 			}
@@ -60,7 +60,7 @@ exports.follow_up_init = function(req, res){
                     data.rfq[i].quote_submission_date = moment(data.rfq[i].quote_submission_date.substring(0,10), "YYYY-MM-DD").format('DD-MM-YYYY');
                     data.rfq[i].quote_validity_date = moment(data.rfq[i].quote_validity_date.substring(0,10), "YYYY-MM-DD").format('DD-MM-YYYY');
                 }
-                res.render('users/follow_up_init', {username: req.session.member_username, quote:'active', sub_sidebar2:'active', rfq: data.rfq});
+                res.render('users/follow_up_init', {username: req.session.member_username, priv: req.session.priv, quote:'active', sub_sidebar2:'active', rfq: data.rfq});
             } else {
                 res.send(data.success);
             }
@@ -96,7 +96,7 @@ exports.quote_finalize = function(req, res){
 				for(i=0; i< data.rfq.length; ++i){
 					data.rfq[i].quote_creation_date = moment(data.rfq[i].quote_creation_date.substring(0,10), "YYYY-MM-DD").format('DD-MM-YYYY');
 				}
-				res.render('users/quote_finalize', {username: req.session.member_username, quote:'active', sub_sidebar1:'active', rfq: data.rfq, probabilities:data.probability, rejection_remarks:data.rejection_remarks });
+				res.render('users/quote_finalize', {username: req.session.member_username, priv: req.session.priv, quote:'active', sub_sidebar1:'active', rfq: data.rfq, probabilities:data.probability, rejection_remarks:data.rejection_remarks });
 			} else {
 				res.send(data.success);
 			}
@@ -166,7 +166,7 @@ exports.follow_up = function(req, res){
 					data.rfq[i].quote_submission_date = moment(data.rfq[i].quote_submission_date.substring(0,10), "YYYY-MM-DD").format('DD-MM-YYYY');
 					data.rfq[i].quote_creation_date = moment(data.rfq[i].quote_creation_date.substring(0,10), "YYYY-MM-DD").format('DD-MM-YYYY');
 				}
-				res.render('users/follow_up', {username: req.session.member_username, quote:'active', sub_sidebar2:'active', rfq: data.rfq, probabilities:data.probability,rejection_remarks:data.rejection_remarks });
+				res.render('users/follow_up', {username: req.session.member_username, priv: req.session.priv, quote:'active', sub_sidebar2:'active', rfq: data.rfq, probabilities:data.probability,rejection_remarks:data.rejection_remarks });
 			} else {
 				res.send(data.success);
 			}
