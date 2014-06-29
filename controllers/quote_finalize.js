@@ -56,10 +56,13 @@ exports.follow_up_init = function(req, res){
             var data = JSON.parse(data_final);
             if(data.statusCode == 200){
                 var i;
+                var now = moment();
                 for(i=0; i< data.rfq.length; ++i){
                     data.rfq[i].quote_submission_date = moment(data.rfq[i].quote_submission_date.substring(0,10), "YYYY-MM-DD").format('DD-MM-YYYY');
+                    data.rfq[i].timediff = now.diff(data.rfq[i].quote_validity_date);
                     data.rfq[i].quote_validity_date = moment(data.rfq[i].quote_validity_date.substring(0,10), "YYYY-MM-DD").format('DD-MM-YYYY');
                 }
+                 console.log(data);
                 res.render('users/follow_up_init', {username: req.session.member_username, priv: req.session.priv, quote:'active', sub_sidebar2:'active', rfq: data.rfq});
             } else {
                 res.send(data.success);

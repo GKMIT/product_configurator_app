@@ -55,10 +55,10 @@ block page_content
         tbody
           - each rf in rfq
             tr
-              td= rf.document_no
-              td= rf.version_no
-              td= rf.quote_validity_date
-              td= rf.quote_submission_date
-              td
+              td(style=(rf.timediff > 0)?'background:#F87E7E':'')= rf.document_no
+              td(style=(rf.timediff > 0)?'background:#F87E7E':'')= rf.version_no
+              td(style=(rf.timediff > 0)?'background:#F87E7E':'')= rf.quote_validity_date
+              td(style=(rf.timediff > 0)?'background:#F87E7E':'')= rf.quote_submission_date
+              td(style=(rf.timediff > 0)?'background:#F87E7E':'')
                 a.btn.green(href='/users/follow_up/#{rf.id}')
                   | Quote
