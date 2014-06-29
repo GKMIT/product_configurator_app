@@ -1,0 +1,89 @@
+extends layout
+
+block title_top
+  | Product Configurator
+
+block meta_tags
+  meta(content='', name='description')
+  meta(content='', name='author')
+
+block title
+  | Welcome to Product Configurator App
+
+block hint
+  | 
+
+block page_content
+  .row
+    .col-lg-3.col-md-3.col-sm-6.col-xs-12
+        .dashboard-stat.blue
+          .visual
+            i.fa.fa-tag
+          .details
+            .number 
+              | #{dashboard_data.new}
+            .desc
+              | New RFQs
+      .col-lg-3.col-md-3.col-sm-6.col-xs-12
+        .dashboard-stat.green
+          .visual
+            i.fa.fa-tags
+          .details
+            .number 
+              | #{dashboard_data.partial}
+            .desc
+              | Partial RFQs
+      .col-lg-3.col-md-3.col-sm-6.col-xs-12
+        .dashboard-stat.purple
+          .visual
+            i.fa.fa-file
+          .details
+            .number 
+              | #{dashboard_data.bid_in_tendering}
+            .desc
+              | In-Tendering RFQs
+      .col-lg-3.col-md-3.col-sm-6.col-xs-12
+        .dashboard-stat.yellow
+          .visual
+            i.fa.fa-thumbs-o-down
+          .details
+            .number 
+              | #{dashboard_data.nobid}
+            .desc
+              | Total No-Bid RFQs
+    .col-lg-3.col-md-3.col-sm-6.col-xs-12
+        .dashboard-stat.blue
+          .visual
+            i.fa.fa-sign-out
+          .details
+            .number 
+              | #{dashboard_data.outTendering}
+            .desc
+              | Out-Tendering RFQs
+      .col-lg-3.col-md-3.col-sm-6.col-xs-12
+        .dashboard-stat.green
+          .visual
+            i.fa.fa-check
+          .details
+            .number 
+              | #{dashboard_data.completed}
+            .desc
+              | Completed RFQs
+      .col-lg-3.col-md-3.col-sm-6.col-xs-12
+        .dashboard-stat.purple
+          .visual
+            i.fa.fa-tasks
+          .details
+            .number 
+              | #{dashboard_data.totalobsoleteRfq}
+            .desc
+              | Total Obsolete RFQs
+      .col-lg-3.col-md-3.col-sm-6.col-xs-12
+        .dashboard-stat.red
+          .visual
+            i.fa.fa-times
+          .details
+            .number 
+              | #{dashboard_data.totalExpiredRfq}
+            .desc
+              | Total Expired RFQs
