@@ -17,7 +17,6 @@ $(document).on('keyup change','#acc_factor', function() {
 function dcp_final(){
   var value =0;
   var count = 0;
-  console.log($( "#dcp_body table input.count_change" ).length);
 
   $( "#dcp_body table input.count_change" ).each(function() {
     if(!isNaN(parseFloat($(this).val()))){

@@ -38,7 +38,7 @@ form.form-horizontal(action='#')
             tr
               td(colspan="2")
                 .col-lg-6
-                  input#sales_price.form-control.span6(value='',name="sales_price", onchange="validate_number('sales_price','Please select valid Sales Price',1)", readonly)
+                  input#sales_price.form-control.span6(value='',name="sales_price", onchange="validate_number('product_design_details_#{rfq_lines_id} #sales_price','Please select valid Sales Price',1)", readonly)
                   span.help-blocks
                 .col-lg-6
                   - if (design.product_design_costs_id != '' && design.product_design_costs_id != null)
@@ -48,5 +48,5 @@ form.form-horizontal(action='#')
                     script.
                       bootbox.alert("Product design cost data is not available for this design for selected quarter.");
               td
-                input#weeks_sel.form-control(value='',name="weeks_sel", onkeyup="validate_number('weeks_sel','Please select valid no of weeks',1)")
+                input#weeks_sel.form-control(value='',name="weeks_sel", onkeyup="validate_number('product_design_details_#{rfq_lines_id} #weeks_sel','Please select valid no of weeks',1)")
                 span.help-blocks

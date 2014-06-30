@@ -607,8 +607,6 @@ function save_questions(rfq_id,type){
 
 function rfq_submit_tender(rfq_id){
 
-   
-    
     var flag1 = validate_number('estimated_sales_price','Please input a valid number');
     if(flag1){
          $.post("/users/rfq_submit_bid/"+rfq_id,{estimated_sales_price:$("#estimated_sales_price").val()}, function(data) {
@@ -646,6 +644,7 @@ function close_document(rfq_id){
 
 function product_designs(rfq_id,rfq_lines_id){
     //alert(complexity_id);
+    $("#select_btn").hide();
     $(".modal-title").html('Select Product Design');
     $("#select_btn").removeAttr('onclick');
     $(".modal-body").html('Loading..');
@@ -689,13 +688,13 @@ function product_designs(rfq_id,rfq_lines_id){
                 
             }
     });
-    
+
     if(flag == true){
         $.post("/users/product_designs/"+rfq_id+"/"+rfq_lines_id,{properties:jsonArr}, function(data) {
            if(data.success == 'false'){
-            bootbox.alert(data.message);
+            $(".modal-body").html(data.message);
            } else {
-                $("#basic").modal("show");
+                $("#select_btn").show();
                 $(".modal-title").html("Select Product Design");
                 $(".modal-body").html(data);
            }
@@ -763,8 +762,8 @@ function submit_sales(rfq_id, rfq_lines_id){
         }
     });
 
-    var flag1 = validate_number('sales_price','Please select valid Sales price',1);
-    var flag2 = validate_number('weeks_sel','Please select valid no of weeks',1);
+    var flag1 = validate_number('product_design_details_'+rfq_lines_id+' #sales_price','Please select valid Sales price',1);
+    var flag2 = validate_number('product_design_details_'+rfq_lines_id+' #weeks_sel','Please select valid no of weeks',1);
     var flag3 = validate_tender_tech(rfq_lines_id);
  
     if(flag1 && flag2 && flag3){
@@ -814,7 +813,7 @@ function product_designs_reset(rfq_id, rfq_lines_id){
     $.post("/users/submit_to_sales", {rfq_id:rfq_id, rfq_lines_id:rfq_lines_id, product_designs_id:0, sales_price:0, confirmed_delivery_date:0,material_cost:0, labor_cost:0, no_of_labor_hours:0, properties: jsonArr}, function(data) {
         if(data.success == 'true'){
             var portlet_design = $("#product_design_details_"+rfq_lines_id).parent().parent();
-             $("#product_design_details_"+rfq_lines_id).html('<a href="javascript:;" onclick="product_designs('+rfq_id+','+rfq_lines_id+')" class="btn blue">Apply Filters</a>');
+             $("#product_design_details_"+rfq_lines_id).html('<a href="#basic" data-toggle="modal" onclick="product_designs('+rfq_id+','+rfq_lines_id+')" class="btn blue">Apply Filters</a>');
                 portlet_design.find('.portlet-title .choose_btn').html('Choose');
 
                 $("#property_table_"+rfq_lines_id).append('<div class="row"><div class="com-md-12"><a id="add_more" href="javascript:;" style="margin-bottom:20px;margin-left:15px;" onclick="add_more_props(\'property_tbody_'+rfq_lines_id+'\',1)" class="btn purple">Add More Properties</a></div></div>');
@@ -840,13 +839,14 @@ function submit_to_sales_final(rfq_id){
 }
 
 function reset_initial(rfq_id, rfq_lines_id){
-    $("#product_design_details_"+rfq_lines_id).html('<a href="javascript:;" onclick="product_designs('+rfq_id+','+rfq_lines_id+')" class="btn blue">Apply Filters</a>');
+    $("#product_design_details_"+rfq_lines_id).html('<a href="#basic" data-toggle="modal" onclick="product_designs('+rfq_id+','+rfq_lines_id+')" class="btn blue">Apply Filters</a>');
 
     $("#property_table_"+rfq_lines_id).append('<div class="row"><div class="com-md-12"><a id="add_more" href="javascript:;" style="margin-bottom:20px;margin-left:15px;" onclick="add_more_props(\'property_tbody_'+rfq_lines_id+'\',1)" class="btn purple">Add More Properties</a></div></div>');
 
 }
 
 function minimum_price_ui(rfq_lines_id,product_design_id){
+    $("#select_btn").show();
     $("#basic .modal-title").html("Select Minimum Price");
     $("#basic .modal-body").html("Loading..");
     $("#select_btn").removeAttr('onclick');
