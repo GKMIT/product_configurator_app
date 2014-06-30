@@ -121,6 +121,7 @@ block page_content
         .form-body
           .form-group
             label.col-md-3.control-label Remarks
+              span.required *
             .col-md-4
               select#rejection_remarks_id.form-control(name='rejection_remarks_id', onchange="validate_number('rejection_remarks_id','Please select valid Remark')")
                 option(value='0')

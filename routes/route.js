@@ -13,14 +13,9 @@ module.exports = function () {
 	app.post('/', login.loginverify);
 
 
-	//Sales Routes
+	//Sales Team RFQ Creation and finalization
 	app.get('/users/', globalfunctions.checkAllAuth, users.index);
 	app.get('/users/newrfq', globalfunctions.checkSalesAuth, users.newrfq);
-	app.get('/users/bids', globalfunctions.checkSalesAuth, users.get_bids);
-	app.get('/users/bid/:rfq_id', globalfunctions.checkSalesAuth, users.get_rfq_bid);
-	app.post('/users/save_questions/:rfq_id', globalfunctions.checkSalesAuth, users.save_questions);
-	app.post('/users/rfq_submit_bid/:rfq_id', globalfunctions.checkSalesAuth, users.rfq_submit_bid);
-	app.post('/users/rfq_submit_no_bid/:rfq_id', globalfunctions.checkSalesAuth, users.rfq_submit_no_bid);
 
 	app.get('/users/finalize', globalfunctions.checkSalesAuth, users.finalize);
 	app.get('/users/finalize/:rfq_id', globalfunctions.checkSalesAuth, users.finalize_rfq);
@@ -47,10 +42,16 @@ module.exports = function () {
 	app.get('/users/fetch_sales_agents/:id', globalfunctions.checkSalesAuth, users.fetch_sales_agents);
 	app.get('/users/fetch_tendering_teams/:product_line_id', globalfunctions.checkSalesAuth, users.fetch_tendering_teams);
 
-	app.get('/users/bid_rfq/:rfq_id', globalfunctions.checkSalesAuth, users.bid_rfq);
-	app.get('/users/no_bid_rfq/:rfq_id', globalfunctions.checkSalesAuth, users.no_bid_rfq);
+	//Tendering Team Bid No-Bid
+	app.get('/users/bid_rfq/:rfq_id', globalfunctions.checkTenderAuth, users.bid_rfq);
+	app.get('/users/no_bid_rfq/:rfq_id', globalfunctions.checkTenderAuth, users.no_bid_rfq);
+	app.get('/users/bids', globalfunctions.checkTenderAuth, users.get_bids);
+	app.get('/users/bid/:rfq_id', globalfunctions.checkTenderAuth, users.get_rfq_bid);
+	app.post('/users/save_questions/:rfq_id', globalfunctions.checkTenderAuth, users.save_questions);
+	app.post('/users/rfq_submit_bid/:rfq_id', globalfunctions.checkTenderAuth, users.rfq_submit_bid);
+	app.post('/users/rfq_submit_no_bid/:rfq_id', globalfunctions.checkTenderAuth, users.rfq_submit_no_bid);
 
-	//customer
+	//Customer Sales team
 	app.post('/users/customer', globalfunctions.checkSalesAuth, users.add_customer);
 	app.get('/users/customer', globalfunctions.checkSalesAuth, users.get_customers);
 	
@@ -70,7 +71,7 @@ module.exports = function () {
     app.post('/users/submit_to_sales', globalfunctions.checkTenderAuth, tendering.submit_to_sales);
     app.post('/users/submit_to_sales_final', globalfunctions.checkTenderAuth, tendering.submit_to_sales_final);
 
-     // Quotes Finalize
+     // Quotes Finalize Sales Team
     app.get('/users/quote_finalize', globalfunctions.checkSalesAuth, quote_finalize.quote_finalize_init);
     app.get('/users/quote_finalize/:rfq_id', globalfunctions.checkSalesAuth, quote_finalize.quote_finalize);
     app.get('/users/follow_up', globalfunctions.checkSalesAuth, quote_finalize.follow_up_init);
