@@ -130,6 +130,7 @@ block page_content
               span.help-block
           .form-group
             label.col-md-3.control-label Estimated Sales Price
+              span.required *
             .col-md-4
               .input-group
                 input#estimated_sales_price.form-control(type='Text', placeholder='Estimated Sales Price', name='estimated_sales_price', onkeyup="validate_number('estimated_sales_price','Please input a valid number')", value="#{rfq[0].default_estimated_sales_price}")

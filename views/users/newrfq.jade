@@ -270,9 +270,8 @@ block page_content
               .form-group
                 label.control-label.col-md-4
                   | Customer SAP ID
-                  span.required *
                 .col-md-4
-                  input#sap_customer_id.form-control(type="text",name="sap_customer_id", onkeyup="validate_entry('sap_customer_id','Please input valid customer SAP id');")
+                  input#sap_customer_id.form-control(type="text",name="sap_customer_id")
                   span.help-block
           .modal-footer
             button.btn.green#select_btn(type='button', onclick="create_customer()") Create

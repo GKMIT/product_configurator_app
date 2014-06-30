@@ -607,12 +607,13 @@ function save_questions(rfq_id,type){
 
 function rfq_submit_tender(rfq_id){
 
-    $("#btn_submit").removeAttr("onclick");
+   
     
     var flag1 = validate_number('estimated_sales_price','Please input a valid number');
     if(flag1){
          $.post("/users/rfq_submit_bid/"+rfq_id,{estimated_sales_price:$("#estimated_sales_price").val()}, function(data) {
             $("#btn_submit").html("Saving.. Please Wait");
+             $("#btn_submit").removeAttr("onclick");
             if(data.success == "true"){
                 window.location.replace("/users/");
             } else {
@@ -1102,10 +1103,15 @@ function follow_up(type,rfq_id){
 function create_customer(){
     var flag1 = validate_entry('customer_name','Please input customer name');
     var flag2 = validate_email('customer_email','Please input valid customer email');
-    var flag3 = validate_entry('sap_customer_id','Please input valid customer sap id');
-     if( flag1 && flag2 && flag3 ){
+    var sap_customer_id = 0;
+
+    if($("#sap_customer_id").val() != ''){
+        sap_customer_id = $("#sap_customer_id").val();
+    }
+    
+    if( flag1 && flag2){
         $("#select_btn").html("Saving.. Please Wait");
-        $.post("/users/customer",{name:$("#customer_name").val(), email:$("#customer_email").val(), sap_customer_id: $("#sap_customer_id").val()}, function(data) {
+        $.post("/users/customer",{name:$("#customer_name").val(), email:$("#customer_email").val(), sap_customer_id: sap_customer_id }, function(data) {
             if(data.success == "true"){
                $("#customer_name").val('');
                $("#customer_email").val('');
