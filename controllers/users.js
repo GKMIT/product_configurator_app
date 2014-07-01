@@ -28,6 +28,10 @@ exports.index = function(req, res){
 	reqGet.end();
 };
 
+exports.profile = function(req, res){
+	res.render('users/profile', { username: req.session.member_username, email: req.session.member_email, priv: req.session.priv, title: 'My Profile' });
+};
+
 exports.newrfq = function(req,res){
 	res.redirect("/users/rfq_general_data/new");
 };
@@ -171,7 +175,7 @@ exports.get_rfq_bid = function(req, res){
 				for(i=0; i< data.rfq.length; ++i){
 					data.rfq[i].requested_quotation_date = moment(data.rfq[i].requested_quotation_date.substring(0,10), "YYYY-MM-DD").format('DD-MM-YYYY');
 				}
-				res.render('users/bid_rfq_init', {username: req.session.member_username, priv: req.session.priv, bid:'active', rfq: data.rfq, rfq_questions : data.rfq_questions });
+				res.render('users/bid_rfq_init', {username: req.session.member_username,  priv: req.session.priv, bid:'active', rfq: data.rfq, rfq_questions : data.rfq_questions });
 			} else {
 				res.send(data.success);
 			}
@@ -1185,4 +1189,42 @@ exports.get_customers = function(req, res){
 		});
 	});
 	reqGet.end();
+};
+
+exports.change_password = function(req, res){
+	console.log(req.body);
+
+    req.body.old_password = crypto.createHash('md5').update(req.body.old_password).digest('hex');
+    req.body.new_password = crypto.createHash('md5').update(req.body.new_password).digest('hex');
+    req.body.confirmed_password = crypto.createHash('md5').update(req.body.confirmed_password).digest('hex');
+
+	var dGet = querystring.stringify(req.body)+'&user_id='+req.session.member_id;
+
+	console.log(dGet);
+	var options = {
+			host : config.host,
+			port : config.port,
+			path : '/updatePassword',
+			method : 'PUT',
+			headers: {
+		          'Content-Type': 'application/x-www-form-urlencoded',
+		          'authentication_token': req.session.token
+		    }
+		};
+
+	var reqPost = http.request(options, function(response) {
+		response.on('data', function(data) {
+			var data=JSON.parse(data);
+			console.log(data);
+			if(data.statusCode == 200){
+				res.json(data);
+			} else {
+				res.json(data);
+			}
+		});
+
+	});
+
+	reqPost.write(dGet);
+	reqPost.end();
 };

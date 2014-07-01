@@ -1,0 +1,59 @@
+extends layout
+
+block title_top
+  | Product Configurator
+
+block meta_tags
+  meta(content='', name='description')
+  meta(content='', name='author')
+
+block title
+  | My Profile
+
+block hint
+  | 
+
+block page_content
+  .row  
+    .col-md-12
+      form#quote_finalize.form-horizontal(action='#')
+        .form-group
+          label.control-label.col-md-4
+            | User Name
+          .col-md-4
+            p.form-control-static= username
+        .form-group
+          label.control-label.col-md-4
+            | Email
+          .col-md-4
+            p.form-control-static= email
+        .form-group
+          label.control-label.col-md-4
+            | Old Password
+            span.required *
+          .col-md-4
+            input#old_p.form-control(type="password",name="old_p",onkeyup="validate_entry('old_p','Please fill old password')")
+            span.help-block
+        .form-group
+          label.control-label.col-md-4
+            | New Password
+            span.required *
+          .col-md-4
+            input#new_p.form-control(type="password",name="new_p",onkeyup="validate_password('new_p','Please fill atleast 8 character for new password')")
+            span.help-block
+        .form-group
+          label.control-label.col-md-4
+            | Confirm New Password
+            span.required *
+          .col-md-4
+            input#re_new_p.form-control(type="password",name="re_new_p",onkeyup="validate_password_check('re_new_p','New passwords do not match')")
+            span.help-block
+        .form-group
+          label.control-label.col-md-4
+          .col-md-4
+            a.btn.green#change_p(href='javascript:;', onclick="change_password()")
+              | Change Password
+            &nbsp;&nbsp;
+            a.btn.dark(href='/users/')
+              | Cancel
+        

@@ -12,9 +12,12 @@ module.exports = function () {
 	app.get('/logout', login.logout);
 	app.post('/', login.loginverify);
 
+	app.get('/users/', globalfunctions.checkAllAuth, users.index);
+	app.get('/users/profile', globalfunctions.checkAllAuth, users.profile);
+	app.post('/users/change_password', globalfunctions.checkAllAuth, users.change_password);
 
 	//Sales Team RFQ Creation and finalization
-	app.get('/users/', globalfunctions.checkAllAuth, users.index);
+	
 	app.get('/users/newrfq', globalfunctions.checkSalesAuth, users.newrfq);
 
 	app.get('/users/finalize', globalfunctions.checkSalesAuth, users.finalize);

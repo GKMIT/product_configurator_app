@@ -1144,3 +1144,59 @@ function create_customer(){
         });
     } 
 }
+
+function change_password(){
+    var flag1 = validate_entry('old_p','Please fill old password');
+    var flag2 = validate_password('new_p','Please fill atleast 8 character for new password');
+    var flag3 = validate_password_check('re_new_p','New passwords do not match');
+
+    if( flag1 && flag2 && flag3){
+        $("#change_p").html("Saving.. Please Wait");
+        $.post("/users/change_password",{old_password:$("#old_p").val(), new_password:$("#new_p").val(), confirmed_password: $("#re_new_p").val() }, function(data) {
+
+            if(data.success == "true"){
+                 $("#change_p").addClass('yellow').removeClass('green').html("Your password has been reset").removeAttr('onclick');
+              
+            } else {
+                bootbox.alert(data.message);
+                $("#change_p").html("Change Password");
+            }
+
+        });
+    } 
+
+}
+
+function validate_password(id_info, alttext){
+    var value = $("#"+id_info).val();
+    var errorspan = $("#"+id_info).parent().find('span');
+    var parent = $("#"+id_info).parent().parent();
+    
+    if(value.match(/^.{8,}$/) == null){
+        errorspan.text(alttext);
+        parent.addClass("has-error");
+        return false;
+    }
+    else {
+        errorspan.text("");
+        parent.removeClass("has-error");
+        return true;
+    }
+}
+
+function validate_password_check(id_info, alttext){
+    var value = $("#"+id_info).val();
+    var errorspan = $("#"+id_info).parent().find('span');
+    var parent = $("#"+id_info).parent().parent();
+    
+    if(value != $("#new_p").val()){
+        errorspan.text(alttext);
+        parent.addClass("has-error");
+        return false;
+    }
+    else {
+        errorspan.text("");
+        parent.removeClass("has-error");
+        return true;
+    }
+}
