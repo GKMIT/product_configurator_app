@@ -180,6 +180,7 @@ function calculate_final_price(){
  
   $("#minimum_intercompany_sales").val(Math.round(full_cost_excluding_commision+ebit));
   $("#minimum_sales_price_to_customer").val(Math.round(full_cost_excluding_commision+ebit+commission));
+  $("#total_minimum_sales_price_to_customer").val((Math.round(full_cost_excluding_commision+ebit+commission))*$("#trans_numbers").val());
 }
  
 $(document).on('keyup change','#commission_on_net_sales_price', function() {

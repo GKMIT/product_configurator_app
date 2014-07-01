@@ -31,14 +31,16 @@ form.form-horizontal(action='#')
                   input(name='material_cost', value='#{design.material_cost}',type='hidden')
               td= design.currency
             tr
-              th(colspan="2")
+              th#min_price_per_unit(colspan="2")
+                | Minimum Price per unit
+              th
                 | Minimum Price*
               th
                 | Confirm Delivery* (in weeks)
             tr
               td(colspan="2")
                 .col-lg-6
-                  input#sales_price.form-control.span6(value='',name="sales_price", onchange="validate_number('product_design_details_#{rfq_lines_id} #sales_price','Please select valid Sales Price',1)", readonly)
+                  input#sales_price_per_unit.form-control.span6(value='',name="sales_price_per_unit", readonly)
                   span.help-blocks
                 .col-lg-6
                   - if (design.product_design_costs_id != '' && design.product_design_costs_id != null)
@@ -47,6 +49,9 @@ form.form-horizontal(action='#')
                     a.btn.blue.span6.disabled(href='#') Select Minimum Price
                     script.
                       bootbox.alert("Product design cost data is not available for this design for selected quarter.");
+              td
+                input#sales_price.form-control.span6(name="sales_price", onchange="validate_number('product_design_details_#{rfq_lines_id} #sales_price','Please select valid Sales Price',1)", readonly)
+                span.help-blocks
               td
                 input#weeks_sel.form-control(value='',name="weeks_sel", onkeyup="validate_number('product_design_details_#{rfq_lines_id} #weeks_sel','Please select valid no of weeks',1)")
                 span.help-blocks

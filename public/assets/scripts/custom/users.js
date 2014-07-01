@@ -779,6 +779,10 @@ function submit_sales(rfq_id, rfq_lines_id){
                 portlet_design.find('.portlet-title .choose_btn').html(data.product_designs[0].design_number);
                 
                 $("#product_design_details_"+rfq_lines_id).find('input[name="sales_price"]').parent().html(sales_price);
+                
+                $("#product_design_details_"+rfq_lines_id).find('input[name="sales_price_per_unit"]').parent().parent().hide();
+                $("#product_design_details_"+rfq_lines_id).find('#min_price_per_unit').hide();
+
                 $("#product_design_details_"+rfq_lines_id).find('input[name="weeks_sel"]').parent().html(no_weeks);
                 $("#product_design_details_"+rfq_lines_id).find('.submit_sales').remove();
                 $("#product_design_details_"+rfq_lines_id).find('.reset_initial').remove();
@@ -872,7 +876,11 @@ function put_minimum_value(rfq_lines_id, product_design_id){
     var val = $("#minimum_price_form").serialize();
     $.post("/users/put_minimum_price/"+rfq_lines_id+"/"+product_design_id, val, function(data) {
         if(data.success == "true"){
-            $("#product_design_details_"+rfq_lines_id).find("#sales_price").val($("#minimum_sales_price_to_customer").val());
+            $("#product_design_details_"+rfq_lines_id).find("#sales_price_per_unit").val($("#minimum_sales_price_to_customer").val());
+            $("#product_design_details_"+rfq_lines_id).find("#sales_price").val($("#total_minimum_sales_price_to_customer").val());
+            
+            validate_number('product_design_details_'+rfq_lines_id+' #sales_price','Please select valid Sales Price',1);
+
             $("#close_btn").trigger('click');
             $("#select_btn").html('Select');
         } else {
