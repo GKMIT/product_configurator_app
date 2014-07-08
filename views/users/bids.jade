@@ -73,3 +73,6 @@ block page_content
               td
                 a.btn.green(href='/users/bid/#{rfq.id}')
                   | Proceed
+                &nbsp;&nbsp;&nbsp;
+                a.btn.yellow(href='javascript:;', id='revert_#{rfq.id}', onclick="revert_to_sales(#{rfq.id})")
+                  | Revert to Sales

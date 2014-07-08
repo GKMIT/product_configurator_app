@@ -1200,3 +1200,18 @@ function validate_password_check(id_info, alttext){
         return true;
     }
 }
+
+function revert_to_sales(rfq_id){
+    var file_name = '/users/revert_to_sales/'+rfq_id;
+
+    $("#revert_"+rfq_id).html("Processing..");
+      $.post(file_name,{rfq_status_id:1}, function(data) {
+        if(data.success == "true"){
+            window.location.replace("/users/bids");
+        } else {
+            bootbox.alert(data.message);
+            $("#revert_"+rfq_id).html("Revert to Sales");
+
+        }
+    });
+}
