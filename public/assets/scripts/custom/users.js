@@ -1058,11 +1058,11 @@ function mark_obsolete(rfq_id){
 function follow_up(type,rfq_id){
     var val = $("#quote_finalize").serialize();
     var prob = $("#probability").val();
-    var flag1 = validate_date('quote_validity_date','Please select valid Date');
-    var flag3 = validate_date('quote_submission_date','Please select valid Date');
+    //var flag1 = validate_date('quote_validity_date','Please select valid Date');
+    //var flag3 = validate_date('quote_submission_date','Please select valid Date');
     var flag4 = validate_number('sales_price','Please select valid Date');
     if(type == 1){
-         if( flag1 && flag3 && flag4 ){
+         if( flag4 ){
             if(prob == 6){
                 var flag2 = validate_number('rejection_remarks_id','Please select a valid remark');
             } else {
@@ -1070,7 +1070,7 @@ function follow_up(type,rfq_id){
             }
             if(flag2){
                 $("#follow_up").html("Saving.. Please Wait");
-                $.post("/users/save_finalize_quote/"+rfq_id+"/6",val, function(data) {
+                $.post("/users/save_followup_quote/"+rfq_id+"/6",val, function(data) {
                     if(data.success == "true"){
                         window.location.replace("/users/follow_up");
                     } else {
@@ -1094,9 +1094,9 @@ function follow_up(type,rfq_id){
             bootbox.alert('You must select probability Win or Lost, if closing document.');
         }
 
-         if( flag1 && flag2 && flag3 && flag4 ){
+         if( flag2 && flag4 ){
             $("#close_document_follow_up").html("Saving.. Please Wait");
-            $.post("/users/save_finalize_quote/"+rfq_id+"/7",val, function(data) {
+            $.post("/users/save_followup_quote/"+rfq_id+"/7",val, function(data) {
                 if(data.success == "true"){
                     window.location.replace("/users/follow_up");
                 } else {
@@ -1212,6 +1212,23 @@ function revert_to_sales(rfq_id){
             bootbox.alert(data.message);
             $("#revert_"+rfq_id).html("Revert to Sales");
 
+        }
+    });
+}
+
+function copy_rfq(rfq_id){
+
+    var file_name = '/users/copy_rfq/'+rfq_id;
+
+    $("#copy_"+rfq_id).html("Processing..");
+      $.post(file_name,{rfq_status_id:1}, function(data) {
+        if(data.success == "true"){
+            bootbox.alert("A copy has been successfully created.");
+            $("#copy_"+rfq_id).html("Copy RFQ");
+
+        } else {
+            bootbox.alert(data.message);
+            $("#copy_"+rfq_id).html("Copy RFQ");
         }
     });
 }

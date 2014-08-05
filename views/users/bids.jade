@@ -27,11 +27,11 @@ block page_content
             th
               | Document Number
             th
-              | Version Number
+              | Customer Name
             th
               | RFQ Date
             th
-              | Sales Agent
+              | Sales Person
             th
               | Action
         tfoot
@@ -39,11 +39,11 @@ block page_content
             th
               | Document Number
             th
-              | Version Number
+              | Customer Name
             th
               | RFQ Date
             th
-              | Sales Agent
+              | Sales Person
             th
               | Action
           tr
@@ -67,12 +67,15 @@ block page_content
           - each rfq in rfqs
             tr
               td= rfq.document_no
-              td= rfq.version_no
+              td= rfq.customer_name
               td= rfq.date_rfq_in
-              td= rfq.name
+              td= rfq.sales_person_name
               td
                 a.btn.green(href='/users/bid/#{rfq.id}')
                   | Proceed
                 &nbsp;&nbsp;&nbsp;
                 a.btn.yellow(href='javascript:;', id='revert_#{rfq.id}', onclick="revert_to_sales(#{rfq.id})")
                   | Revert to Sales
+                &nbsp;&nbsp;&nbsp;
+                a.btn.blue(href='javascript:;', id='copy_#{rfq.id}', onclick="copy_rfq(#{rfq.id})")
+                  | Copy RFQ

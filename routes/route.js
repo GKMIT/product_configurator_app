@@ -54,6 +54,7 @@ module.exports = function () {
 	app.post('/users/rfq_submit_bid/:rfq_id', globalfunctions.checkTenderAuth, users.rfq_submit_bid);
 	app.post('/users/rfq_submit_no_bid/:rfq_id', globalfunctions.checkTenderAuth, users.rfq_submit_no_bid);
 	app.post('/users/revert_to_sales/:rfq_id',globalfunctions.checkTenderAuth, users.rfq_complete);
+	app.post('/users/copy_rfq/:rfq_id',globalfunctions.checkTenderAuth, users.copy_rfq);
 
 
 	//Customer Sales team
@@ -82,6 +83,7 @@ module.exports = function () {
     app.get('/users/follow_up', globalfunctions.checkSalesAuth, quote_finalize.follow_up_init);
     app.get('/users/follow_up/:rfq_id', globalfunctions.checkSalesAuth, quote_finalize.follow_up);
     app.post('/users/save_finalize_quote/:rfq_id/:rfq_status_id', globalfunctions.checkSalesAuth, quote_finalize.save_finalize_quote);
+    app.post('/users/save_followup_quote/:rfq_id/:rfq_status_id', globalfunctions.checkSalesAuth, quote_finalize.save_followup_quote);
     app.post('/users/mark_obsolete/:rfq_id/:rfq_status_id', globalfunctions.checkSalesAuth, quote_finalize.mark_obsolete);
 
 

@@ -1228,3 +1228,35 @@ exports.change_password = function(req, res){
 	reqPost.write(dGet);
 	reqPost.end();
 };
+
+exports.copy_rfq = function(req, res){
+	console.log(req.body);
+	var dGet = 'rfq_id='+req.params.rfq_id+'&user_id='+req.session.member_id;
+	console.log(dGet);
+	var options = {
+			host : config.host,
+			port : config.port,
+			path : '/duplicateRfq',
+			method : 'POST',
+			headers: {
+		          'Content-Type': 'application/x-www-form-urlencoded',
+		          'authentication_token': req.session.token
+		    }
+		};
+
+	var reqPost = http.request(options, function(response) {
+		response.on('data', function(data) {
+			var data=JSON.parse(data);
+			console.log(data);
+			if(data.statusCode == 200){
+				res.json(data);
+			} else {
+				res.json(data);
+			}
+		});
+
+	});
+
+	reqPost.write(dGet);
+	reqPost.end();
+};

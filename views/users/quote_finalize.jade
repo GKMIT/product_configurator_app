@@ -92,6 +92,19 @@ block page_content
                 span.help-block
             .form-group
               label.control-label.col-md-4
+                | SIMCO Requested?
+                input(type="hidden",value="#{rfq[0].rfq_questions_id}",name="rfq_questions_id")
+                span.required *
+              .col-md-4(style='margin-top:5px;')
+                input(type='radio', name="rfq_questions_value", value='1', checked='true')
+                | &nbsp;Yes&nbsp;&nbsp;&nbsp;
+                input(type='radio', name="rfq_questions_value", value='0',checked= rfq[0].question_value == 0)
+                | &nbsp;No&nbsp;&nbsp;&nbsp;
+                input(type='radio', name="rfq_questions_value", value='2',checked= rfq[0].question_value == 2)
+                | &nbsp;N/A
+                span.help-block
+            .form-group
+              label.control-label.col-md-4
               .col-md-4
                 a.btn.green#finalize_rfq(href='javascript:;', onclick="finalize_rfq(1,#{rfq[0].id})")
                   | Finalize RFQ

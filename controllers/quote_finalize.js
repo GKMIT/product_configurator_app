@@ -141,6 +141,40 @@ exports.save_finalize_quote = function(req, res){
     reqPost.end();
 };
 
+exports.save_followup_quote = function(req, res){
+    console.log(req.body);
+    // req.body.quote_validity_date = moment(req.body.quote_validity_date , "DD-MM-YYYY").format('YYYY-MM-DD hh:mm:ss');
+    // req.body.quote_submission_date = moment(req.body.quote_submission_date , "DD-MM-YYYY").format('YYYY-MM-DD hh:mm:ss');
+    var dGet = querystring.stringify(req.body)+'&user_id='+req.session.member_id+'&rfq_status_id='+req.params.rfq_status_id+'&rfq_id='+req.params.rfq_id;
+    console.log(dGet);
+    var options = {
+            host : config.host,
+            port : config.port,
+            path : '/sales_quote_followup_update',
+            method : 'PUT',
+            headers: {
+                  'Content-Type': 'application/x-www-form-urlencoded',
+                  'authentication_token': req.session.token
+            }
+        };
+ 
+    var reqPost = http.request(options, function(response) {
+        response.on('data', function(data) {
+            var data=JSON.parse(data);
+            console.log(data);
+            if(data.statusCode == 200){
+                res.json(data);
+            } else {
+                res.json(data);
+            }
+        });
+ 
+    });
+ 
+    reqPost.write(dGet);
+    reqPost.end();
+};
+
 exports.follow_up = function(req, res){
 
 	var options = {
