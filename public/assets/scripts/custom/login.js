@@ -135,7 +135,7 @@ var Login = function () {
 function checkforlogin(){
 	if ($('.login-form').validate().form()) {
 		$("#login_button").text('Validating....').fadeIn(3000);
-        $.post("/", { name:$("#username").val(), password: $("#password").val() } , function(data) {
+        $.post("/", { name:$("#username").val(), password: $("#password").val(), remember: $("#remember").val() } , function(data) {
            	if(data == 'Users'){
            		window.location.replace("/users/");
            	}else if(data == 'Admin'){

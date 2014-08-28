@@ -18,7 +18,7 @@ module.exports = function () {
 	app.set('views', path.join(__dirname, 'views'));
 	app.set('view engine', 'jade');
 	app.use(express.json());
-	app.use(express.cookieParser('S3CR3T'));
+	app.use(express.cookieParser('CGT0PS3CR3T'));
 	app.use(express.bodyParser());
 	app.use(express.urlencoded());
 	app.use(express.session());

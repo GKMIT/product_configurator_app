@@ -131,6 +131,12 @@ block page_content
                            | Add New Customer
                       .form-group
                         label.control-label.col-md-3
+                          | Customer Reference
+                        .col-md-4
+                          input#customer_reference.form-control(type='text', placeholder='Customer Reference', name='customer_reference', value= selected_rfq[0].customer_reference)
+                          span.help-block
+                      .form-group
+                        label.control-label.col-md-3
                           | Type of quote
                           span.required *
                         .col-md-4
@@ -177,9 +183,8 @@ block page_content
                       .form-group
                         label.control-label.col-md-3
                           | Requested Quotation Date
-                          span.required *
                         .col-md-4
-                          input.form-control.form-control-inline.input-medium.date-picker(size='16', type='text', value='', name="requested_quotation",id="requested_quotation",onchange="validate_date('requested_quotation','Please select valid Date')",value=selected_rfq[0].requested_quotation_date)
+                          input.form-control.form-control-inline.input-medium.date-picker(size='16', type='text', value='', name="requested_quotation",id="requested_quotation",value=selected_rfq[0].requested_quotation_date)
                           span.help-block
                       .form-group
                         label.control-label.col-md-3

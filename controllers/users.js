@@ -70,6 +70,8 @@ exports.rfq_general_data = function(req, res){
 				} else {
 					data.selected_rfq[0].date_rfq_in = moment(data.selected_rfq[0].date_rfq_in.substring(0,10), "YYYY-MM-DD").format('DD-MM-YYYY');
 					data.selected_rfq[0].requested_quotation_date = moment(data.selected_rfq[0].requested_quotation_date.substring(0,10), "YYYY-MM-DD").format('DD-MM-YYYY');
+					if(data.selected_rfq[0].requested_quotation_date == 'Invalid date') data.selected_rfq[0].requested_quotation_date = '';
+					
 					if(data.selected_rfq[0].product_lines_id != 0){
 						flag_product = true; 
 						flag_line = true; 

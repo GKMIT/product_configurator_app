@@ -13,6 +13,7 @@ exports.loginverify = function(req, res){
 
     var name = req.body.name;
     var password = req.body.password;
+
     var password_enc = crypto.createHash('md5').update(password).digest('hex');
     var dataGet = {
         "email":name,
@@ -51,6 +52,11 @@ exports.loginverify = function(req, res){
                 req.session.tendering_teams_id = data.data[0].tendering_teams_id;
                 
                 console.log(data);
+
+                if(req.body.remember == 1){
+                    res.cookie('username', req.body.name,{ signed: true });
+                    res.cookie('username', req.body.name,{ signed: true });
+                }
 
                 // if(data.priv == 4){
                 //  res.send("Admin");
