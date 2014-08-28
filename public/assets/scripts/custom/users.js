@@ -1003,7 +1003,7 @@ function finalize_rfq(type,rfq_id){
     var prob = $("#probability").val();
     var flag1 = validate_date('quote_validity_date','Please select valid Date');
     var flag3 = validate_date('quote_submission_date','Please select valid Date');
-    var flag4 = validate_number('sales_price','Please select valid Date');
+    var flag4 = validate_number('sales_price','Please put valid price');
     if(type == 1){
          if( flag1  && flag4  && flag3 ){
             if(prob == 6){
@@ -1087,7 +1087,7 @@ function follow_up(type,rfq_id){
     var prob = $("#probability").val();
     //var flag1 = validate_date('quote_validity_date','Please select valid Date');
     //var flag3 = validate_date('quote_submission_date','Please select valid Date');
-    var flag4 = validate_number('sales_price','Please select valid Date');
+    var flag4 = validate_number('sales_price','Please put valid price');
     if(type == 1){
          if( flag4 ){
              if(prob == 6){
