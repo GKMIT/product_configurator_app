@@ -1005,10 +1005,12 @@ function finalize_rfq(type,rfq_id){
     var flag3 = validate_date('quote_submission_date','Please select valid Date');
     var flag4 = validate_number('sales_price','Please select valid Date');
     if(type == 1){
-         if( flag1 && flag3 && flag4 ){
+         if( flag1  && flag4  && flag3 ){
             if(prob == 6){
                 var flag2 = validate_number('rejection_remarks_id','Please select a valid remark');
-            } else {
+            } else if(prob == 1){
+                var flag2 = validate_number('won_gross_sale','Please input a valid number');
+            }else {
                 var flag2 = true;
             }
             if(flag2){
@@ -1027,9 +1029,9 @@ function finalize_rfq(type,rfq_id){
 
         if(prob == 1 || prob == 6){
             if(prob == 1){
-                flag2 = true;
+               var flag2 = validate_number('won_gross_sale','Please input a valid number');
             } else {
-               flag2 = validate_number('rejection_remarks_id','Please select a valid remark'); 
+               var flag2 = validate_number('rejection_remarks_id','Please select a valid remark'); 
             }
             
         } else {
@@ -1054,9 +1056,18 @@ function finalize_rfq(type,rfq_id){
 function check_for_lost(){
     if($("#probability").val() == 6){
         $("#rejection_remarks_div").show();
+        $("#won_gross_sale_div").hide();
+        $("#won_gross_sale").val('');
+    } else if($("#probability").val() == 1){
+        $("#won_gross_sale_div").show();
+        $("#rejection_remarks_div").find('select option:first-child').attr('selected','selected').show();
+        $("#rejection_remarks_div").hide();
     } else {
         $("#rejection_remarks_div").find('select option:first-child').attr('selected','selected').show();
         $("#rejection_remarks_div").hide();
+        $("#won_gross_sale_div").hide();
+        $("#won_gross_sale").val('');
+
     }
 }
 
@@ -1079,9 +1090,11 @@ function follow_up(type,rfq_id){
     var flag4 = validate_number('sales_price','Please select valid Date');
     if(type == 1){
          if( flag4 ){
-            if(prob == 6){
+             if(prob == 6){
                 var flag2 = validate_number('rejection_remarks_id','Please select a valid remark');
-            } else {
+            } else if(prob == 1){
+                var flag2 = validate_number('won_gross_sale','Please input a valid number');
+            }else {
                 var flag2 = true;
             }
             if(flag2){
@@ -1100,7 +1113,7 @@ function follow_up(type,rfq_id){
 
         if(prob == 1 || prob == 6){
             if(prob == 1){
-                flag2 = true;
+               flag2 = validate_number('won_gross_sale','Please input a valid number');
             } else {
                flag2 = validate_number('rejection_remarks_id','Please select a valid remark'); 
             }
