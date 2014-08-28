@@ -377,6 +377,22 @@ function rfq_complete(rfq_id){
     });
 }
 
+function rfq_save_for_now(rfq_id){
+
+    var file_name = '/users/rfq_complete/'+rfq_id;
+    $("#btn_save").html("Saving.. Please Wait");
+    
+      $.post(file_name,{rfq_status_id:1}, function(data) {
+        if(data.success == "true"){
+            window.location.replace("/users/");
+        } else {
+            bootbox.alert(data.message);
+            $("#btn_save").html("Save For Now");
+
+        }
+    });
+}
+
 function validate_number(id_info, alttext, parent_up){
     var value = $("#"+id_info).val();
     var errorspan = $("#"+id_info).parent().find('span');
