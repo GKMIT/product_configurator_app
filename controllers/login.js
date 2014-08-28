@@ -1,5 +1,9 @@
 exports.index = function(req, res){
-   res.render('login', {title:'CG Login Page'});
+
+   var username = (req.signedCookies['username'])?req.signedCookies['username']:'';
+   var password = (req.signedCookies['password'])?req.signedCookies['password']:'';
+
+   res.render('login', {title:'CG Login Page', username:username, password:password});
    //console.log(moment("04/13/2014", "MM/DD/YYYY").format('YYYY-MM-DD hh:mm:ss'));
 };
 
@@ -54,8 +58,8 @@ exports.loginverify = function(req, res){
                 console.log(data);
 
                 if(req.body.remember == 1){
-                    res.cookie('username', req.body.name,{ signed: true });
-                    res.cookie('username', req.body.name,{ signed: true });
+                    res.cookie('username', name,{ maxAge: 900000, signed:true });
+                    res.cookie('password', password,{ maxAge: 900000, signed:true });
                 }
 
                 // if(data.priv == 4){
