@@ -1,7 +1,8 @@
 script(src='/assets/plugins/jquery-1.10.2.min.js', type='text/javascript')
 script(src='/assets/scripts/custom/minimum_price.js', type='text/javascript')
 a.btn.default= 'Number of Transformers: '+ trans_num
-a.btn.default= 'Complexity: '+ complexities[0].name
+-if(complexities[0].name)
+  a.btn.default= 'Complexity: '+ complexities[0].name
 br
 br
 input.form-control#trans_numbers(name="trans_numbers", readonly, style="display:none", value="#{trans_num}")
@@ -19,17 +20,26 @@ form#minimum_price_form.form-horizontal(action='#')
           td Material Cost
           td (#{initial_cost_data.currency})
           td
-            input.count_change.form-control#material_cost(name="material_cost", value='#{initial_cost_data.material_cost}', readonly)
+            -if (default_design)
+              input.count_change.form-control#material_cost(name="material_cost")
+            -else 
+              input.count_change.form-control#material_cost(name="material_cost", value='#{initial_cost_data.material_cost}', readonly)
         tr
           td Labour Cost
           td (#{initial_cost_data.currency})
           td
-            input.count_change.form-control#labor_cost(name="labor_cost",value="#{initial_cost_data.labor_cost}", readonly)
+            -if (default_design)
+              input.count_change.form-control#labor_cost(name="labor_cost")
+            -else 
+              input.count_change.form-control#labor_cost(name="labor_cost",value="#{initial_cost_data.labor_cost}", readonly)
         tr  
           td Labour Hours
           td (hrs)
           td
-            input.form-control#labor_hours(name="labor_hours",value="#{initial_cost_data.labor_hours}",readonly)
+            -if (default_design)
+              input.form-control#labor_hours(name="labor_hours")
+            -else 
+              input.form-control#labor_hours(name="labor_hours",value="#{initial_cost_data.labor_hours}",readonly)
          tr 
           td Extra Engineering Hours
           td (hrs)

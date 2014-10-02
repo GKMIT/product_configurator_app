@@ -269,7 +269,13 @@ exports.minimum_price_ui = function(req, res){
 
                 if(data.minimum_calculated_sales_price.length == 0) data.minimum_calculated_sales_price = [{}];
 
-                res.render('users/minimum_price_ui', {initial_cost_data: data.product_cost_data[0], trans_num: data.rfq_lines[0].number_of_units, overheads:overheads, complexities:data.complexities, spec: data.minimum_calculated_sales_price} );
+                var default_design = false;
+
+                if(data.product_cost_data[0].labor_cost == 0 && data.product_cost_data[0].labor_hours == 0 && data.product_cost_data[0].material_cost == 0){
+                    default_design = true;
+                }
+
+                res.render('users/minimum_price_ui', {initial_cost_data: data.product_cost_data[0], trans_num: data.rfq_lines[0].number_of_units, overheads:overheads, complexities:data.complexities, spec: data.minimum_calculated_sales_price, default_design: default_design} );
             } else {
                 res.send(data.message);
             }
