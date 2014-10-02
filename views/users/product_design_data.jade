@@ -16,15 +16,15 @@ form#rfq_line_edit_form.form-horizontal(action='#')
         tbody
           -each design in product_designs
             tr
-              td
+              td(style=(design.default==1)?'background:#FFFFAE !important':'')
                 input(type='radio', name="product_design", value="#{design.id}")
-              td= design.id
-              td= design.plant_name
-              td= design.material_code
-              td= design.design_version
-              td= design.design_variant
-              td= design.accessories
+              td(style=(design.default==1)?'background:#FFFFAE !important':'')= design.id
+              td(style=(design.default==1)?'background:#FFFFAE !important':'')= design.plant_name
+              td(style=(design.default==1)?'background:#FFFFAE !important':'')= design.material_code
+              td(style=(design.default==1)?'background:#FFFFAE !important':'')= design.design_version
+              td(style=(design.default==1)?'background:#FFFFAE !important':'')= design.design_variant
+              td(style=(design.default==1)?'background:#FFFFAE !important':'')= design.accessories
               - var count = 0
               - each prop in props
-                td= design.range_properties[count].spec_value + ' (+'+design.range_properties[count].plus_tolerance+', -'+ design.range_properties[count].minus_tolerance +')'
+                td(style=(design.default==1)?'background:#FFFFAE !important':'')= design.range_properties[count].spec_value + ' (+'+design.range_properties[count].plus_tolerance+', -'+ design.range_properties[count].minus_tolerance +')'
                 - count = count + 1
