@@ -12,6 +12,11 @@ block title
 
 block hint
   | 
+block doc_ready
+  script.
+    $(document).ready(function(){
+    $('#customers_id').select2();
+    });
 
 block page_content
   .row
@@ -120,7 +125,7 @@ block page_content
                           | Customer
                           span.required *
                         .col-md-4
-                          select#customers_id.form-control(name='customers_id', onchange="validate_number('customers_id','Please select valid Customer')")
+                          select#customers_id.form-control(name='customers_id')
                             option(value='0')
                               | Select Customer
                             - each customer in customers
