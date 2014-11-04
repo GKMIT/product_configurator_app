@@ -78,6 +78,17 @@ block page_content
                     #tab1.tab-pane.active
                       .form-group
                         label.control-label.col-md-3
+                          | Product Line
+                          span.required *
+                        .col-md-4
+                          select#product_lines_id.form-control(name='product_lines_id',onchange="validate_number('product_lines_id','Please select valid Product Line')")
+                            option(value='0')
+                              | Select Product Line
+                            - each lines in product_lines
+                              option(value="#{lines.id}",selected=lines.id==selected_rfq[0].product_lines_id)= lines.name
+                          span.help-block
+                      .form-group
+                        label.control-label.col-md-3
                           | Sub-Region
                           span.required *
                           </span>

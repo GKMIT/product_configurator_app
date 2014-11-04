@@ -62,9 +62,10 @@ exports.rfq_general_data = function(req, res){
 			data_final = data_final+chunk;
 		});
 		response.on('end',function (){
-			console.log(data_final);
 			var data = JSON.parse(data_final);
+			console.log(data.probability);
 			if(data.statusCode == 200){
+
 				if(data.selected_rfq == ''){
 					data.selected_rfq=[{id:0,rfq_status_id:0}];
 				} else {
@@ -72,7 +73,7 @@ exports.rfq_general_data = function(req, res){
 					data.selected_rfq[0].requested_quotation_date = moment(data.selected_rfq[0].requested_quotation_date.substring(0,10), "YYYY-MM-DD").format('DD-MM-YYYY');
 					if(data.selected_rfq[0].requested_quotation_date == 'Invalid date') data.selected_rfq[0].requested_quotation_date = '';
 					
-					if(data.selected_rfq[0].product_lines_id != 0){
+					if(data.selected_rfq[0].tendering_teams_id != 0){
 						flag_product = true; 
 						flag_line = true; 
 					} else { flag_product = true;}
@@ -101,7 +102,7 @@ exports.rfq_general_data = function(req, res){
 					response_next.on('end',function (){
 						var data_next = JSON.parse(data_final_next);
 						if(data_next.statusCode == 200){
-							res.render('users/newrfq', { username: req.session.member_username, priv: req.session.priv, title: 'New RFQ', rfq:'active',sub_sidebar1:flag_1, sub_sidebar2:flag_2, sales_hubs: data.sales_hubs, sales_persons:data.sales_persons, countries: data.countries, type_of_quote: data.type_of_quote, customers: data.customers, sales_segments: data.sales_segments, selected_rfq:data.selected_rfq, sales_agents:data.sales_agents, sales_persons:data.sales_persons, probabilities:data.probability, flag_product:flag_product, flag_line:flag_line, channel_to_market : data.channel_to_market, rejection_remarks:data_next.rejection_remarks});
+							res.render('users/newrfq', { username: req.session.member_username, priv: req.session.priv, title: 'New RFQ', rfq:'active',sub_sidebar1:flag_1, sub_sidebar2:flag_2, sales_hubs: data.sales_hubs, sales_persons:data.sales_persons, countries: data.countries, type_of_quote: data.type_of_quote, customers: data.customers, sales_segments: data.sales_segments, selected_rfq:data.selected_rfq, sales_agents:data.sales_agents, sales_persons:data.sales_persons, probabilities:data.probability, flag_product:flag_product, flag_line:flag_line, channel_to_market : data.channel_to_market, rejection_remarks:data_next.rejection_remarks, product_lines:data.product_lines});
 						} else {
 							res.send(data_next.success);
 						}
@@ -332,7 +333,7 @@ exports.rfq_product_data = function(req, res){
 		response.on('end',function (){
 			console.log(data_final);
 			var data = JSON.parse(data_final);
-			if(data.selected_rfq[0].product_lines_id != 0) flag_line = true;
+			if(data.selected_rfq[0].tendering_teams_id != 0) flag_line = true;
 			if(data.statusCode == 200){
 				if(data.selected_rfq[0].rfq_status_id == 1){
 					var flag_1 = ''; var flag_2 = 'active'; 

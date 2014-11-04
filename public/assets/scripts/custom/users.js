@@ -151,10 +151,9 @@ function fetch_plants_properties_pop(){
 
 function rfq_pro_save(type, rfq_id){
     var val = $("#rfq_pro_form").serialize();
-    var flag1 = validate_number('product_lines_id','Please select valid Product line');
     var flag2 = validate_number('tendering_teams_id','Please select valid Tendering team');
     var flag3 = validate_number('tendering_teams_members_id','Please select valid Tendering team member');
-    if( flag1 && flag2 && flag3  ){
+    if(  flag2 && flag3  ){
         $("#btn_save_pro_data").removeAttr("onclick");
         $("#btn_next_pro_data").removeAttr("onclick");
         if(type == 1){
@@ -194,8 +193,8 @@ function rfq_gen_save(type, rfq_id){
         var file_name = '/users/newrfq';
     }
 
-    var flag1 = validate_number('sales_hub_id','Please select valid Sales Hub');var flag2 = validate_number('customer_country','Please select valid Customer country');var flag3 = validate_number('customers_id','Please select valid Customer');var flag4 = validate_number('sales_person_id','Please select valid Sales Person');var flag5 = validate_number('type_of_quote_id','Please select valid Quote');var flag6 = validate_number('sales_segments_id','Please select valid Sales Segments');var flag7 = validate_number('probability','Please select valid Probability');var flag8 = validate_date('date_rfq','Please select valid Date');
-    if( flag7 && flag6 && flag5 && flag4 && flag3 && flag2 && flag1 && flag8  ){
+    var flag1 = validate_number('sales_hub_id','Please select valid Sales Hub');var flag2 = validate_number('customer_country','Please select valid Customer country');var flag3 = validate_number('customers_id','Please select valid Customer');var flag4 = validate_number('sales_person_id','Please select valid Sales Person');var flag5 = validate_number('type_of_quote_id','Please select valid Quote');var flag6 = validate_number('sales_segments_id','Please select valid Sales Segments');var flag7 = validate_number('probability','Please select valid Probability');var flag8 = validate_date('date_rfq','Please select valid Date');var flag9 = validate_number('product_lines_id','Please select valid Product Line');
+    if( flag7 && flag6 && flag5 && flag4 && flag3 && flag2 && flag1 && flag8 && flag9  ){
         $("#btn_save").removeAttr("onclick");
         $("#btn_next").removeAttr("onclick");
         if(type == 1){
