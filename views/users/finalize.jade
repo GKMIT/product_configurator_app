@@ -29,7 +29,7 @@ block page_content
             th
               | Customer Country
             th
-              | Installation Country
+              | Project Name
             th
               | RFQ Date
             th
@@ -43,7 +43,7 @@ block page_content
             th
               | Customer Country
             th
-              | Installation Country
+              | Project Name
             th
               | RFQ Date
             th
@@ -72,9 +72,12 @@ block page_content
             tr
               td= rfq.customer_name
               td= rfq.customer_country
-              td= rfq.installation_country
+              td= rfq.project_name
               td= rfq.date_rfq_in
               td= rfq.name
               td
                 a.btn.green(href='/users/finalize/#{rfq.id}')
                   | Finalize
+                &nbsp;&nbsp;
+                a.btn.red(href='javascript:;', id='delete_#{rfq.id}', onclick="rfq_delete(#{rfq.id})")
+                  | Delete

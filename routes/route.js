@@ -44,6 +44,7 @@ module.exports = function () {
 	app.get('/users/fetch_sales_persons/:id', globalfunctions.checkSalesAuth, users.fetch_sales_persons);
 	app.get('/users/fetch_sales_agents/:id', globalfunctions.checkSalesAuth, users.fetch_sales_agents);
 	app.get('/users/fetch_tendering_teams/:product_line_id', globalfunctions.checkSalesAuth, users.fetch_tendering_teams);
+	app.post('/users/delete_rfq/:rfq_id', globalfunctions.checkSalesAuth, users.delete_rfq);
 
 	//Tendering Team Bid No-Bid
 	app.get('/users/bid_rfq/:rfq_id', globalfunctions.checkTenderAuth, users.bid_rfq);

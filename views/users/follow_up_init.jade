@@ -27,7 +27,7 @@ block page_content
             th
               | Document Number
             th
-              | Version Number
+              | Customer Name
             th
               | RFQ Quote Validity Date
             th
@@ -56,7 +56,7 @@ block page_content
           - each rf in rfq
             tr
               td(style=(rf.timediff > 0)?'background:#F87E7E':'')= rf.document_no
-              td(style=(rf.timediff > 0)?'background:#F87E7E':'')= rf.version_no
+              td(style=(rf.timediff > 0)?'background:#F87E7E':'')= rf.name
               td(style=(rf.timediff > 0)?'background:#F87E7E':'')= rf.quote_validity_date
               td(style=(rf.timediff > 0)?'background:#F87E7E':'')= rf.quote_submission_date
               td(style=(rf.timediff > 0)?'background:#F87E7E':'')

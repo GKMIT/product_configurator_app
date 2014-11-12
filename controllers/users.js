@@ -1263,3 +1263,34 @@ exports.copy_rfq = function(req, res){
 	reqPost.write(dGet);
 	reqPost.end();
 };
+
+exports.delete_rfq = function(req, res){
+	
+	var dGet = querystring.stringify(req.body);
+	console.log(dGet);
+	var options = {
+			host : config.host,
+			port : config.port,
+			path : '/delete_line_item/'+req.session.member_id+'/'+req.body.rfq_id,
+			method : 'DELETE',
+			headers: {
+		          'Content-Type': 'application/x-www-form-urlencoded',
+		          'authentication_token': req.session.token
+		    }
+		};
+
+	var reqPost = http.request(options, function(response) {
+		response.on('data', function(data) {
+			var data=JSON.parse(data);
+			console.log(data);
+			if(data.statusCode == 200){
+				res.json(data);
+			} else {
+				res.json(data);
+			}
+		});
+
+	});
+	reqPost.write(dGet);
+	reqPost.end();
+};

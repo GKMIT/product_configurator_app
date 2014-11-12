@@ -1260,3 +1260,29 @@ function copy_rfq(rfq_id){
         }
     });
 }
+
+function rfq_delete(rfq_id){
+    var file_name = '/users/delete_rfq/'+rfq_id;
+    var prop_line = $("#delete_"+rfq_id).parent().parent();
+
+     bootbox.confirm("Are you sure to delete RFQ?", function(result) {
+          if(result){
+            
+            $("#delete_"+rfq_id).html("Deleting..");
+              $.post(file_name,{rfq_id:rfq_id}, function(data) {
+                if(data.success == "true"){
+                   prop_line.hide("slow", function(){
+                        prop_line.remove();
+                    });
+
+                } else {
+                    bootbox.alert(data.message);
+                    $("#delete_"+rfq_id).html("Delete");
+                }
+            });
+
+          }
+        });
+
+    
+}

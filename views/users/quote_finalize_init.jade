@@ -27,7 +27,7 @@ block page_content
             th
               | Document Number
             th
-              | Version Number
+              | Customer Name
             th
               | RFQ Quote Creation Date
             th
@@ -37,7 +37,7 @@ block page_content
             th
               | Document Number
             th
-              | Version Number
+              | Customer Name
             th
               | Requested Quotation Date
             th
@@ -63,7 +63,7 @@ block page_content
           - each rf in rfq
             tr
               td= rf.document_no
-              td= rf.version_no
+              td= rf.name
               td= rf.quote_creation_date
               td
                 a.btn.green(href='/users/quote_finalize/#{rf.id}')
