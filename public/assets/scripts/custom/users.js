@@ -252,11 +252,10 @@ function rfq_line_save(type, rfq_id){
     var file_name = '/users/save_line_item/'+rfq_id;
 
     var flag1 = validate_number('product_lines_id','Please select valid Product Line');
-    var flag2 = validate_number('plants_id','Please select valid Production plant');
     var flag3 = validate_number('number_of_units','Please input number of units');
     var flag4 = validate_date('delivery_date','Please select valid Date');
     var flag5 = validate_tech('table_body');
-    if( flag4 && flag3 && flag2 && flag1 && flag5 ){
+    if( flag4 && flag3 && flag1 && flag5 ){
         if(type == 1){
             $("#btn_save").html("Saving.. Please Wait");
             val += '&rfq_status_id=1';
@@ -339,11 +338,10 @@ function update_line_items(line_item_id){
     var file_name = '/users/update_line_item/'+line_item_id;
 
     var flag1 = validate_number('product_lines_id_pop','Please select valid Product Line');
-    var flag2 = validate_number('plants_id_pop','Please select valid Production plant');
     var flag3 = validate_number('number_of_units_pop','Please input number of units');
     var flag4 = validate_date('delivery_date_pop','Please select valid Date');
     var flag5 = validate_tech('table_body_pop');
-    if( flag4 && flag3 && flag2 && flag1 && flag5 ){
+    if( flag4 && flag3 && flag1 && flag5 ){
         $("#btn_update").html("Updating.. Please Wait");
         $.post(file_name,val, function(data) {
             if(data.success == "true"){

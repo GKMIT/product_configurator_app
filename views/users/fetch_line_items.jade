@@ -11,16 +11,6 @@ form#rfq_line_edit_form.form-horizontal(action='#')
       span.help-block
   .form-group
     label.control-label.col-md-3
-      | Production Plant
-    .col-md-4
-      select#plants_id_pop.form-control(name='plants_id',onchange="validate_number('plants_id_pop','Please select valid Production plant')")
-        option(value='0')
-          | Select Production Plants
-          - each plant in production_plants
-            option(value="#{plant.id}",selected=rfq_lines[0].plants_id == plant.id)= plant.name
-      span.help-block
-  .form-group
-    label.control-label.col-md-3
       | Number of Units
     .col-md-4
       input#number_of_units_pop.form-control(name='number_of_units', onkeyup="validate_number('number_of_units_pop','Please input number of units')",value='#{rfq_lines[0].number_of_units}')

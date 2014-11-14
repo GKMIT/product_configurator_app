@@ -59,8 +59,6 @@ block page_content
                               th
                                 | Product Line
                               th
-                                | Production Plant
-                              th
                                 | Number of Units
                               th
                                 | Requested Delivery Date
@@ -70,7 +68,6 @@ block page_content
                             - each line_items in selected_rfq_lines_items
                               tr(id='row_line_item_' +line_items.id)
                                 td= line_items.product_lines_name
-                                td= line_items.plant_name
                                 td= line_items.number_of_units
                                 td= line_items.req_delivery_date
                                 td(id='line_item_' +line_items.id)
@@ -95,15 +92,6 @@ block page_content
                                 | Select Product Line
                               - each lines in product_lines
                                 option(value="#{lines.id}")= lines.name
-                            span.help-block
-                        .form-group
-                          label.control-label.col-md-3
-                            | Production Plant
-                            span.required *
-                          .col-md-4
-                            select#plants_id.form-control(name='plants_id',onchange="validate_number('plants_id','Please select valid Production plant')")
-                              option(value='0')
-                                | Select Production Plants
                             span.help-block
                         .form-group
                           label.control-label.col-md-3
