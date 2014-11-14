@@ -33,6 +33,8 @@ block page_content
             th
               | RFQ Quote Submission Date
             th
+              | Next Action Date
+            th
               | Action
         tfoot
           tr
@@ -59,6 +61,7 @@ block page_content
               td(style=(rf.timediff > 0)?'background:#F87E7E':'')= rf.name
               td(style=(rf.timediff > 0)?'background:#F87E7E':'')= rf.quote_validity_date
               td(style=(rf.timediff > 0)?'background:#F87E7E':'')= rf.quote_submission_date
+              td(style=(rf.timediff > 0)?'background:#F87E7E':'')= rf.by_when
               td(style=(rf.timediff > 0)?'background:#F87E7E':'')
                 a.btn.green(href='/users/follow_up/#{rf.id}')
                   | Follow Up

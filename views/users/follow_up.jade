@@ -62,7 +62,7 @@ block page_content
                 | Validity Date
                 span.required *
               .col-md-4
-                p.form-control-static= rfq[0].quote_validity_date
+                input#quote_validity_date.form-control.date-picker(type="text",name="quote_validity_date",onchange="validate_date('quote_validity_date','Please select valid Date')", value="#{rfq[0].quote_validity_date}")
                 span.help-block
             .form-group
               label.control-label.col-md-4
@@ -98,10 +98,26 @@ block page_content
                     option(value="#{remark.id}")= remark.description
                 span.help-block
             .form-group
-              .col-md-3
-              .col-md-6
+              label.control-label.col-md-4
+                | Next Action
+                span.required *
+              .col-md-4
+                 input#next_action.form-control(name='next_action',onkeyup="validate_entry('next_action','Please input valid action')",value="#{rfq[0].next_action}")
+                span.help-block
+            .form-group
+              label.control-label.col-md-4
+                | By When
+                span.required *
+              .col-md-4
+                input#by_when.form-control.date-picker(type="text",name="by_when",onchange="validate_date('by_when','Please select valid Date')", value="#{rfq[0].by_when}")
+                span.help-block
+            .form-group
+              .col-md-12(style="text-align:center")
                 a.btn.green#follow_up(href='javascript:;', onclick="follow_up(1,#{rfq[0].id})")
                   | Follow Up
+                &nbsp;&nbsp;
+                a.btn.blue#extend_btn(href='javascript:;', onclick="extend_validity(#{rfq[0].id})")
+                  | Extend Validity Period
                 &nbsp;&nbsp;
                 a.btn.red#close_document_follow_up(href='javascript:;', onclick="follow_up(2,#{rfq[0].id})")
                   | Close Document

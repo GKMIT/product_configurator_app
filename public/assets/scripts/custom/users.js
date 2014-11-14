@@ -1080,14 +1080,32 @@ function mark_obsolete(rfq_id){
     });
 }
 
+function extend_validity(rfq_id){
+    var flag1 = validate_date('quote_validity_date','Please select valid Date');
+    if(flag1){
+        $("#extend_btn").html("Saving.. Please Wait");
+        var validity_date = $("#quote_validity_date").val();
+        $.post("/users/extend_validity/"+rfq_id,{validity_date:validity_date}, function(data) {
+            if(data.success == "true"){
+                window.location.replace("/users/follow_up");
+            } else {
+                $("#extend_btn").html("Extend Validity Period");
+                bootbox.alert(data.message);
+            }
+        });
+    } 
+}
+
 function follow_up(type,rfq_id){
     var val = $("#quote_finalize").serialize();
     var prob = $("#probability").val();
-    //var flag1 = validate_date('quote_validity_date','Please select valid Date');
+    var flag1 = validate_date('quote_validity_date','Please select valid Date');
     //var flag3 = validate_date('quote_submission_date','Please select valid Date');
     var flag4 = validate_number('sales_price','Please put valid price');
     if(type == 1){
-         if( flag4 ){
+        var flag5 = validate_entry('next_action','Please input valid action');
+        var flag6 = validate_date('by_when','Please input valid Date');
+         if( flag4 && flag1 && flag5 && flag6 ){
              if(prob == 6){
                 var flag2 = validate_number('rejection_remarks_id','Please select a valid remark');
             } else if(prob == 1){
@@ -1101,6 +1119,7 @@ function follow_up(type,rfq_id){
                     if(data.success == "true"){
                         window.location.replace("/users/follow_up");
                     } else {
+                        $("#follow_up").html("Follow Up");
                         bootbox.alert(data.message);
                     }
                 });
@@ -1108,7 +1127,6 @@ function follow_up(type,rfq_id){
         }
     } else {
         var prob = $("#probability").val();
-
         if(prob == 1 || prob == 6){
             if(prob == 1){
                flag2 = validate_number('won_gross_sale','Please input a valid number');
@@ -1121,12 +1139,13 @@ function follow_up(type,rfq_id){
             bootbox.alert('You must select probability Win or Lost, if closing document.');
         }
 
-         if( flag2 && flag4 ){
+         if( flag2 && flag4 && flag1 ){
             $("#close_document_follow_up").html("Saving.. Please Wait");
             $.post("/users/save_followup_quote/"+rfq_id+"/7",val, function(data) {
                 if(data.success == "true"){
                     window.location.replace("/users/follow_up");
                 } else {
+                    $("#follow_up").html("Follow Up");
                     bootbox.alert(data.message);
                 }
             });
