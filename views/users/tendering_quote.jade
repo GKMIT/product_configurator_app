@@ -46,10 +46,6 @@ block page_content
             h5(style='margin:0')= rfq_line.product_lines_name
           .span3(style='float:left; margin-right:10px; padding-right:10px; border-right:1px solid #FFF')
             h6(style='margin:0; color:#EEE')
-              | Production Plant
-            h5(style='margin:0')= rfq_line.plants_name
-          .span3(style='float:left; margin-right:10px; padding-right:10px; border-right:1px solid #FFF')
-            h6(style='margin:0; color:#EEE')
               | Number of Units
             h5(style='margin:0')= rfq_line.number_of_units
           .span3(style='float:left; margin-right:10px; padding-right:10px;')
@@ -63,6 +59,11 @@ block page_content
           | #{design}
       .portlet-body(style='display:none')
         form(id='property_table_#{rfq_line.id}')
+          div(style="margin:10px 0; max-width:300px")
+            select.form-control.span3(id="plants_id_#{rfq_line.id}")
+              option(value="0") Select Production Plant
+              - each plant in rfq_line.plants
+                option(value="#{plant.id}")= plant.name
           table.table.table-bordered
             thead
               tr

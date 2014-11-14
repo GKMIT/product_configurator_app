@@ -664,6 +664,7 @@ function product_designs(rfq_id,rfq_lines_id){
     $("#select_btn").attr('onclick','select_design('+rfq_id+','+rfq_lines_id+')');
     
     var tableform= $("#property_table_"+rfq_lines_id);
+    var plants_id= $("#plants_id_"+rfq_lines_id).val();
     var jsonArr = [];
     var flag = true;
     $( "#property_table_"+rfq_lines_id+' input[type=checkbox]').each(function() {
@@ -703,7 +704,7 @@ function product_designs(rfq_id,rfq_lines_id){
     });
 
     if(flag == true){
-        $.post("/users/product_designs/"+rfq_id+"/"+rfq_lines_id,{properties:jsonArr}, function(data) {
+        $.post("/users/product_designs/"+rfq_id+"/"+rfq_lines_id,{properties:jsonArr,plants_id:plants_id}, function(data) {
            if(data.success == 'false'){
             $(".modal-body").html(data.message);
            } else {
