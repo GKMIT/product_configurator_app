@@ -53,3 +53,50 @@ block page_content
               | #{dashboard_data.bid_in_tendering}
             .desc
               | In-Tendering RFQs
+  .row
+    .col-md-12
+      table.table.tablesorter.table-bordered
+        thead
+          tr
+            th
+              | Document Number
+            th
+              | Customer Name
+            th
+              | Project Name
+            th
+              | Status
+        tfoot
+          tr
+            th
+              | Document Number
+            th
+              | Customer Name
+            th
+              | Project Name
+            th
+              | Status
+          tr
+            th.ts-pager.form-horizontal(colspan='4')
+              button.btn.first(type='button')
+                i.icon-step-backward.glyphicon.glyphicon-step-backward
+              button.btn.prev(type='button')
+                i.icon-arrow-left.glyphicon.glyphicon-backward
+              span.pagedisplay
+              button.btn.next(type='button')
+                i.icon-arrow-right.glyphicon.glyphicon-forward
+              button.btn.last(type='button')
+                i.icon-step-forward.glyphicon.glyphicon-step-forward
+              select.pagesize(title='Select page size')
+                option(selected='selected', value='10') 10
+                option(value='20') 20
+                option(value='30') 30
+                option(value='40') 40
+              select.pagenum(title='Select page number')
+        tbody
+          - each rf in dashboard_data.rfq_list
+            tr
+              td= rf.document_no
+              td= rf.customer_name
+              td= rf.project_name
+              td= rf.status_name
