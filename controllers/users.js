@@ -1271,7 +1271,7 @@ exports.delete_rfq = function(req, res){
 	var options = {
 			host : config.host,
 			port : config.port,
-			path : '/delete_line_item/'+req.session.member_id+'/'+req.body.rfq_id,
+			path : '/delete_rfq/'+req.session.member_id+'/'+req.body.rfq_id,
 			method : 'DELETE',
 			headers: {
 		          'Content-Type': 'application/x-www-form-urlencoded',

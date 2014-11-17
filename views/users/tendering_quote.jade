@@ -63,7 +63,7 @@ block page_content
             select.form-control.span3(id="plants_id_#{rfq_line.id}")
               option(value="0") Select Production Plant
               - each plant in rfq_line.plants
-                option(value="#{plant.id}")= plant.name
+                option(value="#{plant.id}",selected=plant.id == rfq_line.plants_id)= plant.name
           table.table.table-bordered
             thead
               tr
