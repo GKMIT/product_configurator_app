@@ -27,7 +27,7 @@ block page_content
             th
               | Document Number
             th
-              | Version Number
+              | Customer Name
             th
               | RFQ Date
             th
@@ -39,7 +39,7 @@ block page_content
             th
               | Document Number
             th
-              | Version Number
+              | Customer Name
             th
               | RFQ Date
             th
@@ -67,7 +67,7 @@ block page_content
           - each rf in rfq
             tr
               td= rf.document_no
-              td= rf.version_no
+              td= rf.name
               td= rf.date_rfq_in
               td= rf.requested_quotation_date
               td

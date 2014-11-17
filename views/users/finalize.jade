@@ -29,6 +29,8 @@ block page_content
             th
               | Customer Country
             th
+              | Document No.
+            th
               | Project Name
             th
               | RFQ Date
@@ -42,6 +44,8 @@ block page_content
               | Customer
             th
               | Customer Country
+            th
+              | Document No.
             th
               | Project Name
             th
@@ -72,6 +76,7 @@ block page_content
             tr
               td= rfq.customer_name
               td= rfq.customer_country
+              td= rfq.document_no
               td= rfq.project_name
               td= rfq.date_rfq_in
               td= rfq.name
