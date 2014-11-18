@@ -1300,7 +1300,28 @@ function rfq_delete(rfq_id){
             });
 
           }
-        });
+     });
+}
 
-    
+
+function copy_archive_rfq(rfq_id){
+    var file_name = '/users/archive_rfq_copy/';
+    var prop_line = $("#copy_"+rfq_id);
+
+    $("#copy_"+rfq_id).html("Coping...");
+    $.post(file_name,{rfq_id:rfq_id}, function(data) {
+            if(data.success == "true"){
+                bootbox.alert(data.message);
+                prop_line.hide("slow", function(){
+                    prop_line.html("Copy");
+                });
+                prop_line.show("slow", function(){
+                    prop_line.html("Copy");
+                });
+
+            } else {
+                bootbox.alert(data.message);
+                $("#copy_"+rfq_id).html("Copy");
+            }
+    });
 }

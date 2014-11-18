@@ -1,0 +1,68 @@
+extends layout
+block title_top
+    | Closed Quotes
+block meta_tags
+    meta(content='', name='description')
+    meta(content='', name='author')
+block title
+    | Closed Quotes
+
+block doc_ready
+    script.
+        jQuery(document).ready(function () {
+        });
+block page_content
+    .row
+        .col-md-12
+            table.table.tablesorter.table-bordered
+                thead
+                    tr
+                        th
+                            | Document Number
+                        th
+                            | Version No.
+                        th
+                            | Customer Name
+                        th
+                            | Date RFQ In
+                        th
+                            | Action
+                tfoot
+                    tr
+                       th
+                          | Document Number
+                       th
+                          | Version No.
+                       th
+                          | Customer Name
+                       th
+                          | Date RFQ In
+                       th
+                          | Action
+                    tr
+                        th.ts-pager.form-horizontal(colspan='8')
+                            button.btn.first(type='button')
+                                i.icon-step-backward.glyphicon.glyphicon-step-backward
+                            button.btn.prev(type='button')
+                                i.icon-arrow-left.glyphicon.glyphicon-backward
+                            span.pagedisplay
+                            button.btn.next(type='button')
+                                i.icon-arrow-right.glyphicon.glyphicon-forward
+                            button.btn.last(type='button')
+                                i.icon-step-forward.glyphicon.glyphicon-step-forward
+                            select.pagesize(title='Select page size')
+                                option(selected='selected', value='10') 10
+                                option(value='20') 20
+                                option(value='30') 30
+                                option(value='40') 40
+                            select.pagenum(title='Select page number')
+                tbody
+                    - each rf in rfq
+                       tr
+                           td= rf.document_no
+                           td= rf.version_no
+                           td= rf.name
+                           td= rf.date_rfq_in
+                           td
+                              a.btn.green(href='javascript:;', id='copy_#{rf.id}', onclick="copy_archive_rfq(#{rf.id})")
+                                 | Copy
