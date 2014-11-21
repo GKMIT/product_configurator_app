@@ -731,18 +731,47 @@ exports.update_line_item = function(req, res){
 
 
 exports.delete_line_item = function(req, res){
-	
+
 	var dGet = querystring.stringify(req.body);
 	var options = {
-			host : config.host,
-			port : config.port,
-			path : '/delete_line_item/'+req.session.member_id+'/'+req.body.rfq_lines_id,
-			method : 'DELETE',
-			headers: {
-		          'Content-Type': 'application/x-www-form-urlencoded',
-		          'authentication_token': req.session.token
-		    }
-		};
+		host : config.host,
+		port : config.port,
+		path : '/delete_line_item/'+req.session.member_id+'/'+req.body.rfq_lines_id,
+		method : 'DELETE',
+		headers: {
+			'Content-Type': 'application/x-www-form-urlencoded',
+			'authentication_token': req.session.token
+		}
+	};
+
+	var reqPost = http.request(options, function(response) {
+		response.on('data', function(data) {
+			var data=JSON.parse(data);
+			console.log(data);
+			if(data.statusCode == 200){
+				res.json(data);
+			} else {
+				res.json(data);
+			}
+		});
+
+	});
+	reqPost.write(dGet);
+	reqPost.end();
+};
+
+exports.variant_to = function(req, res){
+	var dGet = querystring.stringify(req.body)+'&user_id='+req.session.member_id;
+	var options = {
+		host : config.host,
+		port : config.port,
+		path : '/variant_to',
+		method : 'PUT',
+		headers: {
+			'Content-Type': 'application/x-www-form-urlencoded',
+			'authentication_token': req.session.token
+		}
+	};
 
 	var reqPost = http.request(options, function(response) {
 		response.on('data', function(data) {

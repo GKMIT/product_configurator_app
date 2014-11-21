@@ -238,6 +238,22 @@ function delete_line_item(line_item){
     });
 }
 
+function variant_line_item(line_item){
+    $(this).html('Generating');
+
+    $.post("/users/variant_to",{ rfq_lines_id: line_item}, function(data) {
+        if(data.statusCode == 200){
+            $(this).html('Variant');
+            window.location.reload(true);
+            //$("#row_line_item_"+line_item).hide("slow", function(){
+            //    window.location.reload(true);
+            //});
+        } else {
+            bootbox.alert(data.message);
+        }
+    });
+}
+
 function edit_line_item(rfq_id,line_item){
     $(".modal-body").html("Loading..");
     $.get("/users/fetch_rfq_line_items/"+rfq_id+"/"+line_item, function(data) {
@@ -346,10 +362,10 @@ function update_line_items(line_item_id){
         $.post(file_name,val, function(data) {
             if(data.success == "true"){
                 $('#close_btn').trigger('click');
+                console.log($("#row_line_item_"+line_item_id).find('td'));
                 $("#row_line_item_"+line_item_id).find('td').eq(0).html($("#product_lines_id_pop").find('option:selected').text());
-                $("#row_line_item_"+line_item_id).find('td').eq(1).html($("#plants_id_pop").find('option:selected').text());
-                $("#row_line_item_"+line_item_id).find('td').eq(2).html($("#number_of_units_pop").val());
-                $("#row_line_item_"+line_item_id).find('td').eq(3).html($("#delivery_date_pop").val());
+                $("#row_line_item_"+line_item_id).find('td').eq(1).html($("#number_of_units_pop").val());
+                $("#row_line_item_"+line_item_id).find('td').eq(2).html($("#delivery_date_pop").val());
             } else {
                 bootbox.alert(data.message);
             }

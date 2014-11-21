@@ -99,9 +99,30 @@ exports.quote_finalize = function(req, res){
 			var data = JSON.parse(data_final);
 			if(data.statusCode == 200){
 				var i;
-				for(i=0; i< data.rfq.length; ++i){
-					data.rfq[i].quote_creation_date = moment(data.rfq[i].quote_creation_date.substring(0,10), "YYYY-MM-DD").format('DD-MM-YYYY');
-				}
+                for(i=0; i< data.rfq.length; ++i){
+                    data.rfq[i].quote_creation_date = moment(data.rfq[i].quote_creation_date.substring(0,10), "YYYY-MM-DD").format('DD-MM-YYYY');
+                }
+                for(i=0; i< data.rfq.length; ++i){
+                    try {
+                        data.rfq[i].quote_submission_date = moment(data.rfq[i].quote_submission_date.substring(0, 10), "YYYY-MM-DD").format('DD-MM-YYYY');
+                        if(data.rfq[i].quote_submission_date=='Invalid date'){
+                            data.rfq[i].quote_submission_date = '';
+                        }
+                    }
+                    catch(ex){
+                        data.rfq[i].quote_submission_date='';
+                    }
+                }
+                for(i=0; i< data.rfq.length; ++i){
+                    try{
+                        data.rfq[i].quote_validity_date = moment(data.rfq[i].quote_validity_date.substring(0,10), "YYYY-MM-DD").format('DD-MM-YYYY');
+                        if(data.rfq[i].quote_validity_date=='Invalid date'){
+                            data.rfq[i].quote_validity_date = '';
+                        }
+                    }catch(ex) {
+                        data.rfq[i].quote_validity_date = '';
+                    }
+                }
 				res.render('users/quote_finalize', {username: req.session.member_username, priv: req.session.priv, quote:'active', sub_sidebar1:'active', rfq: data.rfq, probabilities:data.probability, rejection_remarks:data.rejection_remarks });
 			} else {
 				res.send(data.success);

@@ -62,14 +62,14 @@ block page_content
                 | Validity Date
                 span.required *
               .col-md-4
-                input#quote_validity_date.form-control.date-picker(type="text",name="quote_validity_date",onchange="validate_date('quote_validity_date','Please select valid Date')")
+                input#quote_validity_date.form-control.date-picker(type="text",name="quote_validity_date" value="#{rfq[0].quote_validity_date}",onchange="validate_date('quote_validity_date','Please select valid Date')")
                 span.help-block
             .form-group
               label.control-label.col-md-4
                 | Submission Date
                 span.required *
               .col-md-4
-                input#quote_submission_date.form-control.date-picker(type="text",name="quote_submission_date",onchange="validate_date('quote_submission_date','Please select valid Date')")
+                input#quote_submission_date.form-control.date-picker(type="text",name="quote_submission_date" value="#{rfq[0].quote_submission_date}" ,onchange="validate_date('quote_submission_date','Please select valid Date')")
                 span.help-block
             .form-group
               label.control-label.col-md-4
@@ -85,7 +85,7 @@ block page_content
                 | Won Gross Sales
                 span.required *
               .col-md-4
-                input#won_gross_sale.form-control(name='won_gross_sale',onchange="validate_number('won_gross_sale','Please input a valid number')")
+                input#won_gross_sale.form-control(name='won_gross_sale' value="#{rfq[0].won_gross_sale}",onchange="validate_number('won_gross_sale','Please input a valid number')")
                 span.help-block
             .form-group#rejection_remarks_div(style=(rfq[0].probability_id == 6)?'':'display:none')
               label.control-label.col-md-4

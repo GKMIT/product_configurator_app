@@ -52,6 +52,10 @@ block page_content
             h6(style='margin:0; color:#EEE')
               | Requested Delivery Date
             h5(style='margin:0')= rfq_line.req_delivery_date
+          - if(rfq_line.variant_to>0)
+            &nbsp;&nbsp;
+            span.badge.label-warning
+              | V
         .tools.pull-right
           a.expand(style='display:none')
         a.btn.pull-right.choose_btn(style="border:1px solid #ccc; margin-top:-3px; margin-right:0px;color:#fff")

@@ -39,6 +39,7 @@ module.exports = function () {
 	app.post('/users/rfq_complete/:rfq_id',globalfunctions.checkSalesAuth, users.rfq_complete);
 
 	app.post('/users/delete_line_item',globalfunctions.checkSalesAuth, users.delete_line_item);
+	app.post('/users/variant_to',globalfunctions.checkSalesAuth, users.variant_to);
 	app.get('/users/fetch_rfq_line_items/:rfq_id/:line_item',globalfunctions.checkSalesAuth, users.fetch_rfq_line_items);
 	
 	app.get('/users/fetch_sales_persons/:id', globalfunctions.checkSalesAuth, users.fetch_sales_persons);

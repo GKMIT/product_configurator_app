@@ -68,6 +68,10 @@ block page_content
                             - each line_items in selected_rfq_lines_items
                               tr(id='row_line_item_' +line_items.id)
                                 td= line_items.product_lines_name
+                                  - if(line_items.variant_to>0)
+                                      &nbsp;&nbsp;
+                                      span.badge.label-warning
+                                        | V
                                 td= line_items.number_of_units
                                 td= line_items.req_delivery_date
                                 td(id='line_item_' +line_items.id)
@@ -76,6 +80,10 @@ block page_content
                                   &nbsp;&nbsp;
                                   a.btn.dark(href="javascript:;", onclick="delete_line_item(#{line_items.id})")
                                     | Delete
+                                  - if(line_items.variant_to==0)
+                                      &nbsp;&nbsp;
+                                      a.btn.green(href="javascript:;", onclick="variant_line_item(#{line_items.id})")
+                                        | Variant
                   .portlet.box.grey
                     .portlet-title
                         .caption

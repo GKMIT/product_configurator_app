@@ -89,6 +89,10 @@
           - each line_items in rfq_lines
             tr(id='row_line_item_' +line_items.id)
               td= line_items.product_lines_name
+                - if(line_items.variant_to>0)
+                    &nbsp;&nbsp;
+                    span.badge.label-warning
+                      | V
               td= line_items.plant_name
               td= line_items.number_of_units
               td= line_items.req_delivery_date
