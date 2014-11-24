@@ -22,6 +22,7 @@ form#rfq_line_edit_form.form-horizontal(action='#')
       input.form-control.form-control-inline.input-medium.date-picker(size='16', type='text', value='',name="delivery_date",id="delivery_date_pop", onchange="validate_date('delivery_date_pop','Please select valid Date')",value='#{rfq_lines[0].req_delivery_date}')
       input(type='hidden', value='#{option_string}',id='props_def_pop')
       input(type='hidden', value='#{rfq_lines[0].id}',name='rfq_lines_id')
+      input(type='hidden', value='#{rfq_lines[0].variant_to}',name='variant_to' id='variant_to')
       input(type='hidden', value='#{rfq_lines[0].rfq_id}',name='rfq_id')
       input(type='hidden', value='#{mandatory_properties}',id='man_table_body_pop')
 
