@@ -684,6 +684,7 @@ function product_designs(rfq_id,rfq_lines_id){
     $("#select_btn").removeAttr('onclick');
     $(".modal-body").html('Loading..');
     $("#select_btn").attr('onclick','select_design('+rfq_id+','+rfq_lines_id+')');
+
     
     var tableform= $("#property_table_"+rfq_lines_id);
     var plants_id= $("#plants_id_"+rfq_lines_id).val();
@@ -744,6 +745,7 @@ function select_design(rfq_id, rfq_lines_id){
     $("#product_design_details_"+rfq_lines_id).html('Loading..');
    // alert(design_id+"/"+rfq_lines_id+"/"+plants_id+"/"+complexity_id);
     $.get("/users/product_designs_details/"+design_id+"/"+rfq_lines_id, function(data) {
+        $("#plants_id_"+rfq_lines_id).attr('disabled', 'disabled');
         $("#product_design_details_"+rfq_lines_id).html(data);
         $("#product_design_details_"+rfq_lines_id).append('<a href="javascript:;" class="btn green submit_sales" onclick="submit_sales('+rfq_id+','+rfq_lines_id+')">Submit</a>&nbsp;&nbsp;<a href="javascript:;" class="btn yellow reset_initial" onclick="reset_initial('+rfq_id+','+rfq_lines_id+')">Reset</a>');
 
@@ -879,6 +881,7 @@ function submit_to_sales_final(rfq_id){
 }
 
 function reset_initial(rfq_id, rfq_lines_id){
+    $("#plants_id_"+rfq_lines_id).removeAttr('disabled');
     $("#product_design_details_"+rfq_lines_id).html('<a href="#basic" data-toggle="modal" onclick="product_designs('+rfq_id+','+rfq_lines_id+')" class="btn blue">Apply Filters</a>');
 
     $("#property_table_"+rfq_lines_id).append('<div class="row"><div class="com-md-12"><a id="add_more" href="javascript:;" style="margin-bottom:20px;margin-left:15px;" onclick="add_more_props(\'property_tbody_'+rfq_lines_id+'\',1)" class="btn purple">Add More Properties</a></div></div>');
