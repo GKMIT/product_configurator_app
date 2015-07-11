@@ -209,7 +209,10 @@ block page_content
                         .col-md-4
                           select#probability.form-control(name='probability',onchange="validate_number('probability','Please select valid Probability')")
                             - each prob in probabilities
-                              option(value="#{prob.id}",selected=prob.id == selected_rfq[0].probability_id)= prob.name
+                              - if (selected_rfq[0].id)
+                                option(value="#{prob.id}",selected=prob.id == selected_rfq[0].probability_id)= prob.name
+                              else
+                                option(value="#{prob.id}",selected=prob.id == 5)= prob.name
                           span.help-block
                       .form-group
                         label.control-label.col-md-3
