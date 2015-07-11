@@ -2,7 +2,8 @@ script(src='/assets/plugins/jquery-1.10.2.min.js', type='text/javascript')
 script(src='/assets/scripts/custom/minimum_price.js', type='text/javascript')
 a.btn.default= 'Number of Transformers: '+ trans_num
 -if(complexities[0].name)
-  a.btn.default= 'Complexity: '+ complexities[0].name
+  a.btn.default.transnum= 'Complexity: '+ complexities[0].name
+a.btn.yellow(href='javascript:;',style='margin-left:20px', onclick='print_element("#basic .modal-content")')= ' Print'
 br
 br
 input.form-control#trans_numbers(name="trans_numbers", readonly, style="display:none", value="#{trans_num}")
