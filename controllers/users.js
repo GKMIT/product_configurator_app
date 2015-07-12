@@ -1223,6 +1223,66 @@ exports.get_customers = function(req, res){
 	reqGet.end();
 };
 
+exports.get_customer = function(req, res){
+
+	var options = {
+		host : config.host,
+		port : config.port,
+		path : '/customer/'+req.params.cid+'/'+req.session.member_id,
+		method : 'GET',
+		headers: {
+			'Content-Type':'application/json',
+	        'authentication_token': req.session.token
+	    }
+	};
+	var reqGet = http.request(options, function(response) {
+		var data_final ="";
+		response.on('data', function(chunk) {
+			data_final = data_final+chunk;
+		});
+		response.on('end',function (){
+			var data = JSON.parse(data_final);
+			if(data.statusCode == 200){
+				res.send(data);
+			} else {
+				res.send(data);
+			}
+		});
+	});
+	reqGet.end();
+};
+
+exports.edit_customer = function(req, res){
+
+	var dGet = querystring.stringify(req.body)+'&user_id='+req.session.member_id;
+	var options = {
+			host : config.host,
+			port : config.port,
+			path : '/customer',
+			method : 'PUT',
+			headers: {
+		          'Content-Type': 'application/x-www-form-urlencoded',
+		          'authentication_token': req.session.token
+		    }
+		};
+
+	var reqPost = http.request(options, function(response) {
+		response.on('data', function(data) {
+			var data=JSON.parse(data);
+			console.log(data);
+			if(data.statusCode == 200){
+				res.json(data);
+			} else {
+				res.json(data);
+			}
+		});
+
+	});
+
+	reqPost.write(dGet);
+	reqPost.end();
+};
+
 exports.change_password = function(req, res){
 	console.log(req.body);
 

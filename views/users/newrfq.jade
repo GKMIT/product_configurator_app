@@ -145,6 +145,8 @@ block page_content
                         .col-md-4
                           a.btn.default(href="#basic", data-toggle="modal")
                            | Add New Customer
+                          a.btn.default(href="javascript:;", onclick="fetch_customer()")
+                           | Edit Customer
                       .form-group
                         label.control-label.col-md-3
                           | Customer Reference
@@ -287,9 +289,8 @@ block page_content
               .form-group
                 label.control-label.col-md-4
                   | Customer Email
-                  span.required *
                 .col-md-4
-                  input#customer_email.form-control(type="text",name="customer_email",onkeyup="validate_email('customer_email','Please input valid customer email')")
+                  input#customer_email.form-control(type="text",name="customer_email")
                   span.help-block
               .form-group
                 label.control-label.col-md-4
@@ -297,6 +298,34 @@ block page_content
                 .col-md-4
                   input#sap_customer_id.form-control(type="text",name="sap_customer_id")
                   span.help-block
+    #basic_edit.modal.fade.bs-modal-lg.in(tabindex='-1', role='basic', aria-hidden='true', style='display: none;')
+      .modal-dialog.modal-full
+        .modal-content
+          .modal-header
+            button.close(type='button', data-dismiss='modal', aria-hidden='true')
+            h4.modal-title Edit Customer
+          .modal-body(style="")
+            form#customer_form_edit.form-horizontal(action='#')
+              .form-group
+                label.control-label.col-md-4
+                  | Customer Name
+                  span.required *
+                .col-md-4
+                  input#customer_id_edit.form-control(type="hidden",name="customer_id")
+                  input#customer_name_edit.form-control(type="text",name="customer_name",onkeyup="validate_entry('customer_name','Please input customer name')")
+                  span.help-block
+              .form-group
+                label.control-label.col-md-4
+                  | Customer Email
+                .col-md-4
+                  input#customer_email_edit.form-control(type="text",name="customer_email")
+                  span.help-block
+              .form-group
+                label.control-label.col-md-4
+                  | Customer SAP ID
+                .col-md-4
+                  input#sap_customer_id_edit.form-control(type="text",name="sap_customer_id")
+                  span.help-block
           .modal-footer
-            button.btn.green#select_btn(type='button', onclick="create_customer()") Create
+            button.btn.green#select_btn(type='button', onclick="edit_customer()") Update
             button.btn.dark#close_btn(type='button', data-dismiss='modal') Close  

@@ -62,6 +62,8 @@ module.exports = function () {
 	//Customer Sales team
 	app.post('/users/customer', globalfunctions.checkSalesAuth, users.add_customer);
 	app.get('/users/customer', globalfunctions.checkSalesAuth, users.get_customers);
+	app.get('/users/customer/:cid', globalfunctions.checkSalesAuth, users.get_customer);
+	app.post('/users/customer_edit', globalfunctions.checkSalesAuth, users.edit_customer);
 	
 	// Access to All
 	app.get('/users/view_quote/:rfq_id', globalfunctions.checkAllAuth, users.view_quote);

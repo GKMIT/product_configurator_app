@@ -1181,14 +1181,13 @@ function follow_up(type,rfq_id){
 
 function create_customer(){
     var flag1 = validate_entry('customer_name','Please input customer name');
-    var flag2 = validate_email('customer_email','Please input valid customer email');
     var sap_customer_id = 0;
 
     if($("#sap_customer_id").val() != ''){
         sap_customer_id = $("#sap_customer_id").val();
     }
     
-    if( flag1 && flag2){
+    if( flag1){
         $("#select_btn").html("Saving.. Please Wait");
         $.post("/users/customer",{name:$("#customer_name").val(), email:$("#customer_email").val(), sap_customer_id: sap_customer_id }, function(data) {
             if(data.success == "true"){
@@ -1335,19 +1334,19 @@ function copy_archive_rfq(rfq_id){
 
     $("#copy_"+rfq_id).html("Coping...");
     $.post(file_name,{rfq_id:rfq_id}, function(data) {
-            if(data.success == "true"){
-                bootbox.alert(data.message);
-                prop_line.hide("slow", function(){
-                    prop_line.html("Copy");
-                });
-                prop_line.show("slow", function(){
-                    prop_line.html("Copy");
-                });
+        if(data.success == "true"){
+            bootbox.alert(data.message);
+            prop_line.hide("slow", function(){
+                prop_line.html("Copy");
+            });
+            prop_line.show("slow", function(){
+                prop_line.html("Copy");
+            });
 
-            } else {
-                bootbox.alert(data.message);
-                $("#copy_"+rfq_id).html("Copy");
-            }
+        } else {
+            bootbox.alert(data.message);
+            $("#copy_"+rfq_id).html("Copy");
+        }
     });
 }
 
@@ -1367,4 +1366,44 @@ function Popup(data){
     mywindow.document.close(); // necessary for IE >= 10
     mywindow.focus(); // necessary for IE >= 10
     return true;
+}
+
+function fetch_customer(){
+    var cid = $("#customers_id").val();
+    if(cid == 0 || cid == ''){
+        bootbox.alert('Please select a customer');
+    } else {
+        var file_name = '/users/customer/'+cid;
+        $.get(file_name, function(data) {
+            data 
+            if(data.success == "true"){
+                $("#basic_edit").modal("show");
+                $("#customer_id_edit").val(data.customer[0].id);
+                $("#customer_name_edit").val(data.customer[0].name);
+                $("#customer_email_edit").val(data.customer[0].email);
+                $("#sap_customer_id_edit").val(data.customer[0].sap_customer_id);
+            } else {
+                bootbox.alert(data.message);
+            }
+        });
+    }
+}
+
+function edit_customer(){
+
+    var val = $("#customer_form_edit").serialize();
+    var flag1 = validate_entry('customer_name_edit','Please input customer name');
+    if( flag1  ){
+        var file_name = '/users/customer_edit';
+        $.post(file_name,val, function(data) {
+        if(data.success == "true"){
+            bootbox.alert(data.message);
+            $("#basic_edit").modal("hide");
+            $("#customers_id option:selected").text(data.name);
+            $(".select2-chosen").html(data.name);
+        } else {
+            bootbox.alert(data.message);
+        }
+        });
+    }
 }
