@@ -26,6 +26,8 @@ block page_content
                         th
                             | Date RFQ In
                         th
+                            | Status
+                        th
                             | Action
                 tfoot
                     tr
@@ -37,6 +39,8 @@ block page_content
                           | Customer Name
                        th
                           | Date RFQ In
+                       th
+                          | Status
                        th
                           | Action
                     tr
@@ -63,6 +67,11 @@ block page_content
                            td= rf.version_no
                            td= rf.name
                            td= rf.date_rfq_in
+                           td
+                              - if (rf.rfq_status_id == 7)
+                                | Closed
+                              - else
+                                | No Bid
                            td
                               a.btn.green(href='javascript:;', id='copy_#{rf.id}', onclick="copy_archive_rfq(#{rf.id})")
                                  | Copy
