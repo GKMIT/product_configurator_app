@@ -55,7 +55,7 @@ module.exports = function () {
 	app.post('/users/save_questions/:rfq_id', globalfunctions.checkTenderAuth, users.save_questions);
 	app.post('/users/rfq_submit_bid/:rfq_id', globalfunctions.checkTenderAuth, users.rfq_submit_bid);
 	app.post('/users/rfq_submit_no_bid/:rfq_id', globalfunctions.checkTenderAuth, users.rfq_submit_no_bid);
-	app.post('/users/revert_to_sales/:rfq_id',globalfunctions.checkTenderAuth, users.rfq_complete);
+	app.post('/users/revert_to_sales/:rfq_id',globalfunctions.checkTenderAuth, users.revert_to_sales);
 	app.post('/users/copy_rfq/:rfq_id',globalfunctions.checkTenderAuth, users.copy_rfq);
 
 
