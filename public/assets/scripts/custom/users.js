@@ -1276,7 +1276,9 @@ function revert_to_sales(rfq_id){
     $("#revert_"+rfq_id).html("Processing..");
       $.post(file_name,{rfq_status_id:1}, function(data) {
         if(data.success == "true"){
-            window.location.replace("/users/bids");
+            $("#tr_"+rfq_id).hide(500, function(){
+                $("#tr_"+rfq_id).remove();
+            });
         } else {
             bootbox.alert(data.message);
             $("#revert_"+rfq_id).html("Revert to Sales");

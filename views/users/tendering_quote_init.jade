@@ -65,7 +65,7 @@ block page_content
               select.pagenum(title='Select page number')
         tbody
           - each rf in rfq
-            tr
+            tr(id = 'tr_#{rf.id}')
               td= rf.document_no
               td= rf.name
               td= rf.date_rfq_in
@@ -73,3 +73,6 @@ block page_content
               td
                 a.btn.green(href='/users/tendering_quote/#{rf.id}')
                   | Quote
+                &nbsp;&nbsp;&nbsp;
+                a.btn.yellow(href='javascript:;', id='revert_#{rf.id}', onclick="revert_to_sales(#{rf.id})")
+                  | Revert to Sales

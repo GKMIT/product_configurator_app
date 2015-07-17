@@ -65,7 +65,7 @@ block page_content
               select.pagenum(title='Select page number')
         tbody
           - each rfq in rfqs
-            tr
+            tr(id = 'tr_#{rfq.id}')
               td= rfq.document_no
               td= rfq.customer_name
               td= rfq.date_rfq_in
