@@ -1442,3 +1442,41 @@ function edit_customer(){
         });
     }
 }
+
+function save_design_submit(rfq_lines_id){
+
+    var item = $("save_"+rfq_lines_id);
+    var value = $("#date_rfq_"+rfq_lines_id).val();
+    if(value.match(/^\d{2}-\d{2}-\d{4}$/) == null){
+        bootbox.alert('Input a valid date');
+    } else {
+        item.html('Saving');
+        var file_name = '/users/save_design_submit/'+rfq_lines_id;
+        $.post(file_name,{date_submit:value}, function(data) {
+            if(data.success == "true"){
+                $("#tr_"+rfq_lines_id).find("td").eq(4).html(value);
+                $("#tr_"+rfq_lines_id).find("td").eq(5).html(data.diff);
+                $("#rfq_input_"+rfq_lines_id).addClass("hidden");
+                $("#reset_"+rfq_lines_id).removeClass("hidden");
+            } else {
+                bootbox.alert(data.message);
+            }
+        });
+    }
+}
+
+function reset_design_submit(rfq_lines_id){
+    var item = $("save_"+rfq_lines_id);
+    item.html('Saving');
+    var file_name = '/users/save_design_submit/'+rfq_lines_id;
+    $.post(file_name,{date_submit:''}, function(data) {
+        if(data.success == "true"){
+            $("#tr_"+rfq_lines_id).find("td").eq(4).html('');
+            $("#tr_"+rfq_lines_id).find("td").eq(5).html(data.diff);
+            $("#rfq_input_"+rfq_lines_id).removeClass("hidden");
+            $("#reset_"+rfq_lines_id).addClass("hidden");
+        } else {
+            bootbox.alert(data.message);
+        }
+    });
+}

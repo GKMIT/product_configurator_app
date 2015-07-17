@@ -82,6 +82,7 @@ module.exports = function () {
     app.post('/users/submit_to_sales', globalfunctions.checkTenderAuth, tendering.submit_to_sales);
     app.post('/users/submit_to_sales_final', globalfunctions.checkTenderAuth, tendering.submit_to_sales_final);
     app.post('/users/request_designs/:rfq_id', globalfunctions.checkTenderAuth, tendering.request_designs);
+    app.post('/users/save_design_submit/:rfq_lines_id', globalfunctions.checkTenderAuth, tendering.save_design_submit);
 
      // Quotes Finalize Sales Team
     app.get('/users/quote_finalize', globalfunctions.checkSalesAuth, quote_finalize.quote_finalize_init);

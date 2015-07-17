@@ -59,10 +59,14 @@ exports.design_requests = function(req, res){
                 var i;
                 for(i=0; i< data.rfq_lines.length; ++i){
                     if(moment(data.rfq_lines[i].design_submit_date).isValid()){
-                        data.rfq_lines[i].time_diff = moment(data.rfq_lines[i].design_request_date).fromNow('d');
+                        var date_to = moment(data.rfq_lines[i].design_submit_date.substring(0,10));
+                        var date_from = moment(data.rfq_lines[i].design_request_date.substring(0,10));
+                        data.rfq_lines[i].time_diff = date_to.diff(date_from, 'days');
                         data.rfq_lines[i].design_submit_date = moment(data.rfq_lines[i].design_submit_date.substring(0,10), "YYYY-MM-DD").format('DD-MM-YYYY');
                     } else {
-                        data.rfq_lines[i].time_diff = moment(data.rfq_lines[i].design_request_date).fromNow('d');
+                        var date_to = moment();
+                        var date_from = moment(data.rfq_lines[i].design_request_date.substring(0,10));
+                        data.rfq_lines[i].time_diff = date_to.diff(date_from, 'days');
                         data.rfq_lines[i].design_submit_date = '';
                     }
                     data.rfq_lines[i].design_request_date = moment(data.rfq_lines[i].design_request_date.substring(0,10), "YYYY-MM-DD").format('DD-MM-YYYY');
@@ -399,3 +403,47 @@ exports.put_minimum_price = function(req, res){
     reqPost.write(dGet);
     reqPost.end();
 };
+
+exports.save_design_submit = function(req, res){
+    console.log(req.body);
+    req.body.date_submit = moment(req.body.date_submit , "DD-MM-YYYY").format('YYYY-MM-DD hh:mm:ss');
+    var dGet = querystring.stringify(req.body)+'&user_id='+req.session.member_id+'&rfq_lines_id='+req.params.rfq_lines_id;
+    console.log(dGet);
+    var options = {
+            host : config.host,
+            port : config.port,
+            path : '/save_design_submit',
+            method : 'POST',
+            headers: {
+                  'Content-Type': 'application/x-www-form-urlencoded',
+                  'authentication_token': req.session.token
+            }
+        };
+ 
+    var reqPost = http.request(options, function(response) {
+        response.on('data', function(data) {
+            var data=JSON.parse(data);
+            console.log(data);
+            if(data.statusCode == 200){
+                if(moment(data.rfq_line[0].design_submit_date).isValid()){
+                    var date_to = moment(data.rfq_line[0].design_submit_date.substring(0,10));
+                    var date_from = moment(data.rfq_line[0].design_request_date.substring(0,10));
+                    data.diff = date_to.diff(date_from, 'days');
+                } else {
+                    var date_to = moment();
+                    var date_from = moment(data.rfq_line[0].design_request_date.substring(0,10));
+                    data.diff = date_to.diff(date_from, 'days');
+                }
+                
+                res.json(data);
+            } else {
+                res.json(data);
+            }
+        });
+ 
+    });
+ 
+    reqPost.write(dGet);
+    reqPost.end();
+};
+

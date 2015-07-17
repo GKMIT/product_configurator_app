@@ -35,7 +35,7 @@ block page_content
             th
               | Submission Date
             th
-              | Difference
+              | Difference (Days)
             th
               | Action
         tfoot
@@ -51,7 +51,7 @@ block page_content
             th
               | Submission Date
             th
-              | Difference
+              | Difference (Days)
             th
               | Action
           tr
@@ -81,5 +81,10 @@ block page_content
               td= rfq_line.design_submit_date
               td= rfq_line.time_diff
               td
-                a.btn.green(href='/users/tendering_quote/#{rfq_line.id}')
-                  | Quote
+                .input-group(id="rfq_input_#{rfq_line.id}", class=(rfq_line.design_submit_date == '')?'':'hidden')
+                  input.form-control.form-control-inline.input-medium.date-picker(size='8', type='text',id="date_rfq_#{rfq_line.id}", placeholder="Submission Date")
+                  span.input-group-btn(style="display:inline")
+                    button.btn.blue.btn-default(id="save_#{rfq_line.id}", onclick="save_design_submit(#{rfq_line.id})")
+                      | Save
+                button.btn.yellow.btn-default(id="reset_#{rfq_line.id}", onclick="reset_design_submit(#{rfq_line.id})", class=(rfq_line.design_submit_date != '')?'':'hidden')
+                      | Reset
