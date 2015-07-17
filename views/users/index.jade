@@ -53,6 +53,15 @@ block page_content
               | #{dashboard_data.bid_in_tendering}
             .desc
               | In-Tendering RFQs
+      .col-lg-3.col-md-3.col-sm-6.col-xs-12
+        .dashboard-stat.green
+          .visual
+            i.fa.fa-file
+          .details
+            .number 
+              | #{dashboard_data.outTendering}
+            .desc
+              | Out-Tendering RFQs
   .row
     .col-md-12
       table.table.tablesorter.table-bordered
