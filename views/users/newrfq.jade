@@ -298,6 +298,10 @@ block page_content
                 .col-md-4
                   input#sap_customer_id.form-control(type="text",name="sap_customer_id")
                   span.help-block
+          .modal-footer
+            button.btn.green#select_btn(type='button', onclick="create_customer()") Create
+            button.btn.dark#close_btn(type='button', data-dismiss='modal') Close   
+
     #basic_edit.modal.fade.bs-modal-lg.in(tabindex='-1', role='basic', aria-hidden='true', style='display: none;')
       .modal-dialog.modal-full
         .modal-content

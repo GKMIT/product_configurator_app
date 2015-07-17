@@ -9,7 +9,7 @@ exports.index = function(req, res){
 	        'authentication_token': req.session.token
 	    }
 	};
-
+	
 	var reqGet = http.request(options, function(response) {
 		var data_final ="";
 		response.on('data', function(chunk) {
@@ -19,7 +19,7 @@ exports.index = function(req, res){
 			console.log(data_final);
 			var data = JSON.parse(data_final);
 			if(data.statusCode == 200){
-				res.render('users/index', { username: req.session.member_username, priv: req.session.priv, title: 'CG Dashboard', dashboard:'active', dashboard_data:data });
+				res.render('users/index', {username: req.session.member_username, priv: req.session.priv, title: 'CG Dashboard', dashboard:'active', dashboard_data:data});
 			} else {
 				res.send(data.success);
 			}
