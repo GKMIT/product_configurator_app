@@ -1025,10 +1025,9 @@ function finalize_rfq(type,rfq_id){
     var val = $("#quote_finalize").serialize();
     var prob = $("#probability").val();
     var flag1 = validate_date('quote_validity_date','Please select valid Date');
-    var flag3 = validate_date('quote_submission_date','Please select valid Date');
     var flag4 = validate_number('sales_price','Please put valid price');
     if(type == 1){
-         if( flag1  && flag4  && flag3 ){
+         if( flag1  && flag4 ){
             if(prob == 6){
                 var flag2 = validate_number('rejection_remarks_id','Please select a valid remark');
             } else if(prob == 1){
