@@ -1093,9 +1093,19 @@ function check_for_lost(){
     }
 }
 
-function mark_obsolete(rfq_id){
+function mark_obsolete(rfq_id,status){
     $("#mark_obsolete").html("Saving.. Please Wait");
-    $.post("/users/mark_obsolete/"+rfq_id+"/8",{}, function(data) {
+    $.post("/users/mark_obsolete/"+rfq_id+"/"+status,{}, function(data) {
+        if(data.success == "true"){
+            window.location.replace("/users/follow_up");
+        } else {
+            bootbox.alert(data.message);
+        }
+    });
+}
+function mark_hold(rfq_id,status){
+    $("#on_hold").html("Saving.. Please Wait");
+    $.post("/users/mark_onhold/"+rfq_id+"/"+status,{}, function(data) {
         if(data.success == "true"){
             window.location.replace("/users/follow_up");
         } else {

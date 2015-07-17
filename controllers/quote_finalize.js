@@ -304,6 +304,37 @@ exports.mark_obsolete = function(req, res){
     reqPost.end();
 };
 
+exports.mark_onhold = function(req, res){
+    var dGet = querystring.stringify(req.body)+'&user_id='+req.session.member_id+'&rfq_status_id='+req.params.rfq_status_id+'&rfq_id='+req.params.rfq_id;
+    console.log(dGet);
+    var options = {
+            host : config.host,
+            port : config.port,
+            path : '/sales_quote_followup_onhold',
+            method : 'POST',
+            headers: {
+                  'Content-Type': 'application/x-www-form-urlencoded',
+                  'authentication_token': req.session.token
+            }
+        };
+ 
+    var reqPost = http.request(options, function(response) {
+        response.on('data', function(data) {
+            var data=JSON.parse(data);
+            console.log(data);
+            if(data.statusCode == 200){
+                res.json(data);
+            } else {
+                res.json(data);
+            }
+        });
+ 
+    });
+ 
+    reqPost.write(dGet);
+    reqPost.end();
+};
+
 exports.archive_followup = function(req, res){
 
     var options = {
@@ -339,6 +370,40 @@ exports.archive_followup = function(req, res){
     reqGet.end();
 };
 
+exports.onhold_followup = function(req, res){
+
+    var options = {
+        host : config.host,
+        port : config.port,
+        path : '/onhold_followup/'+req.session.member_id,
+        method : 'GET',
+        headers: {
+            'Content-Type':'application/json',
+            'authentication_token': req.session.token
+        }
+    };
+
+    var reqGet = http.request(options, function(response) {
+        var data_final ="";
+        response.on('data', function(chunk) {
+            data_final = data_final+chunk;
+        });
+        response.on('end',function (){
+            console.log(data_final);
+            var data = JSON.parse(data_final);
+            if(data.statusCode == 200){
+                var i;
+                for(i=0; i< data.rfq.length; ++i){
+                    data.rfq[i].date_rfq_in = moment(data.rfq[i].date_rfq_in.substring(0,10), "YYYY-MM-DD").format('DD-MM-YYYY');
+                }
+                res.render('users/quote_onhold_init', {username: req.session.member_username, priv: req.session.priv, quote:'active', sub_sidebar4:'active', rfq: data.rfq });
+            } else {
+                res.send(data.success);
+            }
+        });
+    });
+    reqGet.end();
+};
 
 exports.archive_rfq_copy = function(req, res){
 

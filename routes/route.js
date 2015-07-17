@@ -89,9 +89,11 @@ module.exports = function () {
     app.post('/users/save_finalize_quote/:rfq_id/:rfq_status_id', globalfunctions.checkSalesAuth, quote_finalize.save_finalize_quote);
     app.post('/users/save_followup_quote/:rfq_id/:rfq_status_id', globalfunctions.checkSalesAuth, quote_finalize.save_followup_quote);
     app.post('/users/mark_obsolete/:rfq_id/:rfq_status_id', globalfunctions.checkSalesAuth, quote_finalize.mark_obsolete);
+    app.post('/users/mark_onhold/:rfq_id/:rfq_status_id', globalfunctions.checkSalesAuth, quote_finalize.mark_onhold);
 	app.post('/users/extend_validity/:rfq_id', globalfunctions.checkSalesAuth, quote_finalize.extend_validity);
 	//quote archive
 	app.get('/users/archive_followup', globalfunctions.checkSalesAuth, quote_finalize.archive_followup);
+	app.get('/users/onhold_followup', globalfunctions.checkSalesAuth, quote_finalize.onhold_followup);
 	app.post('/users/archive_rfq_copy', globalfunctions.checkSalesAuth, quote_finalize.archive_rfq_copy);
 
 

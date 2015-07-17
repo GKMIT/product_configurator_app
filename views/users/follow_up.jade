@@ -125,7 +125,10 @@ block page_content
                 a.btn.red#close_document_follow_up(href='javascript:;', onclick="follow_up(2,#{rfq[0].id})")
                   | Close Document
                 &nbsp;&nbsp;
-                a.btn.purple#mark_obsolete(href='javascript:;', onclick="mark_obsolete(#{rfq[0].id})")
+                a.btn.yellow#on_hold(href='javascript:;', onclick="mark_hold(#{rfq[0].id},9)")
+                  | Put on Hold
+                &nbsp;&nbsp;
+                a.btn.purple#mark_obsolete(href='javascript:;', onclick="mark_obsolete(#{rfq[0].id},8)")
                   | Mark Obsolete
                 &nbsp;&nbsp;
                 a.btn.dark(href='/users/follow_up')
