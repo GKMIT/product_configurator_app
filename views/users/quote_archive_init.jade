@@ -75,3 +75,15 @@ block page_content
                            td
                               a.btn.green(href='javascript:;', id='copy_#{rf.id}', onclick="copy_archive_rfq(#{rf.id})")
                                  | Copy
+                              &nbsp;&nbsp;
+                              a.btn.blue(href="#basic_quote", data-toggle="modal", onclick="view_quote(#{rf.id})") View Quote
+    #basic_quote.modal.fade.bs-modal-lg.in(tabindex='-1', role='basic', aria-hidden='true', style='display: none;')
+      .modal-dialog.modal-full
+        .modal-content
+          .modal-header
+            button.close(type='button', data-dismiss='modal', aria-hidden='true')
+            h4.modal-title Select Product Design
+          .modal-body(style="")
+            | Loading...
+          .modal-footer
+            button.btn.dark#close_btn(type='button', data-dismiss='modal') Close
