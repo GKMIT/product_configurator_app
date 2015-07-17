@@ -141,10 +141,18 @@ html.no-js(lang='en')
                 span.title
                   | Bid / No Bid
             li(class=(priv == 2 || priv == 3 || priv ==4)?tender_quote:'disabled')
-              a(href=(priv == 2 || priv == 3 || priv ==4)?'/users/tendering_quote':'javascript:;')
+              a(href='javascript:;')
                 i.fa.fa-bookmark
                 span.title
-                  | Tendering Quote
+                  | Tendering
+                span.arrow
+              ul.sub-menu
+                  li(class=sub_sidebar1)
+                    a(href=(priv == 2 || priv == 3 || priv ==4)?'/users/tendering_quote':'javascript:;')
+                      | Tendering Quotes
+                  li(class=sub_sidebar2)
+                    a(href=(priv == 2 || priv == 3 || priv ==4)?'/users/design_requests':'javascript:;')
+                      | Design Requests
             - if(priv == 1 || priv == 3 || priv ==4)
               li(class=quote)
                 a(href='javascript:;')

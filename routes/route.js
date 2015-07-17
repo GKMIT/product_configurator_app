@@ -73,6 +73,7 @@ module.exports = function () {
 
 	// Tendering Team
 	app.get('/users/tendering_quote', globalfunctions.checkTenderAuth, tendering.tendering_quote_init);
+	app.get('/users/design_requests', globalfunctions.checkTenderAuth, tendering.design_requests);
 	app.get('/users/tendering_quote/:rfq_id', globalfunctions.checkTenderAuth, tendering.tendering_rfq_quote);
 	app.post('/users/product_designs/:rfq_id/:rfq_lines_id', globalfunctions.checkTenderAuth, tendering.product_designs);
     app.get('/users/product_designs_details/:design_id/:rfq_lines_id', globalfunctions.checkTenderAuth, tendering.product_designs_details);
@@ -80,6 +81,7 @@ module.exports = function () {
     app.post('/users/put_minimum_price/:rfq_lines_id/:product_design_id', globalfunctions.checkTenderAuth, tendering.put_minimum_price);
     app.post('/users/submit_to_sales', globalfunctions.checkTenderAuth, tendering.submit_to_sales);
     app.post('/users/submit_to_sales_final', globalfunctions.checkTenderAuth, tendering.submit_to_sales_final);
+    app.post('/users/request_designs/:rfq_id', globalfunctions.checkTenderAuth, tendering.request_designs);
 
      // Quotes Finalize Sales Team
     app.get('/users/quote_finalize', globalfunctions.checkSalesAuth, quote_finalize.quote_finalize_init);

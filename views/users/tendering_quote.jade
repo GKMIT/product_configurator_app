@@ -37,9 +37,11 @@ block page_content
               td= rfq[0].version_no
     .col-md-6
   - each rfq_line in rfq_lines
-    .portlet(class=(rfq_line.product_design_detail.length != 0)?'green box':'red box')
+    .portlet(class=(rfq_line.product_design_detail.length != 0)?'green box':(rfq_line.design_request == 1)?'yellow box light_yellow':'red box')
       .portlet-title
         .caption
+          .span3(style='float:left; margin-right:10px; padding-right:10px;')
+            input(type="checkbox", name="rfq_line_id[]", value="#{rfq_line.id}", class="rfq_line")
           .span3(style='float:left; margin-right:10px; padding-right:10px; border-right:1px solid #FFF')
             h6(style='margin:0; color:#EEE')
               | Product Line
@@ -160,6 +162,8 @@ block page_content
               | Reset
   .row
     .col-md-12
+      a#request_design.btn.yellow.col-md-2(href="javascript:;",onclick="request_designs(#{rfq[0].id})")
+        | Request Designs
       a#submit_to_sales_final.btn.green.pull-right.col-md-2(href="javascript:;",onclick="submit_to_sales_final(#{rfq[0].id})")
         | Submit to Sales
   a#open_basic(href="#basic",data-toggle="modal",style="display:none")

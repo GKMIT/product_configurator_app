@@ -1,0 +1,85 @@
+extends layout
+
+block title_top
+  | Design Requests
+
+block meta_tags
+  meta(content='', name='description')
+  meta(content='', name='author')
+
+block title
+  | Design Requests
+
+block hint
+  | 
+
+block doc_ready
+  script.
+    jQuery(document).ready(function() {
+    });
+
+block page_content
+  .row
+    .col-md-12
+      table.table.tablesorter.table-bordered
+        thead
+          tr
+            th
+              | Document Number
+            th
+              | Product Line
+            th
+              | Plant
+            th
+              | Request Date
+            th
+              | Submission Date
+            th
+              | Difference
+            th
+              | Action
+        tfoot
+          tr
+            th
+              | Document Number
+            th
+              | Product Line
+            th
+              | Plant
+            th
+              | Request Date
+            th
+              | Submission Date
+            th
+              | Difference
+            th
+              | Action
+          tr
+            th.ts-pager.form-horizontal(colspan='8')
+              button.btn.first(type='button')
+                i.icon-step-backward.glyphicon.glyphicon-step-backward
+              button.btn.prev(type='button')
+                i.icon-arrow-left.glyphicon.glyphicon-backward
+              span.pagedisplay
+              button.btn.next(type='button')
+                i.icon-arrow-right.glyphicon.glyphicon-forward
+              button.btn.last(type='button')
+                i.icon-step-forward.glyphicon.glyphicon-step-forward
+              select.pagesize(title='Select page size')
+                option(selected='selected', value='10') 10
+                option(value='20') 20
+                option(value='30') 30
+                option(value='40') 40
+              select.pagenum(title='Select page number')
+        tbody
+          - each rfq_line in rfq_lines
+            tr(id = 'tr_#{rfq_line.id}')
+              td= rfq_line.document_no
+              td= rfq_line.product_line
+              td= rfq_line.plant_name
+              td= rfq_line.design_request_date
+              td= rfq_line.design_submit_date
+              td= rfq_line.time_diff
+              td
+                a.btn.green(href='/users/tendering_quote/#{rfq_line.id}')
+                  | Quote

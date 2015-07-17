@@ -865,7 +865,31 @@ function product_designs_reset(rfq_id, rfq_lines_id){
         }
     });
 }
- 
+
+function request_designs(rfq_id){
+    var jsonArr = [];
+    var i = 0;
+
+    $("input.rfq_line:checked").each(function () {
+        jsonArr.push({
+            id: $(this).val()
+        });
+        i++;
+    });
+
+    if(i > 0){
+        $.post("/users/request_designs/"+rfq_id,{line_items:jsonArr}, function(data) {
+           if(data.success == 'false'){
+            bootbox.alert(data.message);
+           } else {
+                location.reload();
+           }
+        });
+    } else {
+        bootbox.alert('Please select line item(s)');
+    }
+}
+
 function submit_to_sales_final(rfq_id){
  
     $("#submit_to_sales_final").html('Processing..');

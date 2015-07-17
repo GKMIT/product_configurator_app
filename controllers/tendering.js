@@ -25,13 +25,56 @@ exports.tendering_quote_init = function(req, res){
 					data.rfq[i].requested_quotation_date = moment(data.rfq[i].requested_quotation_date.substring(0,10), "YYYY-MM-DD").format('DD-MM-YYYY');
 					data.rfq[i].date_rfq_in = moment(data.rfq[i].date_rfq_in.substring(0,10), "YYYY-MM-DD").format('DD-MM-YYYY');
 				}
-				res.render('users/tendering_quote_init', {username: req.session.member_username, priv: req.session.priv, tender_quote:'active', rfq: data.rfq });
+				res.render('users/tendering_quote_init', {username: req.session.member_username, priv: req.session.priv, tender_quote:'active', sub_sidebar1:'active', rfq: data.rfq });
 			} else {
 				res.send(data.success);
 			}
 		});
 	});
 	reqGet.end();
+};
+
+exports.design_requests = function(req, res){
+
+    var options = {
+        host : config.host,
+        port : config.port,
+        path : '/design_requests/'+req.session.member_id,
+        method : 'GET',
+        headers: {
+            'Content-Type':'application/json',
+            'authentication_token': req.session.token
+        }
+    };
+
+    var reqGet = http.request(options, function(response) {
+        var data_final ="";
+        response.on('data', function(chunk) {
+            data_final = data_final+chunk;
+        });
+        response.on('end',function (){
+            console.log(data_final);
+            var data = JSON.parse(data_final);
+            if(data.statusCode == 200){
+                var i;
+                for(i=0; i< data.rfq_lines.length; ++i){
+                    if(moment(data.rfq_lines[i].design_submit_date).isValid()){
+                        data.rfq_lines[i].time_diff = moment(data.rfq_lines[i].design_request_date).fromNow('d');
+                        data.rfq_lines[i].design_submit_date = moment(data.rfq_lines[i].design_submit_date.substring(0,10), "YYYY-MM-DD").format('DD-MM-YYYY');
+                    } else {
+                        data.rfq_lines[i].time_diff = moment(data.rfq_lines[i].design_request_date).fromNow('d');
+                        data.rfq_lines[i].design_submit_date = '';
+                    }
+                    data.rfq_lines[i].design_request_date = moment(data.rfq_lines[i].design_request_date.substring(0,10), "YYYY-MM-DD").format('DD-MM-YYYY');
+
+                }
+                res.render('users/design_requests', {username: req.session.member_username, priv: req.session.priv, tender_quote:'active', sub_sidebar2:'active', rfq_lines: data.rfq_lines });
+            } else {
+                res.send(data.success);
+            }
+        });
+    });
+    reqGet.end();
 };
 
 exports.tendering_rfq_quote = function(req, res){
@@ -61,7 +104,7 @@ exports.tendering_rfq_quote = function(req, res){
 				for(i=0; i< data.rfq_lines.length; ++i){
 					data.rfq_lines[i].req_delivery_date = moment(data.rfq_lines[i].req_delivery_date.substring(0,10), "YYYY-MM-DD").format('DD-MM-YYYY');
 				}
-				res.render('users/tendering_quote', {username: req.session.member_username, priv: req.session.priv, tender_quote:'active', rfq: data.rfq, rfq_lines: data.rfq_lines, product_types:data.product_types, complexities: data.complexities });
+				res.render('users/tendering_quote', {username: req.session.member_username, priv: req.session.priv, tender_quote:'active', sub_sidebar1:'active', rfq: data.rfq, rfq_lines: data.rfq_lines, product_types:data.product_types, complexities: data.complexities });
 			} else {
 				res.send(data.success);
 			}
@@ -210,6 +253,47 @@ exports.submit_to_sales_final = function(req, res){
  
     });
  
+    reqPost.write(dGet);
+    reqPost.end();
+};
+
+exports.request_designs = function(req, res){
+    
+    console.log(req.body);
+    req.body.user_id = req.session.member_id;
+    req.body.rfq_id = req.params.rfq_id;
+ 
+    console.log(req.body);
+    
+    var dGet = JSON.stringify(req.body);
+    console.log(dGet);
+    var options = {
+        host : config.host,
+        port : config.port,
+        path : '/tendering_request_designs',
+        method : 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'authentication_token': req.session.token
+        }
+    };
+ 
+    var reqPost = http.request(options, function(response) {
+        var data_final ="";
+        response.on('data', function(chunk) {
+            data_final = data_final+chunk;
+        });
+        response.on('end',function (){
+            console.log(data_final);
+            var data = JSON.parse(data_final);
+            if(data.statusCode == 200){
+                res.json(data);
+            } else {
+                res.json(data);
+            }
+        });
+    });
+    
     reqPost.write(dGet);
     reqPost.end();
 };
