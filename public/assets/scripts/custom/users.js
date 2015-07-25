@@ -1054,12 +1054,16 @@ function finalize_rfq(type,rfq_id){
          if( flag1  && flag4 ){
             if(prob == 6){
                 var flag2 = validate_number('rejection_remarks_id','Please select a valid remark');
+                var flag5 = validate_number('won_gross_sale','Please input a valid number');
+
             } else if(prob == 1){
                 var flag2 = validate_number('won_gross_sale','Please input a valid number');
+                var flag5 = true;
             }else {
                 var flag2 = true;
+                var flag5 = true;
             }
-            if(flag2){
+            if(flag2 && flag5){
                 $("#finalize_rfq").html("Saving.. Please Wait");
                 $.post("/users/save_finalize_quote/"+rfq_id+"/6",val, function(data) {
                     if(data.success == "true"){
@@ -1102,7 +1106,7 @@ function finalize_rfq(type,rfq_id){
 function check_for_lost(){
     if($("#probability").val() == 6){
         $("#rejection_remarks_div").show();
-        $("#won_gross_sale_div").hide();
+        $("#won_gross_sale_div").show();
         $("#won_gross_sale").val('');
     } else if($("#probability").val() == 1){
         $("#won_gross_sale_div").show();

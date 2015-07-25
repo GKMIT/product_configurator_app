@@ -83,9 +83,9 @@ block page_content
                   - each prob in probabilities
                     option(value="#{prob.id}",selected=prob.id == rfq[0].probability_id)= prob.name
                 span.help-block
-            .form-group#won_gross_sale_div(style=(rfq[0].probability_id == 1)?'':'display:none')
+            .form-group#won_gross_sale_div(style=(rfq[0].probability_id == 1 || rfq[0].probability_id == 6 )?'':'display:none')
               label.control-label.col-md-4
-                | Won Gross Sales
+                | Negotiated Gross Sales
                 span.required *
               .col-md-4
                 input#won_gross_sale.form-control(name='won_gross_sale',onchange="validate_number('won_gross_sale','Please input a valid number')",value="#{rfq[0].won_gross_sale}")
