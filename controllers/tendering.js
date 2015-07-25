@@ -70,7 +70,9 @@ exports.design_requests = function(req, res){
                         data.rfq_lines[i].design_submit_date = '';
                     }
                     data.rfq_lines[i].design_request_date = moment(data.rfq_lines[i].design_request_date.substring(0,10), "YYYY-MM-DD").format('DD-MM-YYYY');
-
+                    if(moment(data.rfq_lines[i].design_require_date).isValid()){
+                        data.rfq_lines[i].design_require_date = moment(data.rfq_lines[i].design_require_date.substring(0,10), "YYYY-MM-DD").format('DD-MM-YYYY');
+                    } else data.rfq_lines[i].design_require_date = '';
                 }
                 res.render('users/design_requests', {username: req.session.member_username, priv: req.session.priv, tender_quote:'active', sub_sidebar2:'active', rfq_lines: data.rfq_lines });
             } else {
@@ -263,10 +265,9 @@ exports.submit_to_sales_final = function(req, res){
 
 exports.request_designs = function(req, res){
     
-    console.log(req.body);
     req.body.user_id = req.session.member_id;
     req.body.rfq_id = req.params.rfq_id;
- 
+    req.body.design_require_date = moment(req.body.design_require_date , "DD-MM-YYYY").format('YYYY-MM-DD hh:mm:ss');
     console.log(req.body);
     
     var dGet = JSON.stringify(req.body);

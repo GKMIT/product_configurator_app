@@ -33,7 +33,9 @@ block page_content
             th
               | Request Date
             th
-              | Submission Date
+              | Study Required By
+            th
+              | Study Received On
             th
               | Difference (Days)
             th
@@ -49,7 +51,9 @@ block page_content
             th
               | Request Date
             th
-              | Submission Date
+              | Study Required By
+            th
+              | Study Received On
             th
               | Difference (Days)
             th
@@ -78,11 +82,12 @@ block page_content
               td= rfq_line.product_line
               td= rfq_line.plant_name
               td= rfq_line.design_request_date
+              td= rfq_line.design_require_date
               td= rfq_line.design_submit_date
               td= rfq_line.time_diff
               td
                 .input-group(id="rfq_input_#{rfq_line.id}", class=(rfq_line.design_submit_date == '')?'':'hidden')
-                  input.form-control.form-control-inline.input-medium.date-picker(size='8', type='text',id="date_rfq_#{rfq_line.id}", placeholder="Submission Date")
+                  input.form-control.form-control-inline.input-medium.date-picker(size='8', type='text',id="date_rfq_#{rfq_line.id}", placeholder="Study Received On")
                   span.input-group-btn(style="display:inline")
                     button.btn.blue.btn-default(id="save_#{rfq_line.id}", onclick="save_design_submit(#{rfq_line.id})")
                       | Save
