@@ -1,0 +1,103 @@
+extends layout
+
+block title_top
+  | Available Designs
+
+block meta_tags
+  meta(content='', name='description')
+  meta(content='', name='author')
+
+block title
+  | Available Designs
+
+block hint
+  | 
+
+block doc_ready
+  script.
+    jQuery(document).ready(function() {
+    });
+
+block page_content
+  .row
+    .col-md-12
+      table.table.tablesorter.table-bordered
+        thead
+          tr
+            th
+              | ID
+            th
+              | Product Line
+            th
+              | Plant
+            th
+              | Material Code
+            th
+              | Design No.
+            th
+              | Design Variant
+            th
+              | Spec Version
+            th
+              | Design Version
+            th
+              | Last Updated
+        tfoot
+          tr
+            th
+              | ID
+            th
+              | Product Line
+            th
+              | Plant
+            th
+              | Material Code
+            th
+              | Design No.
+            th
+              | Design Variant
+            th
+              | Spec Version
+            th
+              | Design Version
+            th
+              | Last Updated
+          tr
+            th.ts-pager.form-horizontal(colspan='8')
+              button.btn.first(type='button')
+                i.icon-step-backward.glyphicon.glyphicon-step-backward
+              button.btn.prev(type='button')
+                i.icon-arrow-left.glyphicon.glyphicon-backward
+              span.pagedisplay
+              button.btn.next(type='button')
+                i.icon-arrow-right.glyphicon.glyphicon-forward
+              button.btn.last(type='button')
+                i.icon-step-forward.glyphicon.glyphicon-step-forward
+              select.pagesize(title='Select page size')
+                option(selected='selected', value='10') 10
+                option(value='20') 20
+                option(value='30') 30
+                option(value='40') 40
+              select.pagenum(title='Select page number')
+        tbody
+          - each design in designs
+            tr(id = 'tr_#{design.id}', onclick="show_props(#{design.id})", style="cursor:pointer")
+              td= design.origional_id
+              td= design.product_line
+              td= design.plant_name
+              td= design.material_code
+              td= design.design_number
+              td= design.design_variant
+              td= design.design_spec_version
+              td= design.design_version_number
+              td= design.updated_at
+  #basic.modal.fade.bs-modal-lg.in(tabindex='-1', role='basic', aria-hidden='true', style='display: none;')
+    .modal-dialog.modal-full
+      .modal-content
+        .modal-header
+          button.close(type='button', data-dismiss='modal', aria-hidden='true')
+          h4.modal-title Design Properties
+        .modal-body(style="")
+          | Loading...
+        .modal-footer
+          button.btn.dark#close_btn(type='button', data-dismiss='modal') Close

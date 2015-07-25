@@ -83,6 +83,78 @@ exports.design_requests = function(req, res){
     reqGet.end();
 };
 
+exports.available_designs = function(req, res){
+
+    var options = {
+        host : config.host,
+        port : config.port,
+        path : '/available_designs/'+req.session.member_id,
+        method : 'GET',
+        headers: {
+            'Content-Type':'application/json',
+            'authentication_token': req.session.token
+        }
+    };
+
+    var reqGet = http.request(options, function(response) {
+        var data_final ="";
+        response.on('data', function(chunk) {
+            data_final = data_final+chunk;
+        });
+        response.on('end',function (){
+            console.log(data_final);
+            var data = JSON.parse(data_final);
+            if(data.statusCode == 200){
+                var i;
+                for(i=0; i< data.designs.length; ++i){
+                    if(moment(data.designs[i].updated_at).isValid()){
+                        data.designs[i].updated_at = moment(data.designs[i].updated_at.substring(0,10), "YYYY-MM-DD").format('DD-MM-YYYY');
+                    } else data.designs[i].updated_at = '';
+                }
+                res.render('users/available_designs', {username: req.session.member_username, priv: req.session.priv, tender_quote:'active', sub_sidebar3:'active', designs: data.designs });
+            } else {
+                res.send(data.success);
+            }
+        });
+    });
+    reqGet.end();
+};
+exports.available_design_props = function(req, res){
+
+    var options = {
+        host : config.host,
+        port : config.port,
+        path : '/available_design_props/'+req.params.design_id+'/'+req.session.member_id,
+        method : 'GET',
+        headers: {
+            'Content-Type':'application/json',
+            'authentication_token': req.session.token
+        }
+    };
+
+    var reqGet = http.request(options, function(response) {
+        var data_final ="";
+        response.on('data', function(chunk) {
+            data_final = data_final+chunk;
+        });
+        response.on('end',function (){
+            console.log(data_final);
+            var data = JSON.parse(data_final);
+            if(data.statusCode == 200){
+                var i;
+                for(i=0; i< data.props.length; ++i){
+                    if(moment(data.props[i].updated_at).isValid()){
+                        data.props[i].updated_at = moment(data.props[i].updated_at.substring(0,10), "YYYY-MM-DD").format('DD-MM-YYYY');
+                    } else data.props[i].updated_at = '';
+                }
+                res.render('users/available_design_props', {props: data.props });
+            } else {
+                res.send(data.message);
+            }
+        });
+    });
+    reqGet.end();
+};
 exports.tendering_rfq_quote = function(req, res){
 
 	var options = {

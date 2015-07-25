@@ -153,6 +153,9 @@ html.no-js(lang='en')
                   li(class=sub_sidebar2)
                     a(href=(priv == 2 || priv == 3 || priv ==4)?'/users/design_requests':'javascript:;')
                       | Design Requests
+                  li(class=sub_sidebar3)
+                    a(href=(priv == 2 || priv == 3 || priv ==4)?'/users/available_designs':'javascript:;')
+                      | Available Designs
             - if(priv == 1 || priv == 3 || priv ==4)
               li(class=quote)
                 a(href='javascript:;')

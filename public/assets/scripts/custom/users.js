@@ -1489,3 +1489,13 @@ function reset_design_submit(rfq_lines_id){
         }
     });
 }
+
+function show_props(design_id){
+    var file_name = '/users/available_design_props/'+design_id;
+    $("#basic").modal("show");
+    $(".modal-body").html('Loading...');
+
+    $.get(file_name, function(data) {
+        $(".modal-body").html(data);
+    });
+}

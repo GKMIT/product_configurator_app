@@ -74,6 +74,8 @@ module.exports = function () {
 	// Tendering Team
 	app.get('/users/tendering_quote', globalfunctions.checkTenderAuth, tendering.tendering_quote_init);
 	app.get('/users/design_requests', globalfunctions.checkTenderAuth, tendering.design_requests);
+	app.get('/users/available_designs', globalfunctions.checkTenderAuth, tendering.available_designs);
+	app.get('/users/available_design_props/:design_id', globalfunctions.checkTenderAuth, tendering.available_design_props);
 	app.get('/users/tendering_quote/:rfq_id', globalfunctions.checkTenderAuth, tendering.tendering_rfq_quote);
 	app.post('/users/product_designs/:rfq_id/:rfq_lines_id', globalfunctions.checkTenderAuth, tendering.product_designs);
     app.get('/users/product_designs_details/:design_id/:rfq_lines_id', globalfunctions.checkTenderAuth, tendering.product_designs_details);

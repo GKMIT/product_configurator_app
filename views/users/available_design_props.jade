@@ -1,0 +1,38 @@
+.row
+  .col-md-12
+    table.table.tablesorter.table-bordered
+      thead
+        tr
+          th
+            | Property Name
+          th
+            | Unit
+          th
+            | Spec Value
+          th
+            | Calculated Value
+          th
+            | Measured Value
+          th
+            | Plus Tolerance
+          th
+            | Minus Tolerance
+          th
+            | Maximum Value
+          th
+            | Minimum Value
+          th
+            | Last Updated
+      tbody
+        - each prop in props
+          tr
+            td= prop.property_name
+            td= prop.unit_of_measurement
+            td= prop.spec_value
+            td= prop.calculated_value
+            td= prop.measured_value
+            td= prop.plus_tolerance
+            td= prop.minus_tolerance
+            td= prop.maximum_value
+            td= prop.minimum_value
+            td= prop.updated_at
