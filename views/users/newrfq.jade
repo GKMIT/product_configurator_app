@@ -228,17 +228,6 @@ block page_content
                           span.help-block
                       .form-group
                         label.control-label.col-md-3
-                          | Strategic Quote
-                          span.required *
-                        .col-md-4(style="margin-top:5px;")
-                          input(type='radio',value='1', checked, name='strategic_quote')
-                          | &nbsp;Yes&nbsp;&nbsp;&nbsp;
-                          input(type='radio',value='0',name='strategic_quote', checked=selected_rfq[0].strategic_quote == 0)
-                          | &nbsp;No
-                          input(type='hidden', value='#{selected_rfq[0].rfq_status_id}',id='rfq_stat')
-                          span.help-block
-                      .form-group
-                        label.control-label.col-md-3
                           | Bid / No Bid
                           span.required
                         .col-md-4(style="margin-top:5px;")
