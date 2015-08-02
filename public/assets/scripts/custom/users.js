@@ -868,25 +868,34 @@ function product_designs_reset(rfq_id, rfq_lines_id){
 
 function request_designs(rfq_id){
     var flag1 = validate_date('design_require_date','Please select valid Date');
+    var flag2 = true;
     if(flag1) {
         var jsonArr = [];
         var i = 0;
 
         $("input.rfq_line:checked").each(function () {
+            var plant_id = $(this).closest('.portlet').find('.plant_select').val();
+            if(plant_id == 0) flag2 = false;
             jsonArr.push({
-                id: $(this).val()
+                id: $(this).val(),
+                plant_id: plant_id
             });
             i++;
+
         });
 
         if(i > 0){
-            $.post("/users/request_designs/"+rfq_id,{line_items:jsonArr, design_require_date:$("#design_require_date").val()}, function(data) {
-               if(data.success == 'false'){
-                bootbox.alert(data.message);
-               } else {
-                    location.reload();
-               }
-            });
+            if(flag2){
+                $.post("/users/request_designs/"+rfq_id,{line_items:jsonArr, design_require_date:$("#design_require_date").val()}, function(data) {
+                   if(data.success == 'false'){
+                    bootbox.alert(data.message);
+                   } else {
+                        location.reload();
+                   }
+                });
+            } else {
+                bootbox.alert('Please select plant for every line item(s) requested for design');
+            }
         } else {
             bootbox.alert('Please select line item(s)');
         }

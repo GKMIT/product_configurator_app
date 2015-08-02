@@ -66,7 +66,7 @@ block page_content
       .portlet-body(style='display:none')
         form(id='property_table_#{rfq_line.id}')
           div(style="margin:10px 0; max-width:300px")
-            select.form-control.span3(id="plants_id_#{rfq_line.id}")
+            select.form-control.span3.plant_select(id="plants_id_#{rfq_line.id}")
               option(value="0") Select Production Plant
               - each plant in rfq_line.plants
                 option(value="#{plant.id}",selected=plant.id == rfq_line.plants_id)= plant.name
