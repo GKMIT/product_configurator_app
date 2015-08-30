@@ -75,6 +75,8 @@ block page_content
               | Project Name
             th
               | Status
+            th
+              | Action
         tfoot
           tr
             th
@@ -85,8 +87,10 @@ block page_content
               | Project Name
             th
               | Status
+            th
+              | Action
           tr
-            th.ts-pager.form-horizontal(colspan='4')
+            th.ts-pager.form-horizontal(colspan='5')
               button.btn.first(type='button')
                 i.icon-step-backward.glyphicon.glyphicon-step-backward
               button.btn.prev(type='button')
@@ -104,11 +108,41 @@ block page_content
               select.pagenum(title='Select page number')
         tbody
           - each rf in dashboard_data.rfq_list
-            tr.full_quote(rfq-id="#{rf.id}" )
+            tr.full_quote(rfq-id="#{rf.id}", id="tr_#{rf.id}" )
               td= rf.document_no
               td= rf.customer_name
               td= rf.project_name
               td= rf.status_name
+              td
+                - if(rf.rfq_status_id == 1)
+                  a.btn.green(href='/users/finalize/#{rf.id}')
+                    | Finalize
+                  &nbsp;&nbsp;
+                  a.btn.red(href='javascript:;', id='delete_#{rf.id}', onclick="rfq_delete(#{rf.id})")
+                    | Delete
+                - else if(rf.rfq_status_id == 2)
+                  a.btn.green(href='/users/bid/#{rf.id}')
+                    | Proceed
+                  a.btn.yellow(href='javascript:;', id='revert_#{rf.id}', onclick="revert_to_sales(#{rf.id})")
+                    | Revert to Sales
+                  &nbsp;&nbsp;&nbsp;
+                  a.btn.blue(href='javascript:;', id='copy_#{rf.id}', onclick="copy_rfq(#{rf.id})")
+                    | Copy RFQ
+                - else if(rf.rfq_status_id == 4)
+                  a.btn.green(href='/users/tendering_quote/#{rf.id}')
+                    | Quote
+                  &nbsp;&nbsp;&nbsp;
+                  a.btn.yellow(href='javascript:;', id='revert_#{rf.id}', onclick="revert_to_sales(#{rf.id})")
+                    | Revert to Sales
+                - else if(rf.rfq_status_id == 5)
+                  a.btn.green(href='/users/quote_finalize/#{rf.id}')
+                    | Quote
+                - else if(rf.rfq_status_id == 6 || rf.rfq_status_id == 9)
+                  a.btn.green(href='/users/follow_up/#{rf.id}')
+                    | Follow Up
+                - else
+                  a.btn.green(href='javascript:;', id='copy_#{rf.id}', onclick="copy_archive_rfq(#{rf.id})")
+                    | Copy
   #basic_quote.modal.fade.bs-modal-lg.in(tabindex='-1', role='basic', aria-hidden='true', style='display: none;')
     .modal-dialog.modal-full
       .modal-content
