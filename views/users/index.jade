@@ -104,8 +104,18 @@ block page_content
               select.pagenum(title='Select page number')
         tbody
           - each rf in dashboard_data.rfq_list
-            tr
+            tr.full_quote(rfq-id="#{rf.id}" )
               td= rf.document_no
               td= rf.customer_name
               td= rf.project_name
               td= rf.status_name
+  #basic_quote.modal.fade.bs-modal-lg.in(tabindex='-1', role='basic', aria-hidden='true', style='display: none;')
+    .modal-dialog.modal-full
+      .modal-content
+        .modal-header
+          button.close(type='button', data-dismiss='modal', aria-hidden='true')
+          h4.modal-title Select Product Design
+        .modal-body(style="")
+          | Loading...
+        .modal-footer
+          button.btn.dark#close_btn(type='button', data-dismiss='modal') Close

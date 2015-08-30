@@ -56,7 +56,7 @@ block page_content
               select.pagenum(title='Select page number')
         tbody
           - each rf in rfq
-            tr
+            tr.full_quote(rfq-id="#{rf.id}" )
               td(style=(rf.timediff > 0)?'background:#F87E7E':'')= rf.document_no
               td(style=(rf.timediff > 0)?'background:#F87E7E':'')= rf.name
               td(style=(rf.timediff > 0)?'background:#F87E7E':'')= rf.quote_validity_date
@@ -65,3 +65,13 @@ block page_content
               td(style=(rf.timediff > 0)?'background:#F87E7E':'')
                 a.btn.green(href='/users/follow_up/#{rf.id}')
                   | Follow Up
+  #basic_quote.modal.fade.bs-modal-lg.in(tabindex='-1', role='basic', aria-hidden='true', style='display: none;')
+    .modal-dialog.modal-full
+      .modal-content
+        .modal-header
+          button.close(type='button', data-dismiss='modal', aria-hidden='true')
+          h4.modal-title Select Product Design
+        .modal-body(style="")
+          | Loading...
+        .modal-footer
+          button.btn.dark#close_btn(type='button', data-dismiss='modal') Close

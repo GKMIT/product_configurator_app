@@ -58,7 +58,7 @@ block page_content
                             select.pagenum(title='Select page number')
                 tbody
                     - each rf in rfq
-                       tr
+                       tr.full_quote(rfq-id="#{rf.id}")
                            td= rf.document_no
                            td= rf.version_no
                            td= rf.name
@@ -66,8 +66,6 @@ block page_content
                            td
                               a.btn.green(href='/users/follow_up/#{rf.id}')
                                 | Follow Up
-                              &nbsp;&nbsp;
-                              a.btn.blue(href="#basic_quote", data-toggle="modal", onclick="view_quote(#{rf.id})") View Quote
     #basic_quote.modal.fade.bs-modal-lg.in(tabindex='-1', role='basic', aria-hidden='true', style='display: none;')
       .modal-dialog.modal-full
         .modal-content

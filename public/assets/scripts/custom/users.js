@@ -1508,3 +1508,15 @@ function show_props(design_id){
         $(".modal-body").html(data);
     });
 }
+
+$( ".full_quote" ).dblclick(function() {
+    var rfq_id = $(this).attr('rfq-id');
+    $("#basic_quote").modal('show');
+    $(".modal-title").html("Full Quote");
+    $(".modal-body").html("Loading..");
+
+    $.get("/users/view_quote/"+rfq_id, function(data) {
+        $(".modal-body").html(data);
+    });  
+
+});

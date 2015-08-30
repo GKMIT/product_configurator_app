@@ -77,7 +77,7 @@ block page_content
               select.pagenum(title='Select page number')
         tbody
           - each rfq_line in rfq_lines
-            tr(id = 'tr_#{rfq_line.id}')
+            tr.full_quote(id = 'tr_#{rfq_line.id}',rfq-id="#{rfq_line.rfq_id}" )
               td= rfq_line.document_no
               td= rfq_line.product_line
               td= rfq_line.plant_name
@@ -93,3 +93,13 @@ block page_content
                       | Save
                 button.btn.yellow.btn-default(id="reset_#{rfq_line.id}", onclick="reset_design_submit(#{rfq_line.id})", class=(rfq_line.design_submit_date != '')?'':'hidden')
                       | Reset
+  #basic_quote.modal.fade.bs-modal-lg.in(tabindex='-1', role='basic', aria-hidden='true', style='display: none;')
+    .modal-dialog.modal-full
+      .modal-content
+        .modal-header
+          button.close(type='button', data-dismiss='modal', aria-hidden='true')
+          h4.modal-title Select Product Design
+        .modal-body(style="")
+          | Loading...
+        .modal-footer
+          button.btn.dark#close_btn(type='button', data-dismiss='modal') Close

@@ -73,7 +73,7 @@ block page_content
               select.pagenum(title='Select page number')
         tbody
           - each rfq in partial_rfq
-            tr
+            tr.full_quote(rfq-id="#{rfq.id}")
               td= rfq.customer_name
               td= rfq.customer_country
               td= rfq.document_no
@@ -86,3 +86,13 @@ block page_content
                 &nbsp;&nbsp;
                 a.btn.red(href='javascript:;', id='delete_#{rfq.id}', onclick="rfq_delete(#{rfq.id})")
                   | Delete
+  #basic_quote.modal.fade.bs-modal-lg.in(tabindex='-1', role='basic', aria-hidden='true', style='display: none;')
+    .modal-dialog.modal-full
+      .modal-content
+        .modal-header
+          button.close(type='button', data-dismiss='modal', aria-hidden='true')
+          h4.modal-title Select Product Design
+        .modal-body(style="")
+          | Loading...
+        .modal-footer
+          button.btn.dark#close_btn(type='button', data-dismiss='modal') Close
