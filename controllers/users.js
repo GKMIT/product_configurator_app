@@ -1184,7 +1184,7 @@ exports.view_quote = function(req, res){
 				for(i=0; i< data.rfq_lines.length; ++i){
 					data.rfq_lines[i].req_delivery_date = moment(data.rfq_lines[i].req_delivery_date.substring(0,10), "YYYY-MM-DD").format('DD-MM-YYYY');
 				}
-				res.render('users/view_quote', {username: req.session.member_username, priv: req.session.priv, bid:'active', rfq: data.rfq, rfq_lines: data.rfq_lines });
+				res.render('users/view_quote', {username: req.session.member_username, priv: req.session.priv, bid:'active', rfq: data.rfq, rfq_lines: data.rfq_lines, product_types: data.product_types });
 			} else {
 				res.send(data.success);
 			}

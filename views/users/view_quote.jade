@@ -74,25 +74,33 @@
 - if (rfq_lines.length > 0)
   .row
     .col-md-12
-      table.table.table-hover.table-striped.table-bordered
-        thead
-          tr
-            th
-              | Product Line
-            th
-              | Production Plant
-            th
-              | Number of Units
-            th
-              | Requested Delivery Date
-        tbody
-          - each line_items in rfq_lines
+      - each line_items in rfq_lines
+        table.table.table-hover.table-striped.table-bordered
+          tbody
             tr(id='row_line_item_' +line_items.id)
-              td= line_items.product_lines_name
+              td= 'Product Line:'+line_items.product_lines_name
                 - if(line_items.variant_to>0)
                     &nbsp;&nbsp;
                     span.badge.label-warning
                       | V
-              td= line_items.plant_name
-              td= line_items.number_of_units
-              td= line_items.req_delivery_date
+              td= 'Plant:'+line_items.plants_name
+              td= 'No of Units:'+line_items.number_of_units
+              td= 'Req. Delivery:'+line_items.req_delivery_date
+            tr
+              td(colspan="4")
+                - each spec in line_items.rfq_lines_technical_specs
+                  - if(spec.product_properties_id == 1)
+                    - each ptype in product_types
+                      - if(ptype.id == spec.value)
+                        span= spec.property_name + ': ' + ptype.name + spec.unit_of_measurement + ' | '
+                  - else
+                    span= spec.property_name + ': ' + spec.value + spec.unit_of_measurement + ' | '
+            tr
+              td(colspan="1")
+                span= 'Minium Sales Price per unit: '+ line_items.minimum_sales_price
+              td(colspan="1")
+                span= 'Minium Sales Price: '+ line_items.minimum_sales_price*line_items.number_of_units
+              td(colspan="1")
+                span= 'EBIT : '+ line_items.ebit_percentage + '%'
+              td(colspan="1")
+                span= 'EBIT Value: '+ line_items.ebit
