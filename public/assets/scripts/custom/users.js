@@ -102,6 +102,7 @@ function put_property_value(i){
             if(data.value.length > 0){
                 var text = '<select id="value" name="value[]" class="form-control value_in" data-type="'+data.properties[0].data_type+'">';
                 var j = 0;
+                text += '<option value="">-- Select --</option>';
                 for (j=0; j < data.value.length; ++j) {
                     text += '<option value='+data.value[j].id+'>'+data.value[j].name+'</option>';
                 }
