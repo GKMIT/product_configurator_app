@@ -58,16 +58,22 @@ exports.design_requests = function(req, res){
             if(data.statusCode == 200){
                 var i;
                 for(i=0; i< data.rfq_lines.length; ++i){
-                    if(moment(data.rfq_lines[i].design_submit_date).isValid()){
+                    if(moment(data.rfq_lines[i].design_submit_date).isValid() && moment(data.rfq_lines[i].design_require_date).isValid() ){
                         var date_to = moment(data.rfq_lines[i].design_submit_date.substring(0,10));
-                        var date_from = moment(data.rfq_lines[i].design_request_date.substring(0,10));
+                        var date_from = moment(data.rfq_lines[i].design_require_date.substring(0,10));
                         data.rfq_lines[i].time_diff = date_to.diff(date_from, 'days');
                         data.rfq_lines[i].design_submit_date = moment(data.rfq_lines[i].design_submit_date.substring(0,10), "YYYY-MM-DD").format('DD-MM-YYYY');
-                    } else {
+                    } else if(moment(data.rfq_lines[i].design_require_date).isValid() ) {
                         var date_to = moment();
-                        var date_from = moment(data.rfq_lines[i].design_request_date.substring(0,10));
+                        var date_from = moment(data.rfq_lines[i].design_require_date.substring(0,10));
                         data.rfq_lines[i].time_diff = date_to.diff(date_from, 'days');
                         data.rfq_lines[i].design_submit_date = '';
+                    } else  if(moment(data.rfq_lines[i].design_submit_date).isValid()){
+                        data.rfq_lines[i].design_submit_date = moment(data.rfq_lines[i].design_submit_date.substring(0,10), "YYYY-MM-DD").format('DD-MM-YYYY');
+                        data.rfq_lines[i].time_diff = '';
+
+                    } else {
+                        data.rfq_lines[i].time_diff = '';
                     }
                     data.rfq_lines[i].design_request_date = moment(data.rfq_lines[i].design_request_date.substring(0,10), "YYYY-MM-DD").format('DD-MM-YYYY');
                     if(moment(data.rfq_lines[i].design_require_date).isValid()){
@@ -498,14 +504,20 @@ exports.save_design_submit = function(req, res){
             var data=JSON.parse(data);
             console.log(data);
             if(data.statusCode == 200){
-                if(moment(data.rfq_line[0].design_submit_date).isValid()){
+                if(moment(data.rfq_line[0].design_submit_date).isValid() && moment(data.rfq_line[0].design_require_date).isValid()){
                     var date_to = moment(data.rfq_line[0].design_submit_date.substring(0,10));
-                    var date_from = moment(data.rfq_line[0].design_request_date.substring(0,10));
+                    var date_from = moment(data.rfq_line[0].design_require_date.substring(0,10));
+                    data.diff = date_to.diff(date_from, 'days');
+                } else if(moment(data.rfq_line[0].design_require_date).isValid()) {
+                    var date_to = moment();
+                    var date_from = moment(data.rfq_line[0].design_require_date.substring(0,10));
+                    data.diff = date_to.diff(date_from, 'days');
+                } else if(moment(data.rfq_line[0].design_submit_date).isValid()) {
+                    var date_to = moment();
+                    var date_from = moment(data.rfq_line[0].design_submit_date.substring(0,10));
                     data.diff = date_to.diff(date_from, 'days');
                 } else {
-                    var date_to = moment();
-                    var date_from = moment(data.rfq_line[0].design_request_date.substring(0,10));
-                    data.diff = date_to.diff(date_from, 'days');
+                    data.diff = '';
                 }
                 
                 res.json(data);
