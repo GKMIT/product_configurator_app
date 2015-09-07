@@ -93,6 +93,10 @@
                     - each ptype in product_types
                       - if(ptype.id == spec.value)
                         span= spec.property_name + ': ' + ptype.name + spec.unit_of_measurement + ' | '
+                  - else if(spec.product_properties_id == 2)
+                    - each ptype in complexities
+                      - if(ptype.id == spec.value)
+                        span= spec.property_name + ': ' + ptype.name + spec.unit_of_measurement + ' | '
                   - else
                     span= spec.property_name + ': ' + spec.value + spec.unit_of_measurement + ' | '
             tr
